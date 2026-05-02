@@ -1,4 +1,4 @@
-"use client" // Necesario para usar useSidebar
+"use client"
 
 import {
     Sidebar,
@@ -11,14 +11,13 @@ import {
     SidebarMenu,
     SidebarMenuItem,
     SidebarMenuButton,
-    useSidebar // Importamos el hook
+    useSidebar 
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-// Importamos PawPrint y eliminamos Info si no se usa
 import { Home, Calendar, BookOpen, Mail, PawPrint } from "lucide-react";
 import { FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
-import { cn } from "@/lib/utils"; // Utilidad de shadcn para clases condicionales
+import { cn } from "@/lib/utils";
 
 const navItems = [
     { title: "Inicio", url: "/", icon: Home },
@@ -29,21 +28,26 @@ const navItems = [
 ]
 
 export function AppSidebar() {
-    const { open } = useSidebar();
+    // Extraemos isMobile además de open
+    const { open, isMobile } = useSidebar();
+    
+    // Si estamos en teléfono (isMobile) SIEMPRE queremos que se vea expandida 
+    // porque en móvil la barra se oculta por completo cuando se cierra.
+    const isExpanded = open || isMobile;
 
     return (
-        <Sidebar collapsible="icon"> {/* Asegúrate de que Sidebar tenga collapsible="icon" en tu layout principal */}
+        <Sidebar collapsible="icon"> 
             <SidebarHeader
                 className={cn(
                     "font-bold transition-all duration-300 ease-in-out",
-                    open ? "text-5xl p-4" : "text-2xl p-2 justify-center flex"
+                    isExpanded ? "text-5xl p-4" : "text-2xl p-2 justify-center flex"
                 )}
             >
-                {open ? <span className="flex items-center gap-2">Manita de gato<PawPrint /></span> : <PawPrint className="m-auto"/>}
+                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-10 text-purple-600" /></span> : <PawPrint className="m-auto text-purple-600" />}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    {open && (
+                    {isExpanded && (
                         <SidebarGroupLabel className="text-2xl">
                             Otros enlaces
                         </SidebarGroupLabel>
@@ -55,7 +59,7 @@ export function AppSidebar() {
                                     <SidebarMenuButton 
                                         asChild 
                                         tooltip={item.title}
-                                        className={cn(!open && "justify-center")}
+                                        className={cn(!isExpanded && "justify-center")} 
                                     >
                                         <Link
                                             href={item.url}
@@ -63,7 +67,8 @@ export function AppSidebar() {
                                         >
                                             <item.icon className="h-6 w-6" />
                                             
-                                            {open && <span>{item.title}</span>}
+                                            {/* Ahora depende de isExpanded */}
+                                            {isExpanded && <span>{item.title}</span>}
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
@@ -75,7 +80,7 @@ export function AppSidebar() {
             <SidebarFooter className="p-4">
                 <div className={cn(
                     "flex items-center justify-center gap-2",
-                    open ? "flex-row" : "flex-col"
+                    isExpanded ? "flex-row" : "flex-col"
                 )}>
                     <Button variant="ghost" size="icon" asChild className="hover:text-green-500">
                         <a href="https://wa.me/5577521678" target="_blank" rel="noreferrer">
