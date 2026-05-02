@@ -42,7 +42,7 @@ export default function RootLayout({
             className={`${Stickman.variable} ${Cavalier.variable}`}
         >
             <body
-                className="min-h-full flex flex-col font-sans antialiased"
+                className="min-h-full flex flex-col font-sans antialiased text-xl"
             >
                 <TooltipProvider>
                     {children}
