@@ -25,18 +25,14 @@ const navItems = [
     { title: "Blog", url: "/blog", icon: BookOpen },
     { title: "Acerca de nosotros", url: "/acerca-de", icon: PawPrint },
     { title: "Contacto", url: "/contacto", icon: Mail },
-]
+];
 
 export function AppSidebar() {
-    // Extraemos isMobile además de open
     const { open, isMobile } = useSidebar();
-    
-    // Si estamos en teléfono (isMobile) SIEMPRE queremos que se vea expandida 
-    // porque en móvil la barra se oculta por completo cuando se cierra.
     const isExpanded = open || isMobile;
 
     return (
-        <Sidebar collapsible="icon"> 
+        <Sidebar collapsible="icon">
             <SidebarHeader
                 className={cn(
                     "font-bold transition-all duration-300 ease-in-out",
@@ -56,10 +52,10 @@ export function AppSidebar() {
                         <SidebarMenu>
                             {navItems.map(item => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton 
-                                        asChild 
+                                    <SidebarMenuButton
+                                        asChild
                                         tooltip={item.title}
-                                        className={cn(!isExpanded && "justify-center")} 
+                                        className={cn(!isExpanded && "justify-center")}
                                     >
                                         <Link
                                             href={item.url}
@@ -67,7 +63,6 @@ export function AppSidebar() {
                                         >
                                             <item.icon className="h-6 w-6" />
                                             
-                                            {/* Ahora depende de isExpanded */}
                                             {isExpanded && <span>{item.title}</span>}
                                         </Link>
                                     </SidebarMenuButton>
@@ -105,5 +100,5 @@ export function AppSidebar() {
                 </div>
             </SidebarFooter>
         </Sidebar>
-    )
+    );
 }

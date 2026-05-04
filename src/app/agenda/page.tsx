@@ -1,5 +1,12 @@
+import { AgendaView } from "@/components/calendar/AgendaView";
+
 export default function Agenda() {
     return (
-        <div>Agenda</div>
+        <section
+            className="w-full p-6"
+        >
+            <AgendaView />
+
+        </section>
     )
 }
