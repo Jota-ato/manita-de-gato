@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import cavalier from "next/font/local";
 import stickman from "next/font/local";
+import { Inter } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 const Cavalier = cavalier({
     src: [
@@ -39,7 +42,7 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            className={`${Stickman.variable} ${Cavalier.variable}`}
+            className={`${Stickman.variable} ${Cavalier.variable} ${inter.variable}`}
         >
             <body
                 className="min-h-full flex flex-col font-sans antialiased text-xl"

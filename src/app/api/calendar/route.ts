@@ -1,14 +1,10 @@
-// app/api/appointments/route.ts
-
 import { AppointmentSchema } from "@/lib/calendar/schemas";
 import { NextRequest, NextResponse } from "next/server";
 import { validatePostBody, validateGetBody } from '@/lib/calendar/validation';
 import { createAppointmentInGoogle, getAppointments } from '@/lib/calendar/service';
 
-// ─── Route Handlers ───────────────────────────────────────────────────────────
-
 /**
- * GET /api/appointments
+ * GET /api/calendar
  *
  * Returns a list of appointments from Google Calendar.
  *
@@ -38,8 +34,6 @@ import { createAppointmentInGoogle, getAppointments } from '@/lib/calendar/servi
  */
 export async function GET(request: NextRequest) {
     try {
-        // .catch(() => null) prevents a thrown exception from propagating when the
-        // body is absent or not valid JSON — null is handled gracefully by validateGetBody.
         const body: unknown = await request.json().catch(() => null);
 
         const rawData = validateGetBody(body)
@@ -63,7 +57,7 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * POST /api/appointments
+ * POST /api/calendar
  *
  * Creates a new appointment by inserting an event into Google Calendar.
  *

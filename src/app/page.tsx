@@ -1,12 +1,18 @@
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function page() {
     return (
         <div className="flex items-center justify-center min-h-screen">
-            <h1
-                className="text-3xl"
+            <Link
+                href={'/agenda'}
             >
-                Holiii :3
-            </h1>
+                <Button
+                    variant={"secondary"}
+                >
+                    Ir a la agenda
+                </Button>
+            </Link>
         </div>
     );
 }

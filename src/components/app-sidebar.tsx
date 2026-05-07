@@ -23,8 +23,8 @@ const navItems = [
     { title: "Inicio", url: "/", icon: Home },
     { title: "Agenda", url: "/agenda", icon: Calendar },
     { title: "Blog", url: "/blog", icon: BookOpen },
-    { title: "Acerca de nosotros", url: "/acerca-de", icon: PawPrint },
-    { title: "Contacto", url: "/contacto", icon: Mail },
+    { title: "Acerca de nosotros", url: "/about-us", icon: PawPrint },
+    { title: "Contacto", url: "/contact", icon: Mail },
 ];
 
 export function AppSidebar() {
@@ -36,15 +36,15 @@ export function AppSidebar() {
             <SidebarHeader
                 className={cn(
                     "font-bold transition-all duration-300 ease-in-out",
-                    isExpanded ? "text-5xl p-4" : "text-2xl p-2 justify-center flex"
+                    isExpanded ? "text-xl p-4" : "text-lg p-2 justify-center flex"
                 )}
             >
-                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-10 text-purple-600" /></span> : <PawPrint className="m-auto text-purple-600" />}
+                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-8 text-purple-600" /></span> : <PawPrint className="m-auto text-purple-600" />}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
                     {isExpanded && (
-                        <SidebarGroupLabel className="text-2xl">
+                        <SidebarGroupLabel>
                             Otros enlaces
                         </SidebarGroupLabel>
                     )}
@@ -59,7 +59,7 @@ export function AppSidebar() {
                                     >
                                         <Link
                                             href={item.url}
-                                            className="flex items-center gap-2 text-xl"
+                                            className="flex items-center gap-2"
                                         >
                                             <item.icon className="h-6 w-6" />
                                             

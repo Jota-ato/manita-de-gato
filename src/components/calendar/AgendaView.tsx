@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { format, startOfWeek, addDays, addHours, startOfDay } from "date-fns";
 import { es } from "date-fns/locale";
-import { cn } from "@/lib/utils";
 
 export function AgendaView() {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -11,7 +10,7 @@ export function AgendaView() {
     const weekDays = Array.from({ length: 7 }).map((_, i) => addDays(startOfCurrentWeek, i));
 
 
-    const startHour = 9;
+    const startHour = 10;
     const endHour = 20;
     const hours = Array.from({ length: endHour - startHour + 1 }).map((_, i) =>
         addHours(startOfDay(currentDate), startHour + i)
@@ -21,13 +20,13 @@ export function AgendaView() {
         <div className="flex flex-col h-full w-full bg-background rounded-lg border shadow-sm">
             {/* Cabecera del calendario (Días) */}
             <div className="grid grid-cols-8 w-full border-b bg-muted/30">
-                <div className="col-span-1" />
+                <div className="col-span-1 bg-pink-400" />
                 {weekDays.map((day) => (
-                    <div key={day.toISOString()} className="col-span-1 p-4 text-center border-l">
-                        <div className="text-sm font-medium text-muted-foreground uppercase">
+                    <div key={day.toISOString()} className="col-span-1 p-4 text-center border-l bg-pink-400">
+                        <div className="text-sm font-medium text-slate-50 uppercase">
                             {format(day, "EEE", { locale: es })}
                         </div>
-                        <div className="text-2xl font-bold mt-1">
+                        <div className="text-xl text-slate-50 font-bold mt-1">
                             {format(day, "d")}
                         </div>
                     </div>

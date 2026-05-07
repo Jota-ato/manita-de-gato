@@ -1,0 +1,6 @@
+@theme {
+    /* Aquí conectas la variable de Tailwind a la variable de next/font */
+    --font-sans: var(--font-stickman), ui-sans-serif, system-ui, sans-serif;
+    /* Si vas a usar Cavalier para títulos, podrías añadir algo como esto: */
+    --font-heading: var(--font-cavalier), ui-sans-serif, system-ui, sans-serif;
+}
