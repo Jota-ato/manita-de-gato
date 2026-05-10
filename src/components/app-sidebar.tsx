@@ -39,7 +39,7 @@ export function AppSidebar() {
                     isExpanded ? "text-xl p-4" : "text-lg p-2 justify-center flex"
                 )}
             >
-                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-8 text-purple-600" /></span> : <PawPrint className="m-auto text-purple-600" />}
+                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-8 text-pink-400" /></span> : <PawPrint className="m-auto text-pink-400" />}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>

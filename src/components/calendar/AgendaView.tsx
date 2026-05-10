@@ -1,16 +1,32 @@
 'use client'
-import { useState } from "react";
-import { startOfWeek, addDays, addHours, startOfDay } from "date-fns";
+import { useState, useEffect } from "react";
+import { startOfWeek, addDays, addHours, startOfDay, subDays } from "date-fns";
 import AgendaHeader from "./AgendaHeader";
 import AgendaBody from "./AgendaBody";
 
-
 export function AgendaView() {
-    const [currentDate] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [daysToShow, setDaysToShow] = useState(3);
 
-    const startOfCurrentWeek = startOfWeek(currentDate, { weekStartsOn: 1 });
-    const weekDays = Array.from({ length: 3 }).map((_, i) => addDays(startOfCurrentWeek, i));
+    // Responsive Logic: Update number of days based on width
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 640) setDaysToShow(1);
+            else if (window.innerWidth < 1024) setDaysToShow(5);
+            else setDaysToShow(7);
+        };
 
+        handleResize(); // Initial check
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Pagination Functions
+    const nextPeriod = () => setCurrentDate(prev => addDays(prev, daysToShow));
+    const prevPeriod = () => setCurrentDate(prev => subDays(prev, daysToShow));
+
+    const startOfView = startOfWeek(currentDate, { weekStartsOn: 1 });
+    const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
 
     const startHour = 9;
     const endHour = 21;
@@ -19,9 +35,11 @@ export function AgendaView() {
     );
 
     return (
-        <div className="w-full">
+        <div className="w-full max-w-7xl mx-auto my-4 md:my-10 overflow-hidden rounded-2xl border border-pink-200 shadow-2xl bg-white">
             <AgendaHeader
                 weekDays={weekDays}
+                onNext={nextPeriod}
+                onPrev={prevPeriod}
             />
             <AgendaBody
                 weekDays={weekDays}
