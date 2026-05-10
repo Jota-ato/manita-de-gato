@@ -11,7 +11,7 @@ export function AgendaView() {
     // Responsive Logic: Update number of days based on width
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth < 640) setDaysToShow(1);
+            if (window.innerWidth < 640) setDaysToShow(3);
             else if (window.innerWidth < 1024) setDaysToShow(5);
             else setDaysToShow(7);
         };
@@ -25,7 +25,9 @@ export function AgendaView() {
     const nextPeriod = () => setCurrentDate(prev => addDays(prev, daysToShow));
     const prevPeriod = () => setCurrentDate(prev => subDays(prev, daysToShow));
 
-    const startOfView = startOfWeek(currentDate, { weekStartsOn: 1 });
+    const startOfView = daysToShow === 7 ?
+        startOfWeek(currentDate, { weekStartsOn: 1 })
+        : currentDate;
     const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
 
     const startHour = 9;
