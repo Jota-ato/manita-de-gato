@@ -16,12 +16,10 @@ import { createAppointmentInGoogle, getAppointments } from '@/lib/calendar/servi
  * of propagating the error. `validateGetBody(null)` returns `false`, which triggers
  * the default-argument path in `getAppointments()`.
  *
- * ### Request body (JSON, optional)
- * | Field      | Type   | Description                              |
- * |------------|--------|------------------------------------------|
- * | timeMin    | string | Start of the range (ISO 8601)            |
- * | timeMax    | string | End of the range (ISO 8601)              |
- * | maxResults | number | Max events to return. Must be >= 1       |
+ * ### Request params (optinal)
+ * @param timeMin (string): Start of the range (ISO 8601)
+ * @param timeMax (string): End of the range (ISO 8601)
+ * @param maxResults (number): Max events to return. Must be >= 1
  *
  * ### Responses
  * | Status | Description                                              |
@@ -34,7 +32,18 @@ import { createAppointmentInGoogle, getAppointments } from '@/lib/calendar/servi
  */
 export async function GET(request: NextRequest) {
     try {
-        const body: unknown = await request.json().catch(() => null);
+        // Now we look for parameters in the URL first
+        const { searchParams } = new URL(request.url);
+        const timeMin = searchParams.get('timeMin');
+        const timeMax = searchParams.get('timeMax');
+        const maxResults = searchParams.get('maxResults');
+
+        let body: unknown = null;
+
+        // If params exist in URL, we construct the object for validation
+        if (timeMin && timeMax && maxResults) {
+            body = { timeMin, timeMax, maxResults };
+        }
 
         const rawData = validateGetBody(body)
             ? await getAppointments(body)
@@ -48,7 +57,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ success: true, appointments }, { status: 200 });
     } catch (err) {
         console.error("Error al obtener las citas:", err);
-
         return NextResponse.json(
             { error: "Error interno al obtener las citas de Google Calendar." },
             { status: 500 }

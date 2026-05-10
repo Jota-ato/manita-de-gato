@@ -1,6 +1,6 @@
 import { es } from "date-fns/locale";
 import { format, isSameDay } from "date-fns";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import Pagination from "./Pagination";
 import { cn } from "@/lib/utils";
 
 interface AgendaHeaderProps {
@@ -16,20 +16,10 @@ export default function AgendaHeader({ weekDays, today, onNext, onPrev }: Agenda
             className="grid sticky top-0 z-20 bg-pink-500 shadow-md transition-all"
             style={{ gridTemplateColumns: `5rem repeat(${weekDays.length}, 1fr)` }}
         >
-            <div className="p-2 flex items-center justify-center gap-2 border-r border-pink-400">
-                <button
-                    onClick={onPrev}
-                    className="p-2 rounded-full hover:bg-pink-600 transition-all text-white active:scale-90"
-                >
-                    <ArrowLeft className="size-5" />
-                </button>
-                <button
-                    onClick={onNext}
-                    className="p-2 rounded-full hover:bg-pink-600 transition-all text-white active:scale-90"
-                >
-                    <ArrowRight className="size-5" />
-                </button>
-            </div>
+            <Pagination
+                onNext={onNext}
+                onPrev={onPrev}
+            />
 
             {weekDays.map(day => {
                 const isToday = isSameDay(today, day);

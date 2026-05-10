@@ -27,3 +27,4 @@ export interface GetAppointmentsDetails {
     /** Maximum number of events to return. Must be >= 1. Defaults to 20. */
     maxResults: number;
 }
+
