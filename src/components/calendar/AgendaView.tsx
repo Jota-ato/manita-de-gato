@@ -7,12 +7,13 @@ import AgendaBody from "./AgendaBody";
 export function AgendaView() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [daysToShow, setDaysToShow] = useState(3);
+    const today = new Date();
 
     // Responsive Logic: Update number of days based on width
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 640) setDaysToShow(3);
-            else if (window.innerWidth < 1024) setDaysToShow(5);
+            else if (window.innerWidth < 1200) setDaysToShow(5);
             else setDaysToShow(7);
         };
 
@@ -37,9 +38,10 @@ export function AgendaView() {
     );
 
     return (
-        <div className="w-full max-w-7xl overflow-hidden rounded-2xl border ">
+        <div className="w-full rounded-2xl border">
             <AgendaHeader
                 weekDays={weekDays}
+                today={today}
                 onNext={nextPeriod}
                 onPrev={prevPeriod}
             />
