@@ -37,7 +37,7 @@ export function AgendaView() {
     );
 
     return (
-        <div className="w-full max-w-7xl mx-auto my-4 md:my-10 overflow-hidden rounded-2xl border border-pink-200 shadow-2xl bg-white">
+        <div className="w-full max-w-7xl overflow-hidden rounded-2xl border ">
             <AgendaHeader
                 weekDays={weekDays}
                 onNext={nextPeriod}
