@@ -21,8 +21,6 @@ export const AppointmentSchema = z.object({
     creator: z.object({
         email: z.email()
             .describe("Email address of the event creator."),
-        self: z.boolean()
-            .describe("Whether the creator is the owner of the calendar. True when the authenticated service account created the event."),
     }).describe("Information about who created the event."),
 
     start: z.object({
