@@ -10,10 +10,29 @@ interface AgendaBodyProps {
     isLoading: boolean;
 }
 
+/**
+ * Color map optimized for the Pink Theme.
+ * Keys represent the colorId (or any integer index).
+ * Values are Tailwind CSS classes for background and border.
+ */
+export const colorsMap: Record<string, string> = {
+    '0': "bg-pink-500 border-pink-600",
+    '1': "bg-rose-500 border-rose-600",
+    '2': "bg-fuchsia-500 border-fuchsia-600",
+    '3': "bg-pink-600 border-pink-700",
+    '4': "bg-rose-400 border-rose-500",
+    '5': "bg-fuchsia-400 border-fuchsia-500",
+    '6': "bg-pink-400 border-pink-500",
+    '7': "bg-purple-400 border-purple-500",
+    '8': "bg-rose-600 border-rose-700",
+    '9': "bg-fuchsia-600 border-fuchsia-700",
+    '10': "bg-pink-300 border-pink-400",
+    '11': "bg-violet-500 border-violet-600",
+};
+
 export default function AgendaBody({ weekDays, hours, events, isLoading }: AgendaBodyProps) {
-    const ROW_HEIGHT_REM = 5; // Equivalente a h-20
+    const ROW_HEIGHT_REM = 5;
     const START_HOUR = 8;
-    console.log(events);
 
     return (
         <main
@@ -51,11 +70,11 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                         .map(event => {
                             const startDate = parseISO(event.start.dateTime);
                             const endDate = parseISO(event.end.dateTime);
-                            
+
                             // Calcular minutos desde el inicio (08:00)
                             const startBase = new Date(startDate);
                             startBase.setHours(START_HOUR, 0, 0, 0);
-                            
+
                             const minutesFromStart = differenceInMinutes(startDate, startBase);
                             const durationMinutes = differenceInMinutes(endDate, startDate);
 
@@ -66,16 +85,19 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                             return (
                                 <div
                                     key={event.id}
-                                    className="absolute inset-x-1 z-10 rounded-lg p-2 bg-pink-500 text-white shadow-md border border-pink-600 overflow-hidden transition-transform hover:scale-[1.01] cursor-pointer"
+                                    className={cn(
+                                        "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md  overflow-hidden transition-transform hover:scale-105 cursor-pointer text-white",
+                                        event.colorId ? colorsMap[event.colorId] : 'bg-pink-400'
+                                    )}
                                     style={{
                                         top: `${topOffset}rem`,
-                                        height: `${height - 0.2}rem`, // -0.2 para dejar un margen visual
+                                        height: `${height - 0.2}rem`,
                                     }}
                                 >
-                                    <p className="text-[10px] font-bold opacity-90 uppercase truncate">
+                                    <p className="text-xs font-light opacity-90 uppercase truncate">
                                         {format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}
                                     </p>
-                                    <p className="text-xs font-black leading-tight break-words">
+                                    <p className="text-sm font-bold leading-tight wrap-break-word">
                                         {event.summary}
                                     </p>
                                 </div>
