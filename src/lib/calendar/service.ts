@@ -58,7 +58,7 @@ export async function createAppointmentInGoogle(
 export async function getAppointments({
     timeMin = getCurrentWeekRange().weekStart,
     timeMax = getCurrentWeekRange().weekEnd,
-    maxResults = 20,
+    maxResults,
 }: {
     timeMin?: string;
     timeMax?: string;

@@ -31,6 +31,7 @@ export default function AgendaView() {
         : currentDate;
 
     const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
+    const endOfWiew = addDays(startOfView, daysToShow);
 
     // Effect: Fetch events whenever the range or view changes
     useEffect(() => {
@@ -43,11 +44,12 @@ export default function AgendaView() {
                     startOfWeek(currentDate, { weekStartsOn: 1 })
                     : currentDate;
                 const timeMin = startOfDay(viewStart);
-                const timeMax = endOfDay(addDays(viewStart, daysToShow - 1 ));
+                const timeMax = endOfDay(addDays(viewStart, daysToShow - 1));
+                console.log(viewStart, timeMin, timeMax);
 
                 // Llamada a la función del servidor (getEvents)
                 const data = await getEvents({ timeMin, timeMax });
-                setAppointments(data || []);
+                setAppointments(data);
             } catch (error) {
                 console.error("Error loading appointments:", error);
             } finally {

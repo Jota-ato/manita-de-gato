@@ -13,6 +13,7 @@ interface AgendaBodyProps {
 export default function AgendaBody({ weekDays, hours, events, isLoading }: AgendaBodyProps) {
     const ROW_HEIGHT_REM = 5; // Equivalente a h-20
     const START_HOUR = 8;
+    console.log(events);
 
     return (
         <main
@@ -46,7 +47,7 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
 
                     {/* Events Layer */}
                     {!isLoading && events
-                        .filter(event => isSameDay(event.start.dateTime, day))
+                        .filter(event => isSameDay(day, event.start.dateTime))
                         .map(event => {
                             const startDate = parseISO(event.start.dateTime);
                             const endDate = parseISO(event.end.dateTime);
