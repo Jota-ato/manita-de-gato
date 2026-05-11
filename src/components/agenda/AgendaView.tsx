@@ -44,7 +44,6 @@ export default function AgendaView() {
                     : currentDate;
                 const timeMin = startOfDay(viewStart);
                 const timeMax = endOfDay(addDays(viewStart, daysToShow - 1 ));
-                console.log(timeMin, timeMax, daysToShow)
 
                 // Llamada a la función del servidor (getEvents)
                 const data = await getEvents({ timeMin, timeMax });

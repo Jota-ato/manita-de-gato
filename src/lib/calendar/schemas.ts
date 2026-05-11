@@ -38,6 +38,7 @@ export const AppointmentSchema = z.object({
         timeZone: z.string()
             .describe("IANA timezone identifier. e.g. 'America/Mexico_City'"),
     }).describe("End time of the event."),
+    colorId: z.string().optional().nullable()
 });
 
 /**

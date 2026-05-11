@@ -2,7 +2,7 @@
 import { getAppointments } from '@/lib/calendar/service';
 import { AppointmentSchema, Appointment } from "@/lib/calendar/schemas";
 
-interface getEventsProps { 
+interface getEventsProps {
     timeMin: Date
     timeMax: Date
     maxResults?: number
@@ -21,7 +21,7 @@ export async function getEvents({ timeMin, timeMax, maxResults }: getEventsProps
         const appointments = rawData.map(event => {
             const result = AppointmentSchema.safeParse(event);
             return result.success ? result.data : null;
-        }).filter(Boolean);
+        }).filter((item): item is Appointment => item !== null);
 
         return appointments;
     } catch (error) {
