@@ -79,8 +79,9 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                             const durationMinutes = differenceInMinutes(endDate, startDate);
 
                             // Convertir minutos a rem (5rem = 60min)
-                            const topOffset = (minutesFromStart * ROW_HEIGHT_REM) / 60;
-                            const height = (durationMinutes * ROW_HEIGHT_REM) / 60;
+                            const topOffset = (minutesFromStart * ROW_HEIGHT_REM) / 120;
+                            const height = (durationMinutes * ROW_HEIGHT_REM) / 120;
+                            if (height < 5) return // not show events with less than 2 hours of duration
 
                             return (
                                 <div

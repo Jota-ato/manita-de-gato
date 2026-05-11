@@ -31,15 +31,12 @@ export default function AgendaView() {
         : currentDate;
 
     const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
-    const endOfWiew = addDays(startOfView, daysToShow);
 
     // Effect: Fetch events whenever the range or view changes
     useEffect(() => {
         const fetchCurrentEvents = async () => {
             setIsLoading(true);
             try {
-                // Definimos el rango: desde el inicio del primer día hasta el fin del último
-
                 const viewStart = daysToShow === 7 ?
                     startOfWeek(currentDate, { weekStartsOn: 1 })
                     : currentDate;
@@ -47,7 +44,6 @@ export default function AgendaView() {
                 const timeMax = endOfDay(addDays(viewStart, daysToShow - 1));
                 console.log(viewStart, timeMin, timeMax);
 
-                // Llamada a la función del servidor (getEvents)
                 const data = await getEvents({ timeMin, timeMax });
                 setAppointments(data);
             } catch (error) {
@@ -58,14 +54,14 @@ export default function AgendaView() {
         };
 
         fetchCurrentEvents();
-    }, [currentDate, daysToShow]); // Se dispara al cambiar fecha o responsive
+    }, [currentDate, daysToShow]); 
 
     // Pagination
     const nextPeriod = () => setCurrentDate(prev => addDays(prev, daysToShow));
     const prevPeriod = () => setCurrentDate(prev => subDays(prev, daysToShow));
 
-    const hours = Array.from({ length: 13 }).map((_, i) =>
-        addHours(startOfDay(currentDate), 8 + i)
+    const hours = Array.from({ length: 7 }).map((_, i) =>
+        addHours(startOfDay(currentDate), 8 + (2 * i))
     );
 
     return (
