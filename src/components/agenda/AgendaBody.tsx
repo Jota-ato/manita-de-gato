@@ -100,20 +100,19 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                                         {format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}
                                     </p>
                                     <p className="text-sm font-bold leading-tight wrap-break-word">
-                                        {event.summary}
+                                        Ocupado
                                     </p>
                                 </div>
                             );
                         })
                     }
-
-                    {isLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-white/40 z-20">
-                            <Spinner className="text-pink-500" />
-                        </div>
-                    )}
                 </div>
             ))}
+            {isLoading && (
+                <div className="fixed top-auto left-auto flex items-center justify-center bg-white/40 z-20">
+                    <Spinner className="text-pink-500" />
+                </div>
+            )}
         </main>
     );
 }
