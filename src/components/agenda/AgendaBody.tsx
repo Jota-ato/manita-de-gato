@@ -15,7 +15,7 @@ interface AgendaBodyProps {
 
 export default function AgendaBody({ weekDays, hours, events, isLoading }: AgendaBodyProps) {
     const ROW_HEIGHT_REM = 5;
-    const START_HOUR = 8;
+    const START_HOUR = 10;
 
     return (
         <main
