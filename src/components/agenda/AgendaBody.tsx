@@ -3,6 +3,7 @@ import type { Appointment } from "@/lib/calendar/schemas";
 import { Spinner } from "@/components/ui/spinner";
 import HoursColumn from "./AgendaBody/HoursColumn";
 import EventPublic from "./AgendaBody/EventPublic";
+import HourCell from "./AgendaBody/HourCell";
 
 
 interface AgendaBodyProps {
@@ -12,15 +13,9 @@ interface AgendaBodyProps {
     isLoading: boolean;
 }
 
-
-
 export default function AgendaBody({ weekDays, hours, events, isLoading }: AgendaBodyProps) {
     const ROW_HEIGHT_REM = 5;
     const START_HOUR = 8;
-
-    const selectTime = ({ timeMin }: { timeMin: Date }) => { 
-        console.log('Seleccionaste el horario: ', timeMin);
-    }
 
     return (
         <main
@@ -37,13 +32,10 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                 <div key={day.toISOString()} className="relative border-r border-pink-50 last:border-r-0">
                     {/* Background Grid Lines */}
                     {hours.map(hour => (
-                        <div
-                            key={hour.toISOString()}
-                            className="w-full h-20 border-b border-pink-50 cursor-pointer transition-colors hover:bg-pink-50/50 group relative"
-                            onClick={() => selectTime({timeMin: hour})}
-                        >
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 border-2 border-pink-200/50 m-1 pointer-events-none transition-opacity" />
-                        </div>
+                        <HourCell
+                            key={hour.getTime()}
+                            hour={hour}
+                        />
                     ))}
 
                     {/* Events Layer */}

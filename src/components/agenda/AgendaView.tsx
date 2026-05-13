@@ -60,7 +60,7 @@ export default function AgendaView() {
     const nextPeriod = () => setCurrentDate(prev => addDays(prev, daysToShow));
     const prevPeriod = () => setCurrentDate(prev => subDays(prev, daysToShow));
 
-    const hours = Array.from({ length: 7 }).map((_, i) =>
+    const hours = Array.from({ length: 6 }).map((_, i) =>
         addHours(startOfDay(currentDate), 8 + (2 * i))
     );
 
