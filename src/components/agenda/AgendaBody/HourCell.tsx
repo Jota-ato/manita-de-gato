@@ -99,7 +99,7 @@ export default function HourCell({ hour }: HourCellProps) {
                                 Proporciona un número de teléfono para contactarte
                             </FieldLabel>
                             <Input
-                                type="text"
+                                type="number"
                                 name="phone"
                                 id="phone"
                             />
@@ -115,9 +115,9 @@ export default function HourCell({ hour }: HourCellProps) {
                         <CollapsibleContent asChild>
                             <Field>
                                 <Input
-                                    type="text"
-                                    name="phone"
-                                    id="phone"
+                                    type="number"
+                                    name="secondary_phone"
+                                    id="secondary_phone"
                                 />
                             </Field>
                         </CollapsibleContent>
