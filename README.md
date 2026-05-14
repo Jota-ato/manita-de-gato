@@ -1,68 +1,82 @@
-📋 About the Project
+# Manita de Gato — Appointment Booking System
 
-This project is a Minimum Viable Product (MVP) digital solution built to replace manual, message-based appointment scheduling. The system empowers clients to view real-time availability, book services, and connect seamlessly with the administration through an automated WhatsApp bridge.
+A Minimum Viable Product (MVP) for digital appointment scheduling, built to replace manual, message-based coordination. Clients can view real-time availability and book services directly, while an automated WhatsApp bridge handles confirmation without friction.
 
-✨ Key Features (Phase 1)
+---
 
-📅 Smart Booking Engine: Validates real-time availability to prevent double-booking and schedule collisions.
+## Features
 
-📱 WhatsApp Bridge: Upon booking, automatically redirects the user to WhatsApp with a pre-filled message containing their appointment details, eliminating communication friction.
+**Smart Booking Engine**
+Validates real-time availability to prevent double-booking and schedule collisions before any appointment is confirmed.
 
-🔐 Admin Dashboard: A private control panel to visualize daily appointments, update statuses (Pending, Confirmed, Canceled), and block out specific days or holidays.
+**WhatsApp Bridge**
+Upon booking, the client is redirected to WhatsApp with a pre-filled message containing their appointment details, eliminating the need for manual follow-up.
 
-🛡️ Strict Data Validation: Utilizes Zod on the backend to ensure data integrity and prevent corrupt entries into the database.
+**Admin Dashboard**
+A private control panel to visualize daily appointments, update statuses (Pending, Confirmed, Canceled), and block specific days or holidays.
 
-📸 Screenshots
+**Data Validation**
+Zod schemas on the backend enforce data integrity and prevent malformed entries from reaching the database.
 
-Client View (Booking Interface)
+---
 
-Agenda
+## Screenshots
 
-![Texto Alternativo](./docs/agenda_desktop.png)
-![Texto Alternativo](./docs/agenda_mobile.png)
+### Client View (Booking Interface)
 
+![Agenda — Desktop](./docs/agenda_desktop.png)
+![Agenda — Mobile](./docs/agenda_mobile.png)
 
+---
 
-User-friendly interface for seamless date and time selection.
+## Tech Stack
 
-Private view for comprehensive business management.
+| Layer      | Technology                              |
+|------------|-----------------------------------------|
+| Frontend   | React (Next.js App Router)              |
+| Styling    | Tailwind CSS + shadcn/ui                |
+| Backend    | Next.js Route Handlers (REST API)       |
+| Database   | PostgreSQL via Supabase                 |
+| Validation | Zod                                     |
 
-🛠️ Tech Stack
+---
 
-Frontend: React (Next.js App Router)
+## Local Development
 
-Styling: Tailwind CSS + Shadcn/ui (optional)
+### Prerequisites
 
-Backend: Next.js Route Handlers (REST API)
+- Node.js 18+
+- pnpm
+- A Supabase project with a PostgreSQL database
 
-Database: PostgreSQL (Hosted on Supabase)
+### Setup
 
-Validation: Zod
+1. **Clone the repository**
 
-🚀 Installation & Local Development
+   ```bash
+   git clone https://github.com/Jota-ato/manita-de-gato
+   cd manita-de-gato
+   ```
 
-To run this project locally, follow these steps:
+2. **Install dependencies**
 
-Clone the repository:
+   ```bash
+   pnpm install
+   ```
 
-git clone [https://github.com/Jota-ato/manita-de-gato](https://github.com/Jota-ato/manita-de-gato)
+3. **Configure environment variables**
 
+   Create a `.env.local` file in the project root and add your Supabase credentials:
 
-Install dependencies:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+   ```
 
-pnpm install
+4. **Start the development server**
 
+   ```bash
+   pnpm run dev
+   ```
 
-Configure environment variables:
-Create a .env.local file in the root directory based on the provided example (if available) and add your Supabase keys:
-
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
-
-
-Start the development server:
-
-pnpm run dev
-
-
-Open http://localhost:3000 in your browser to view the application.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
