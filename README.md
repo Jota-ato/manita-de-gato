@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📋 About the Project
 
-## Getting Started
+This project is a Minimum Viable Product (MVP) digital solution built to replace manual, message-based appointment scheduling. The system empowers clients to view real-time availability, book services, and connect seamlessly with the administration through an automated WhatsApp bridge.
 
-First, run the development server:
+✨ Key Features (Phase 1)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+📅 Smart Booking Engine: Validates real-time availability to prevent double-booking and schedule collisions.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📱 WhatsApp Bridge: Upon booking, automatically redirects the user to WhatsApp with a pre-filled message containing their appointment details, eliminating communication friction.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔐 Admin Dashboard: A private control panel to visualize daily appointments, update statuses (Pending, Confirmed, Canceled), and block out specific days or holidays.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🛡️ Strict Data Validation: Utilizes Zod on the backend to ensure data integrity and prevent corrupt entries into the database.
 
-## Learn More
+📸 Screenshots
 
-To learn more about Next.js, take a look at the following resources:
+Client View (Booking Interface)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Agenda
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Texto Alternativo](./docs/agenda_desktop.png)
+![Texto Alternativo](./docs/agenda_mobile.png)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+User-friendly interface for seamless date and time selection.
+
+Private view for comprehensive business management.
+
+🛠️ Tech Stack
+
+Frontend: React (Next.js App Router)
+
+Styling: Tailwind CSS + Shadcn/ui (optional)
+
+Backend: Next.js Route Handlers (REST API)
+
+Database: PostgreSQL (Hosted on Supabase)
+
+Validation: Zod
+
+🚀 Installation & Local Development
+
+To run this project locally, follow these steps:
+
+Clone the repository:
+
+git clone [https://github.com/Jota-ato/manita-de-gato](https://github.com/Jota-ato/manita-de-gato)
+
+
+Install dependencies:
+
+pnpm install
+
+
+Configure environment variables:
+Create a .env.local file in the root directory based on the provided example (if available) and add your Supabase keys:
+
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+
+
+Start the development server:
+
+pnpm run dev
+
+
+Open http://localhost:3000 in your browser to view the application.
