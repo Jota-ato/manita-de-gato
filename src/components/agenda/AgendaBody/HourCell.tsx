@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -26,16 +28,38 @@ import {
 import { Input } from "@/components/ui/input";
 import { format, addHours } from "date-fns";
 import { ChevronDown } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from 'react'
 
 
 interface HourCellProps {
     hour: Date
 }
 
+interface Service { 
+    id: number
+    min_price: number
+    name: string
+}
+
 export default function HourCell({ hour }: HourCellProps) {
 
     const startHour = format(hour, 'HH:mm');
     const endHour = format(addHours(hour, 2), 'HH:mm')
+    const supabase = createClient()
+    const [services, setServices] = useState<Service[]>([])
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            const { data, error } = await supabase
+                .from('Services') // Nombre de tu tabla en Supabase
+                .select('id, name, min_price')
+
+            if (data) setServices(data)
+            if (error) console.error("Error cargando servicios:", error)
+        }
+        fetchServices()
+    }, [supabase])
 
     return (
         <form>
@@ -73,21 +97,14 @@ export default function HourCell({ hour }: HourCellProps) {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
-                                        <SelectItem
-                                            value="uñas"
-                                        >
-                                            Uñas
-                                        </SelectItem>
-                                        <SelectItem
-                                            value="corteCabello"
-                                        >
-                                            Corte de cabello
-                                        </SelectItem>
-                                        <SelectItem
-                                            value="pedicure"
-                                        >
-                                            Pedicure
-                                        </SelectItem>
+                                        {services.map(service => (
+                                            <SelectItem
+                                                key={service.id}
+                                                value={service.id.toString()}
+                                            >
+                                                {service.name}
+                                            </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
