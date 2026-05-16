@@ -4,8 +4,6 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { SubmitEvent } from 'react';
-
 // Components
 import { FieldGroup } from "@/components/ui/field";
 import ServiceSelect from "./ServiceSelect";
@@ -15,8 +13,10 @@ import FormFooter from "./FormFooter";
 
 // Local types and functions
 import { AgendaFormSchema, type AgendaFormData } from '@/schemas/agendaForm';
+import { addHours } from 'date-fns';
+import { createAppointment } from "@/lib/form/service";
 
-export default function Form() {
+export default function Form({ hour }: { hour: Date }) {
 
     const {
         register,
@@ -33,8 +33,15 @@ export default function Form() {
         }
     });
 
-    const onValidSubmit = (data: AgendaFormData) => {
-        console.log('Datos listos para enviar a Supabase/Prisma:', data);
+    const onValidSubmit = async (data: AgendaFormData) => {
+        const minTime = hour;
+        const maxTime = addHours(hour, 2);
+        try {
+            await createAppointment({minTime, maxTime, ...data});
+            console.log("Appointment created successfully!");
+        } catch (error) {
+            console.error("Submission failed", error);
+        }
     };
 
     return (

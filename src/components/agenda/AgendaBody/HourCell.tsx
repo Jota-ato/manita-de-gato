@@ -33,7 +33,9 @@ export default function HourCell({ hour }: HourCellProps) {
                     <DialogTitle>Has seleccionado el horario {startHour}-{endHour}</DialogTitle>
                     <DialogDescription>Ayúdanos a contactarte</DialogDescription>
                 </DialogHeader>
-                <Form />
+                <Form
+                    hour={hour}
+                />
             </DialogContent>
         </Dialog>
     )
