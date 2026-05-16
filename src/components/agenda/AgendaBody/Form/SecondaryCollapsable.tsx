@@ -20,8 +20,8 @@ export default function SecondaryCollapsable() {
                 <Field className="my-2">
                     <Input
                         type="text"
-                        name="phone"
-                        id="phone"
+                        name="secondaryPhone"
+                        id="secondaryPhone"
                     />
                 </Field>
             </CollapsibleContent>

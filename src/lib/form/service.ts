@@ -14,7 +14,7 @@ export async function getServices(): Promise<Service[]> {
     };
 
     if (data) {
-        const validateServices = data.map(element => serviceSchema.safeParse(element).data).filter(element => typeof element === 'object');
+        const validateServices = data.map(element => serviceSchema.safeParse(element).data).filter((element): element is Service => typeof element === 'object');
         return validateServices;
     }
     

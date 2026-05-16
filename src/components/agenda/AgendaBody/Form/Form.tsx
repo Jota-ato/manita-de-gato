@@ -30,7 +30,7 @@ export default function Form() {
                     services={services}
                 />
                 <FieldWLabel
-                    field={{ name: 'phone', type: 'string' }}
+                    field={{ name: 'phone', type: 'text' }}
                     label="Ingresa tu número de teléfono para contactarte"
                 />
                 <SecondaryCollapsable />

@@ -10,7 +10,6 @@ import {
 import { format, addHours } from "date-fns";
 import Form from "./Form/Form";
 
-
 interface HourCellProps {
     hour: Date
 }
@@ -18,7 +17,7 @@ interface HourCellProps {
 export default function HourCell({ hour }: HourCellProps) {
 
     const startHour = format(hour, 'HH:mm');
-    const endHour = format(addHours(hour, 2), 'HH:mm')
+    const endHour = format(addHours(hour, 2), 'HH:mm');
 
 
     return (
@@ -33,7 +32,7 @@ export default function HourCell({ hour }: HourCellProps) {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Has seleccionado el horario {startHour}-{endHour}</DialogTitle>
-                    <DialogDescription>¿Qué te interesa más?</DialogDescription>
+                    <DialogDescription>Ayúdanos a contactarte</DialogDescription>
                 </DialogHeader>
                 <Form />
             </DialogContent>
