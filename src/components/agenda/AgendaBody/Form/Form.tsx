@@ -1,39 +1,70 @@
 'use client';
 
-import { useEffect, useState } from 'react'
+// External libraries
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { SubmitEvent } from 'react';
+
+// Components
 import { FieldGroup } from "@/components/ui/field";
 import ServiceSelect from "./ServiceSelect";
-import SecondaryCollapsable from "./SecondaryCollapsable";
+import CollapsableField from "./CollapsableField";
 import FieldWLabel from "./FieldWLabel";
 import FormFooter from "./FormFooter";
-import { Service } from '@/schemas/services';
-import { getServices } from "@/lib/form/service";
+
+// Local types and functions
+import { AgendaFormSchema, type AgendaFormData } from '@/schemas/agendaForm';
 
 export default function Form() {
-    const [services, setServices] = useState<Service[]>([])
 
-    useEffect(() => {
-        const fetchServices = async () => {
-            setServices(await getServices());
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors, isSubmitting }
+    } = useForm<AgendaFormData>({
+        resolver: zodResolver(AgendaFormSchema),
+        defaultValues: {
+            name: '',
+            phone: '',
+            serviceId: '',
+            secondary_phone: ''
         }
-        fetchServices()
-    }, [])
+    });
+
+    const onValidSubmit = (data: AgendaFormData) => {
+        console.log('Datos listos para enviar a Supabase/Prisma:', data);
+    };
 
     return (
-        <form>
+        <form onSubmit={handleSubmit(onValidSubmit)}>
             <FieldGroup>
                 <FieldWLabel
-                    field={{ name: 'name', type: 'text' }}
-                    label="¿Cuál es tu nombre?"
+                    id='name'
+                    type='text'
+                    label='¿Cuál es tu nombre?'
+                    error={errors.name?.message}
+                    {...register('name')}
                 />
                 <ServiceSelect
-                    services={services}
+                    control={control}
+                    error={errors.serviceId?.message}
                 />
                 <FieldWLabel
-                    field={{ name: 'phone', type: 'text' }}
-                    label="Ingresa tu número de teléfono para contactarte"
+                    id='phone'
+                    type='tel'
+                    label='Ingresa tu número de teléfono para contactarte'
+                    error={errors.phone?.message}
+                    {...register('phone')}
                 />
-                <SecondaryCollapsable />
+                <CollapsableField
+                    id='secondary_phone'
+                    type='tel'
+                    label='¿Te gustaría compartir un teléfono alternativo?'
+                    error={errors.secondary_phone?.message}
+                    {...register('secondary_phone')}
+                />
             </FieldGroup>
             <FormFooter />
         </form>

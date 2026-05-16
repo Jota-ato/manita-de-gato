@@ -1,28 +1,28 @@
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import type { HTMLInputTypeAttribute } from "react";
+import type { InputHTMLAttributes } from "react";
 
-interface FieldWLabelProps { 
-    field: {
-        name: string
-        type: HTMLInputTypeAttribute
-    },
-    label: string
-}
+interface FieldWLabelProps extends InputHTMLAttributes<HTMLInputElement> {
+    error?: string;
+    label: string;
+};
 
-export default function FieldWLabel({ field, label } : FieldWLabelProps) {
+export default function FieldWLabel({ label, error, ...props }: FieldWLabelProps) {
     return (
         <Field>
             <FieldLabel
-                htmlFor={field.name}
+                htmlFor={props.id}
             >
                 {label}
             </FieldLabel>
             <Input
-                type={field.type}
-                name={field.name}
-                id={field.name}
+                id={props.id}
+                {...props}
             />
+            {error &&
+                <FieldError>
+                    {error}
+                </FieldError>}
         </Field>
     )
 }

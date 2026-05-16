@@ -19,7 +19,6 @@ export default function HourCell({ hour }: HourCellProps) {
     const startHour = format(hour, 'HH:mm');
     const endHour = format(addHours(hour, 2), 'HH:mm');
 
-
     return (
         <Dialog>
             <DialogTrigger asChild>
