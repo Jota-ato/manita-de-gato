@@ -16,7 +16,12 @@ import { AgendaFormSchema, type AgendaFormData } from '@/schemas/agendaForm';
 import { addHours } from 'date-fns';
 import { createAppointment } from "@/lib/form/service";
 
-export default function Form({ hour }: { hour: Date }) {
+interface FormProps {
+    hour: Date;
+    onSuccess: (value: boolean) => void;
+}
+
+export default function Form({ hour, onSuccess }: FormProps) {
 
     const {
         register,
@@ -34,11 +39,12 @@ export default function Form({ hour }: { hour: Date }) {
     });
 
     const onValidSubmit = async (data: AgendaFormData) => {
-        const minTime = hour;
-        const maxTime = addHours(hour, 2);
+        const timeMin = hour;
+        const timeMax = addHours(hour, 2);
         try {
-            await createAppointment({minTime, maxTime, ...data});
+            await createAppointment({timeMin, timeMax, ...data});
             console.log("Appointment created successfully!");
+            onSuccess(false);
         } catch (error) {
             console.error("Submission failed", error);
         }
@@ -73,7 +79,9 @@ export default function Form({ hour }: { hour: Date }) {
                     {...register('secondary_phone')}
                 />
             </FieldGroup>
-            <FormFooter />
+            <FormFooter
+                isSubmitting={isSubmitting}
+            />
         </form>
     )
 }

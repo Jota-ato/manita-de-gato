@@ -25,8 +25,8 @@ export async function getServices(): Promise<Service[]> {
 }
 
 type createAppointmentProps = AgendaFormData & {
-    minTime: Date
-    maxTime: Date
+    timeMin: Date
+    timeMax: Date
 };
 
 /**
@@ -35,7 +35,7 @@ type createAppointmentProps = AgendaFormData & {
  */
 export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
-    const { name, serviceId, phone, secondary_phone, minTime, maxTime } = data;
+    const { name, serviceId, phone, secondary_phone, timeMin, timeMax } = data;
 
     const client_id = await getClientId({name, phone,secondary_phone});
 
@@ -44,11 +44,9 @@ export async function createAppointment(data: createAppointmentProps) {
         .from('Appointments')
         .insert({
             client_id,
-            phone,
             service_id: Number(serviceId),
-            secondary_phone: secondary_phone || null,
-            minTime,
-            maxTime
+            timeMin: timeMin.toISOString(),
+            timeMax: timeMax.toISOString()
         })
         .select()
         .single();

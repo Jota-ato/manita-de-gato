@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { format, addHours } from "date-fns";
 import Form from "./Form/Form";
+import { useState } from "react";
 
 interface HourCellProps {
     hour: Date
@@ -16,11 +17,12 @@ interface HourCellProps {
 
 export default function HourCell({ hour }: HourCellProps) {
 
+    const [open, setOpen] = useState(false);
     const startHour = format(hour, 'HH:mm');
     const endHour = format(addHours(hour, 2), 'HH:mm');
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <div
                     className="w-full h-20 border-b border-pink-50 cursor-pointer transition-colors hover:bg-pink-50/50 group relative"
@@ -35,6 +37,7 @@ export default function HourCell({ hour }: HourCellProps) {
                 </DialogHeader>
                 <Form
                     hour={hour}
+                    onSuccess={setOpen}
                 />
             </DialogContent>
         </Dialog>

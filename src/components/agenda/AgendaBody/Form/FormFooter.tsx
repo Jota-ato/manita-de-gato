@@ -3,14 +3,22 @@ import {
     DialogClose,
     DialogFooter,
 } from "@/components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
 
-export default function FormFooter() {
+interface FormFooterProps {
+    isSubmitting: boolean
+}
+
+export default function FormFooter({ isSubmitting }: FormFooterProps) {
     return (
         <DialogFooter>
-            <DialogClose asChild>
-                <Button variant={'outline'}>Cerrar</Button>
-            </DialogClose>
-            <Button type="submit">¡Agendar!</Button>
+            <div>
+                <DialogClose asChild>
+                    <Button variant={'outline'}>Cerrar</Button>
+                </DialogClose>
+                <Button type="submit">¡Agendar!</Button>
+            </div>
+            {isSubmitting && <Spinner />}
         </DialogFooter>
     )
 }
