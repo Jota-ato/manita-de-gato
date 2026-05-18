@@ -44,7 +44,6 @@ export default function AgendaView() {
                 const timeMax = endOfDay(addDays(viewStart, daysToShow - 1));
 
                 const data = await getEvents({ timeMin, timeMax });
-                console.log(data);
                 setAppointments(data);
             } catch (error) {
                 console.error("Error loading appointments:", error);
