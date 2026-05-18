@@ -7,17 +7,22 @@ import {
 import { Button } from "@/components/ui/button";
 import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { logInSchema, LogInType } from "@/lib/log/logIn/schemas";
-import { email } from "zod";
+import { signIn } from "@/lib/log/logIn/actions";
 
 export default function Form() {
+
+    const router = useRouter()
+    const [serverError, setServerError] = useState<string | null>('');
 
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = useForm<LogInType>({
         resolver: zodResolver(logInSchema),
         defaultValues: {
@@ -26,8 +31,15 @@ export default function Form() {
         }
     })
 
-    const onValidSubmit = (data: LogInType) => { 
-        const { email, password } = data;
+    const onValidSubmit = async (data: LogInType) => {
+        setServerError(null);
+        const result = await signIn(data);
+
+        if (result.error) {
+            setServerError(result.error);
+            return;
+        }
+        router.push('./dashboard');
     }
 
     return (
@@ -56,8 +68,14 @@ export default function Form() {
                     />
                 </FieldGroup>
 
+                {serverError &&
+                    <p role="alert" className="text-sm text-destructive">
+                        {serverError}
+                    </p>
+                }
+
                 <Button type="submit" className="w-full">
-                    Entrar
+                    {isSubmitting ? 'Ingresando' : 'Entrar'}
                 </Button>
             </FieldSet>
         </form>
