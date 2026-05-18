@@ -14,10 +14,9 @@ export function buildWhatsAppRedirectUrl({ clientName, service, timeMin, timeMax
 
 👤 Nombre: ${clientName}
 💅 Servicio: ${service}
-🕐 Horario: ${timeMin.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })} - ${timeMin.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}
-📅 Fecha: ${timeMax.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })}
+🕐 Horario: ${timeMin.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })} - ${timeMax.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}
+📅 Fecha: ${timeMin.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })}
     `.trim();
-    ;
 
     return `https://wa.me/${businessPhone}?text=${encodeURIComponent(message)}`;
 }
