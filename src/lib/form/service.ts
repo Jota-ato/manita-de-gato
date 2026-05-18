@@ -39,7 +39,6 @@ export async function createAppointment(data: createAppointmentProps) {
 
     const client_id = await getClientId({name, phone,secondary_phone});
 
-    // 2. Realizamos la inserción mapeando los campos del formulario
     const { data: insertedData, error } = await supabase
         .from('Appointments')
         .insert({
@@ -59,13 +58,28 @@ export async function createAppointment(data: createAppointmentProps) {
     return insertedData;
 }
 
-interface Client {
+/**
+ * Client schema
+ * @property name<string>: client name
+ * @property phone<string>: primary phone, identifier
+ * @property secondary_phone<string | null>: secondary phone
+ */
+interface ClientInfo {
     name: string;
     phone: string;
     secondary_phone?: string;
 }
 
-export async function getClientId(clientInfo: Client): Promise<string> {
+/**
+ * Checks if the client already exist, if not
+ * creates him in the database. Otherwise returns
+ * its client id.
+ * Search using primary phone.
+ * @argument clientInfo: Information of client to search.
+ * @see ClientInfo to see properties.
+ * @returns <string> A uuid that identifies the client.
+ */
+export async function getClientId(clientInfo: ClientInfo): Promise<string> {
 
     const supabase = await createClient();
 

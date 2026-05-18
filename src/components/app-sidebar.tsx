@@ -78,21 +78,21 @@ export function AppSidebar() {
                     isExpanded ? "flex-row" : "flex-col"
                 )}>
                     <Button variant="ghost" size="icon" asChild className="hover:text-green-500">
-                        <a href="https://wa.me/5577521678" target="_blank" rel="noreferrer">
+                        <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_PHONE}`} target="_blank" rel="noreferrer">
                             <FaWhatsapp className="size-5" />
                             <span className="sr-only">WhatsApp</span>
                         </a>
                     </Button>
 
                     <Button variant="ghost" size="icon" asChild className="hover:text-blue-600">
-                        <a href="https://www.facebook.com/141618755992417/" target="_blank" rel="noreferrer">
+                        <a href={process.env.NEXT_PUBLIC_FACEBOOK_URL} target="_blank" rel="noreferrer">
                             <FaFacebook className="size-5" />
                             <span className="sr-only">Facebook</span>
                         </a>
                     </Button>
 
                     <Button variant="ghost" size="icon" asChild className="hover:text-pink-600">
-                        <a href="https://www.instagram.com/sarii_nailart/" target="_blank" rel="noreferrer">
+                        <a href={process.env.NEXT_PUBLIC_INSTAGRAM_URL} target="_blank" rel="noreferrer">
                             <FaInstagram className="size-5" />
                             <span className="sr-only">Instagram</span>
                         </a>

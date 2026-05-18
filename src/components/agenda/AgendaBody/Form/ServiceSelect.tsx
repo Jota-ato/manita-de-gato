@@ -12,26 +12,16 @@ import {
 import { Field, FieldError } from "@/components/ui/field";
 import { Service } from '@/schemas/services';
 import { formatPriceMXN } from "@/lib/utils/currency";
-import { useEffect, useState } from 'react';
-import { getServices } from "@/lib/form/service";
+
 import type { AgendaFormData } from '@/schemas/agendaForm';
 
 interface ServiceSelectProps {
     control: Control<AgendaFormData>;
     error?: string;
+    services: Service[]
 }
 
-export default function ServiceSelect({ control, error }: ServiceSelectProps) {
-
-    const [services, setServices] = useState<Service[]>([])
-
-
-    useEffect(() => {
-        const fetchServices = async () => {
-            setServices(await getServices());
-        }
-        fetchServices()
-    }, [])
+export default function ServiceSelect({ control, error, services }: ServiceSelectProps) {
 
     return (
         <Field>

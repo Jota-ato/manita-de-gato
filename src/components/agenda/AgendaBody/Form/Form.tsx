@@ -4,6 +4,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
 // Components
 import { FieldGroup } from "@/components/ui/field";
 import ServiceSelect from "./ServiceSelect";
@@ -15,6 +16,9 @@ import FormFooter from "./FormFooter";
 import { AgendaFormSchema, type AgendaFormData } from '@/schemas/agendaForm';
 import { addHours } from 'date-fns';
 import { createAppointment } from "@/lib/form/service";
+import { getServices } from "@/lib/form/service";
+import { Service } from '@/schemas/services';
+import { buildWhatsAppRedirectUrl } from "@/lib/form/helpers";
 
 interface FormProps {
     hour: Date;
@@ -22,6 +26,14 @@ interface FormProps {
 }
 
 export default function Form({ hour, onSuccess }: FormProps) {
+
+    const [services, setServices] = useState<Service[]>([])
+    useEffect(() => {
+        const fetchServices = async () => {
+            setServices(await getServices());
+        }
+        fetchServices()
+    }, [])
 
     const {
         register,
@@ -42,9 +54,11 @@ export default function Form({ hour, onSuccess }: FormProps) {
         const timeMin = hour;
         const timeMax = addHours(hour, 2);
         try {
-            await createAppointment({timeMin, timeMax, ...data});
-            console.log("Appointment created successfully!");
+            await createAppointment({ timeMin, timeMax, ...data });
+            const service = services.filter(service => service.id.toString() === data.serviceId)[0];
+            const redirectURL = buildWhatsAppRedirectUrl({ timeMin, timeMax, clientName: data.name, service: service.name });
             onSuccess(false);
+            window.open(redirectURL, '_blank');
         } catch (error) {
             console.error("Submission failed", error);
         }
@@ -63,6 +77,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
                 <ServiceSelect
                     control={control}
                     error={errors.serviceId?.message}
+                    services={services}
                 />
                 <FieldWLabel
                     id='phone'
