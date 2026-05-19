@@ -1,7 +1,7 @@
 'use server';
 import { createClient } from '@/lib/supabase/server';
 import { logInSchema } from './schemas';
-
+import { redirect } from 'next/navigation';
 /**
  * Server Action that authenticates a user against Supabase Auth.
  *
@@ -41,5 +41,5 @@ export async function signIn(data: unknown) {
 
     if (error) return { error: 'Correo o contraseña incorrectos' };
 
-    return { success: true };
+    redirect('/dashboard');
 }

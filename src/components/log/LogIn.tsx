@@ -12,7 +12,7 @@ import Form from "./Login/Form";
 
 export default function LogIn() {
     return (
-        <Card className="w-[80%] max-w-120">
+        <Card className="w-[90%] max-w-120">
             <LogInHeader />
             <CardContent>
                 <Form />

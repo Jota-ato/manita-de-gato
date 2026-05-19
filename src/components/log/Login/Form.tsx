@@ -7,7 +7,6 @@ import {
 import { Button } from "@/components/ui/button";
 import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,7 +15,6 @@ import { signIn } from "@/lib/log/logIn/actions";
 
 export default function Form() {
 
-    const router = useRouter()
     const [serverError, setServerError] = useState<string | null>('');
 
     const {
@@ -35,11 +33,7 @@ export default function Form() {
         setServerError(null);
         const result = await signIn(data);
 
-        if (result.error) {
-            setServerError(result.error);
-            return;
-        }
-        router.push('./dashboard');
+        if (result.error) setServerError(result.error);
     }
 
     return (
