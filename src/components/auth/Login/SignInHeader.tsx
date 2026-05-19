@@ -4,7 +4,7 @@ import {
     CardDescription
 } from "@/components/ui/card";
 
-export default function LogInHeader() {
+export default function SignInHeader() {
     return (
         <CardHeader className="text-center">
             <CardTitle>

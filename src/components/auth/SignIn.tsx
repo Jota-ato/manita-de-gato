@@ -5,15 +5,15 @@ import {
 import {
     FieldSeparator
 } from "@/components/ui/field";
-import LogInHeader from "./Login/LogInHeader";
-import LogInFooter from "./Login/LogInFooter";
+import SignInHeader from "./Login/SignInHeader";
+import SignInFooter from "./Login/SignInFooter";
 import GoogleButton from "./Login/GoogleButton";
 import Form from "./Login/Form";
 
-export default function LogIn() {
+export default function SignIn() {
     return (
         <Card className="w-[90%] max-w-120">
-            <LogInHeader />
+            <SignInHeader />
             <CardContent>
                 <Form />
                 <FieldSeparator className="my-4">
@@ -21,7 +21,7 @@ export default function LogIn() {
                 </FieldSeparator>
                 <GoogleButton />
             </CardContent>
-            <LogInFooter />
+            <SignInFooter />
         </Card >
     )
 }

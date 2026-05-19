@@ -28,7 +28,7 @@ import { redirect } from 'next/navigation';
  * @param data - Unknown payload from the login form.
  * @returns An object indicating success or describing the error.
  */
-export async function signIn(data: unknown) {
+export async function signInWithEmailPassword(data: unknown) {
     const parsed = logInSchema.safeParse(data);
     if (!parsed.success) return { error: 'Datos inválidos' };
 

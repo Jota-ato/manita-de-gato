@@ -1,9 +1,9 @@
-import LogIn from "@/components/log/LogIn";
+import SignIn from "@/components/auth/SignIn";
 
 export default function page() {
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <LogIn />
+            <SignIn />
         </div>
     )
 }

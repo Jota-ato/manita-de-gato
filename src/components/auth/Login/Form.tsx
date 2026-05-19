@@ -10,8 +10,8 @@ import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { logInSchema, LogInType } from "@/lib/log/logIn/schemas";
-import { signIn } from "@/lib/log/logIn/actions";
+import { logInSchema, LogInType } from "@/lib/auth/SignIn/schemas";
+import { signInWithEmailPassword } from "@/lib/auth/SignIn/actions";
 
 export default function Form() {
 
@@ -31,7 +31,7 @@ export default function Form() {
 
     const onValidSubmit = async (data: LogInType) => {
         setServerError(null);
-        const result = await signIn(data);
+        const result = await signInWithEmailPassword(data);
 
         if (result.error) setServerError(result.error);
     }
