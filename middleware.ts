@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     // 2. Inicializamos el cliente de Supabase
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_PUBLISHABLE_KEY!, // Corregido: Usamos la Anon Key
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, // Corregido: Usamos la Anon Key
         {
             cookies: {
                 getAll() {
