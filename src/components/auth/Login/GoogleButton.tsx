@@ -1,10 +1,11 @@
+'use client';
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 
-export default async function GoogleButton() {
+export default function GoogleButton() {
 
-    const supabase = await createClient();
+    const supabase = createClient();
 
     const handleSignInWithGoogle = async () => {
         const { error } = await supabase.auth.signInWithOAuth({
