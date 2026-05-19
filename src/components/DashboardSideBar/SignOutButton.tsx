@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { signOut } from "@/lib/auth/SignOut/actions";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
+import { toast } from "sonner"
 
 export default function SignOutButton() {
 
@@ -14,22 +15,16 @@ export default function SignOutButton() {
         const { error } = await signOut()
         setErrorMessage(error);
         setIsLoading(false);
+        if (errorMessage) toast.warning(error, { position: 'top-right' });
     }
 
     return (
-        <>
-            <Button
-                variant={'destructive'}
-                onClick={onSignOut}
-            >
-                {isLoading && <Spinner className="mr-2" />}
-                {isLoading ? 'Cerrando...' : 'Cerrar sesión'}
-            </Button>
-            {errorMessage && (
-                <p className="text-xs text-destructive text-center font-medium">
-                    {errorMessage}
-                </p>
-            )}
-        </>
+        <Button
+            variant={'destructive'}
+            onClick={onSignOut}
+        >
+            {isLoading && <Spinner className="mr-2" />}
+            {isLoading ? 'Cerrando...' : 'Cerrar sesión'}
+        </Button>
     )
 }
