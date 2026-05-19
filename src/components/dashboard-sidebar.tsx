@@ -13,17 +13,16 @@ import {
     SidebarMenuButton,
     useSidebar
 } from "@/components/ui/sidebar";
-import { Home, Calendar, BookOpen, Mail, PawPrint } from "lucide-react";
+import { Home, Calendar, CircleDollarSign, Sparkles, PawPrint } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import SignOutButton from "./DashboardSideBar/SignOutButton";
 
 const navItems = [
     { title: "Inicio", url: "/dashboard", icon: Home },
-    { title: "Agenda", url: "/agenda", icon: Calendar },
-    { title: "Blog", url: "/blog", icon: BookOpen },
-    { title: "Acerca de nosotros", url: "/about-us", icon: PawPrint },
-    { title: "Contacto", url: "/contact", icon: Mail },
+    { title: "Agenda", url: "/dashboard/agenda", icon: Calendar },
+    { title: "Finanzas", url: "/dashboard/finance", icon: CircleDollarSign },
+    { title: "Servicios", url: "/dashboard/services", icon: Sparkles }
 ];
 
 export function DashboardSidebar() {
