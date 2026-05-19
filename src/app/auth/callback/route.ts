@@ -2,13 +2,18 @@ import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
+    const { searchParams, origin } = new URL(request.url);
     const code = searchParams.get('code');
+    const next = searchParams.get('next') ?? '/dashboard';
 
     if (code) {
         const supabase = await createClient();
-        await supabase.auth.exchangeCodeForSession(code);
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (!error) {
+            return NextResponse.redirect(`${origin}${next}`);
+        }
+        console.error("[AUTH_CALLBACK_ERROR]:", error.message);
     }
 
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(`${origin}/login?error=auth-callback-failed`);
 }
