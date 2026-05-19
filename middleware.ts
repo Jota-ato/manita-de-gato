@@ -43,16 +43,16 @@ export async function middleware(request: NextRequest) {
 
     // 4. Lógica de redirección basada en roles/estado
     const isDashboardRoute = request.nextUrl.pathname.startsWith('/dashboard');
-    const isLoginRoute = request.nextUrl.pathname === '/login';
+    const isSignInRoute = request.nextUrl.pathname === '/sign-in';
 
     if (!user && isDashboardRoute) {
-        // Redirigimos al usuario a /login, conservando la URL original a la que intentaba acceder (opcional pero recomendado)
-        const url = new URL('/login', request.url);
+        // Redirigimos al usuario a /signin, conservando la URL original a la que intentaba acceder (opcional pero recomendado)
+        const url = new URL('/sign-in', request.url);
         return NextResponse.redirect(url);
     }
 
-    if (user && isLoginRoute) {
-        // Si ya está autenticado, no tiene sentido que vea el login
+    if (user && isSignInRoute) {
+        // Si ya está autenticado, no tiene sentido que vea el signin
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
