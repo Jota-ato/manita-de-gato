@@ -36,7 +36,7 @@ export default async function BentoContainer() {
         return result.success ? [result.data] : [];
     });
 
-    const todayAppointments = appointments.filter((appointment) => isSameDay(appointment.timeMin, today));
+    const todayAppointments = appointments.map((appointment) => isSameDay(appointment.timeMin, today) ? appointment : false).filter(appointment => typeof appointment !== 'boolean');
     console.log(todayAppointments, correctToday)
 
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
