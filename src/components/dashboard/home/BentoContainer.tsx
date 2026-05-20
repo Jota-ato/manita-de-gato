@@ -31,12 +31,13 @@ export default async function BentoContainer() {
     console.log(data);
     const appointments = (data ?? []).flatMap((appointment) => {
         const result = AppointmentSchema.safeParse(appointment);
+        console.log(result.data);
 
         return result.success ? [result.data] : [];
     });
 
     const todayAppointments = appointments.filter((appointment) => isSameDay(appointment.timeMin, today));
-    console.log(todayAppointments, today)
+    console.log(todayAppointments, correctToday)
 
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
