@@ -1,4 +1,4 @@
-import { Appointment } from "@/lib/calendar/schemas";
+import { GoogleCalendarEvent } from "@/lib/calendar/schemas";
 import { cn } from "@/lib/utils";
 import { format, differenceInMinutes, parseISO } from "date-fns";
 
@@ -23,7 +23,7 @@ export const colorsMap: Record<string, string> = {
 };
 
 interface EventProps {
-    event: Appointment
+    event: GoogleCalendarEvent
     START_HOUR: number
     ROW_HEIGHT_REM: number
 }

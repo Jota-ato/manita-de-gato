@@ -71,7 +71,9 @@ export function DashboardSidebar() {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter className="p-4">
-                <SignOutButton />
+                <SignOutButton
+                    isExpanded={isExpanded}
+                />
             </SidebarFooter>
         </Sidebar>
     );

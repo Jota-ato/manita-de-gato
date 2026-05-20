@@ -4,12 +4,12 @@ import { startOfWeek, addDays, addHours, startOfDay, subDays, endOfDay } from "d
 import AgendaHeader from "./AgendaHeader";
 import AgendaBody from "./AgendaBody";
 import { getEvents } from "@/lib/agenda";
-import type { Appointment } from "@/lib/calendar/schemas";
+import type { GoogleCalendarEvent } from "@/lib/calendar/schemas";
 
 export default function AgendaView() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [daysToShow, setDaysToShow] = useState(3);
-    const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [appointments, setAppointments] = useState<GoogleCalendarEvent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const today = new Date();
 

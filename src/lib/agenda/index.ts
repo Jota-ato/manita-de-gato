@@ -1,6 +1,6 @@
 'use server'
 import { getAppointments } from '@/lib/calendar/service';
-import { AppointmentSchema, Appointment } from "@/lib/calendar/schemas";
+import { GoogleCalendarEventSchema, GoogleCalendarEvent } from "@/lib/calendar/schemas";
 
 interface getEventsProps {
     timeMin: Date
@@ -8,7 +8,7 @@ interface getEventsProps {
     maxResults?: number
 }
 
-export async function getEvents({ timeMin, timeMax, maxResults }: getEventsProps): Promise<(Appointment)[]> {
+export async function getEvents({ timeMin, timeMax, maxResults }: getEventsProps): Promise<(GoogleCalendarEvent)[]> {
     try {
         // Llamamos directamente al servicio de Google sin pasar por fetch
         const rawData = await getAppointments({
@@ -19,9 +19,9 @@ export async function getEvents({ timeMin, timeMax, maxResults }: getEventsProps
 
         // Validamos los datos con el Schema que ya tienes
         const appointments = rawData.map(event => {
-            const result = AppointmentSchema.safeParse(event);
+            const result = GoogleCalendarEventSchema.safeParse(event);
             return result.success ? result.data : null;
-        }).filter((item): item is Appointment => item !== null);
+        }).filter((item): item is GoogleCalendarEvent => item !== null);
 
         return appointments;
     } catch (error) {

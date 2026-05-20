@@ -11,7 +11,7 @@ import { z } from 'zod';
  *
  * @see {@link https://developers.google.com/calendar/api/v3/reference/events#resource Google Calendar Event Resource}
  */
-export const AppointmentSchema = z.object({
+export const GoogleCalendarEventSchema = z.object({
     id: z.string()
         .describe("Unique identifier of the calendar event, assigned by Google Calendar."),
 
@@ -40,7 +40,7 @@ export const AppointmentSchema = z.object({
 });
 
 /**
- * TypeScript type derived from {@link AppointmentSchema}.
+ * TypeScript type derived from {@link GoogleCalendarEventSchema}.
  * Prefer this over defining the type manually to keep schema and type in sync.
  */
-export type Appointment = z.infer<typeof AppointmentSchema>;
+export type GoogleCalendarEvent = z.infer<typeof GoogleCalendarEventSchema>;

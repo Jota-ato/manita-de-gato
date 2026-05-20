@@ -1,5 +1,5 @@
 import { isSameDay, parseISO } from "date-fns";
-import type { Appointment } from "@/lib/calendar/schemas";
+import type { GoogleCalendarEvent } from "@/lib/calendar/schemas";
 import { Spinner } from "@/components/ui/spinner";
 import HoursColumn from "./AgendaBody/HoursColumn";
 import EventPublic from "./AgendaBody/EventPublic";
@@ -9,7 +9,7 @@ import HourCell from "./AgendaBody/HourCell";
 interface AgendaBodyProps {
     weekDays: Date[];
     hours: Date[];
-    events: Appointment[];
+    events: GoogleCalendarEvent[];
     isLoading: boolean;
 }
 

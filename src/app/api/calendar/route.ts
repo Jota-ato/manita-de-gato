@@ -1,4 +1,4 @@
-import { AppointmentSchema } from "@/lib/calendar/schemas";
+import { GoogleCalendarEventSchema } from "@/lib/calendar/schemas";
 import { NextRequest, NextResponse } from "next/server";
 import { validatePostBody, validateGetBody } from '@/lib/calendar/validation';
 import { createAppointmentInGoogle, getAppointments } from '@/lib/calendar/service';
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
             : await getAppointments();
 
         const appointments = rawData.map(event => {
-            const result = AppointmentSchema.safeParse(event);
+            const result = GoogleCalendarEventSchema.safeParse(event);
             return result.success ? result.data : null;
         }).filter(Boolean);
 

@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
         const supabase = await createClient();
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) {
+            console.log(`${origin}${next}`);
             return NextResponse.redirect(`${origin}${next}`);
         }
         console.error("[AUTH_CALLBACK_ERROR]:", error.message);
