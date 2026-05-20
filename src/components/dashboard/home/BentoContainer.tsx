@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { AppointmentSchema } from "@/lib/supabase/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, addHours } from "date-fns";
 import { es } from 'date-fns/locale';
 import { CalendarDays, User, Stethoscope } from "lucide-react"
 import DurationBadge from "./DurationBadge";
@@ -15,6 +15,7 @@ import DurationBadge from "./DurationBadge";
 export default async function BentoContainer() {
 
     const today = new Date();
+    const correctToday = addHours(today, -7);
     const formattedDate = format(
         today,
         "EEEE d 'de' MMMM 'de' yyyy",
@@ -27,6 +28,7 @@ export default async function BentoContainer() {
         from('Appointments')
         .select('*')
 
+    console.log(data);
     const appointments = (data ?? []).flatMap((appointment) => {
         const result = AppointmentSchema.safeParse(appointment);
 
