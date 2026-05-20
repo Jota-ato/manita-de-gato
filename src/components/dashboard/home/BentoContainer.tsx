@@ -7,37 +7,40 @@ import {
 } from "@/components/ui/card";
 import { AppointmentSchema } from "@/lib/supabase/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { format, isSameDay, addHours } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale';
 import { CalendarDays, User, Stethoscope } from "lucide-react"
 import DurationBadge from "./DurationBadge";
 
+import { TZDate, tz } from "@date-fns/tz";
+
+const TIMEZONE = "America/Mexico_City";
+import { formatAppointmentDates } from "@/lib/supabase/utils/helpers";
+
 export default async function BentoContainer() {
 
-    const today = new Date();
-    const correctToday = addHours(today, -7);
+    const UTCtoday = new Date();
+    const today = new TZDate(UTCtoday, TIMEZONE);
+
     const formattedDate = format(
         today,
         "EEEE d 'de' MMMM 'de' yyyy",
-        { locale: es }
+        { locale: es, in: tz(TIMEZONE) }
     );
 
     const supabase = await createClient();
 
-    const { data, error } = await supabase.
+    const { data } = await supabase.
         from('Appointments')
-        .select('*')
+        .select('*');
 
-    console.log(data);
     const appointments = (data ?? []).flatMap((appointment) => {
         const result = AppointmentSchema.safeParse(appointment);
-        console.log(result.data);
 
-        return result.success ? [result.data] : [];
+        return result.success ? [formatAppointmentDates(result.data)] : [];
     });
 
     const todayAppointments = appointments.map((appointment) => isSameDay(appointment.timeMin, today) ? appointment : false).filter(appointment => typeof appointment !== 'boolean');
-    console.log(todayAppointments, correctToday)
 
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
@@ -68,13 +71,13 @@ export default async function BentoContainer() {
                                     className="flex items-center gap-4 px-6 py-4 hover:bg-muted/50 transition-colors"
                                 >
                                     {/* Franja de tiempo */}
-                                    <div className="flex flex-col items-center min-w-[52px]">
+                                    <div className="flex flex-col items-center min-w-13">
                                         <span className="text-sm font-semibold tabular-nums leading-tight">
-                                            {format(apt.timeMin, 'HH:mm')}
+                                            {format(apt.timeMin, 'HH:mm', { in: tz(TIMEZONE) })}
                                         </span>
                                         <span className="text-[10px] text-muted-foreground leading-none my-0.5">—</span>
                                         <span className="text-xs text-muted-foreground tabular-nums leading-tight">
-                                            {format(apt.timeMax, 'HH:mm')}
+                                            {format(apt.timeMax, 'HH:mm', { in: tz(TIMEZONE) })}
                                         </span>
                                     </div>
 

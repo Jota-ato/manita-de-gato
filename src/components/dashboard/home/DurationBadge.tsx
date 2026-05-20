@@ -1,6 +1,7 @@
+import { TZDate } from "@date-fns/tz";
 import { differenceInMinutes } from "date-fns"
 
-export default function DurationBadge({ timeMin, timeMax }: { timeMin: string; timeMax: string }) {
+export default function DurationBadge({ timeMin, timeMax }: { timeMin: TZDate; timeMax: TZDate }) {
     const mins = differenceInMinutes(new Date(timeMax), new Date(timeMin))
 
     return (
