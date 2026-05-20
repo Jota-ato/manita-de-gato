@@ -3,7 +3,6 @@ import {
     CardHeader,
     CardTitle,
     CardDescription,
-    CardFooter,
     CardContent
 } from "@/components/ui/card";
 import { AppointmentSchema } from "@/lib/supabase/schemas";
@@ -11,7 +10,6 @@ import { createClient } from "@/lib/supabase/server";
 import { format, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale';
 import { CalendarDays, User, Stethoscope } from "lucide-react"
-import { differenceInMinutes, parse } from "date-fns"
 import DurationBadge from "./DurationBadge";
 
 export default async function BentoContainer() {
@@ -36,6 +34,7 @@ export default async function BentoContainer() {
     });
 
     const todayAppointments = appointments.filter((appointment) => isSameDay(appointment.timeMin, today));
+    console.log(todayAppointments, today)
 
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
@@ -60,9 +59,9 @@ export default async function BentoContainer() {
                         </div>
                     ) : (
                         <ul className="divide-y divide-border">
-                            {todayAppointments.map((apt, i) => (
+                            {todayAppointments.map((apt) => (
                                 <li
-                                    key={i}
+                                    key={apt.id}
                                     className="flex items-center gap-4 px-6 py-4 hover:bg-muted/50 transition-colors"
                                 >
                                     {/* Franja de tiempo */}

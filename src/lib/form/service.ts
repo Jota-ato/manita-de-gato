@@ -37,7 +37,7 @@ export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
     const { name, serviceId, phone, secondary_phone, timeMin, timeMax } = data;
 
-    const client_id = await getClientId({name, phone,secondary_phone});
+    const client_id = await getClientId({name, phone, secondary_phone});
 
     const { data: insertedData, error } = await supabase
         .from('Appointments')

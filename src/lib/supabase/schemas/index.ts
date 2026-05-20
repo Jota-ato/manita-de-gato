@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const AppointmentSchema = z.object({
+    id: z.string(),
     client_id: z.string(),
     service_id: z.number(),
     timeMin: z.string(),
