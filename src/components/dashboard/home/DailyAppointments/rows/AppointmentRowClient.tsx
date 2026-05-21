@@ -3,18 +3,16 @@
 import { useState } from "react";
 import {
     Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
+    DialogContent
 } from "@/components/ui/dialog";
 import { Appointment, Client } from "@/lib/supabase/schemas";
 import { Service } from "@/schemas/services";
 import TimeLine from "@/components/ui/TimeLine";
 import { Separator } from "@/components/ui/separator";
-import AppointmentDetails from "../appointment-dialog/AppointmentDetails";
+import AppointmentDetails from "./AppointmentDetails";
 import StatusBadge from "@/components/ui/StatusBadge";
 import AppointmentInfoDialog from "../appointment-dialog/AppointmentInfoDialog";
+import AppointmentDialogHeader from "../appointment-dialog/AppointmentDialogHeader";
 
 
 interface AppointmentRowClientProps {
@@ -43,12 +41,7 @@ export default function AppointmentRowClient({ apt, client, services }: Appointm
 
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Detalles de la cita</DialogTitle>
-                        <DialogDescription>
-                            Detalles importantes
-                        </DialogDescription>
-                    </DialogHeader>
+                    <AppointmentDialogHeader />
                     <Separator />
                     <AppointmentInfoDialog
                         apt={apt}

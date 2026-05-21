@@ -1,7 +1,9 @@
+'use server';
 import { createClient } from "@/lib/supabase/server";
 import { TZDate } from "@date-fns/tz";
-import { AppointmentSchema, Client, ClientSchema } from "../supabase/schemas";
+import { AppointmentSchema, AppointmentStatus, Client, ClientSchema } from "../supabase/schemas";
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
+import { revalidatePath } from "next/cache";
 
 
 export async function getDayAppointments(day: TZDate) {
@@ -50,4 +52,22 @@ export async function getClientById(id: string): Promise<Client | 'Cliente'> {
     }
 
     return validClient.data;
+}
+
+export async function updateAppointmentStatus(
+    appointmentId: string,
+    status: AppointmentStatus
+): Promise<void> {
+    const supabase = await createClient();
+
+    const { data } = await supabase.auth.getUser();
+
+    const { error } = await supabase
+        .from('Appointments')
+        .update({ status })
+        .eq('id', appointmentId);
+
+    if (error) throw new Error(error.message);
+
+    revalidatePath('/dashboard');
 }

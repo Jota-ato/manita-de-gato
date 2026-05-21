@@ -1,9 +1,11 @@
-import { CalendarCheck, Clock, Sparkles, User } from "lucide-react";
-import { format } from "date-fns";
+'use client'
+import { CalendarCheck } from "lucide-react";
 import { Appointment } from "@/lib/supabase/schemas";
-import StatusBadge from "@/components/ui/StatusBadge";
+import { Separator } from "@/components/ui/separator";
+import AppointmentDialogDetails from "./AppointmentDialogDetails";
+import AppointmentDialogSelect from "./select/AppointmentDialogSelect";
 
-interface AppointmentInfoDialogProps { 
+interface AppointmentInfoDialogProps {
     apt: Appointment,
     clientName: string
     serviceName: string
@@ -11,31 +13,22 @@ interface AppointmentInfoDialogProps {
 
 export default function AppointmentInfoDialog({ apt, clientName, serviceName }: AppointmentInfoDialogProps) {
     return (
-        <ul className="flex flex-col gap-3 text-sm">
-            <li className="flex items-center gap-2">
-                <User className="size-4 text-muted-foreground shrink-0" />
-                <span className="text-muted-foreground">Cliente</span>
-                <span className="ml-auto font-medium capitalize">{clientName}</span>
+        <div className="flex flex-col gap-3 text-sm">
+            <AppointmentDialogDetails
+                apt={apt}
+                clientName={clientName}
+                serviceName={serviceName}
+            />
+            <Separator />
+            <li className="flex items-center justify-between gap-2">
+                <p className="flex items-center gap-2">
+                    <CalendarCheck className="size-4 text-muted-foreground shrink-0" />
+                    <span className="text-muted-foreground">Modificar estado</span>
+                </p>
+                <AppointmentDialogSelect
+                    apt={apt}
+                />
             </li>
-            <li className="flex items-center gap-2">
-                <Sparkles className="size-4 text-muted-foreground shrink-0" />
-                <span className="text-muted-foreground">Servicio</span>
-                <span className="ml-auto font-medium">{serviceName}</span>
-            </li>
-            <li className="flex items-center gap-2">
-                <Clock className="size-4 text-muted-foreground shrink-0" />
-                <span className="text-muted-foreground">Horario</span>
-                <span className="ml-auto font-medium tabular-nums">
-                    {format(apt.timeMin, 'HH:mm')} – {format(apt.timeMax, 'HH:mm')}
-                </span>
-            </li>
-            <li className="flex items-center gap-2">
-                <CalendarCheck className="size-4 text-muted-foreground shrink-0" />
-                <span className="text-muted-foreground">Estado</span>
-                <span className="ml-auto">
-                    <StatusBadge status={apt.status} />
-                </span>
-            </li>
-        </ul>
+        </div>
     )
 }
