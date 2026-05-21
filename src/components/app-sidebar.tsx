@@ -18,6 +18,7 @@ import { Home, Calendar, BookOpen, Mail, PawPrint } from "lucide-react";
 import { FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import Logo from "./ui/logo";
 
 const navItems = [
     { title: "Inicio", url: "/", icon: Home },
@@ -39,7 +40,7 @@ export function AppSidebar() {
                     isExpanded ? "text-xl p-4" : "text-lg p-2 justify-center flex"
                 )}
             >
-                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-8 text-pink-400" /></span> : <PawPrint className="m-auto text-pink-400" />}
+                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<Logo width={32} height={32} /></span> : <Logo width={32} height={32}/>}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>

@@ -17,6 +17,7 @@ import { Home, Calendar, CircleDollarSign, Sparkles, PawPrint } from "lucide-rea
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import SignOutButton from "./DashboardSideBar/SignOutButton";
+import Logo from "./ui/logo";
 
 const navItems = [
     { title: "Inicio", url: "/dashboard", icon: Home },
@@ -37,7 +38,7 @@ export function DashboardSidebar() {
                     isExpanded ? "text-xl p-4" : "text-lg p-2 justify-center flex"
                 )}
             >
-                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<PawPrint className="size-8 text-pink-400" /></span> : <PawPrint className="m-auto text-pink-400" />}
+                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<Logo width={32} height={32}/></span> : <Logo width={32} height={32}/>}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>

@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { TZDate } from "@date-fns/tz";
 import { AppointmentSchema, Client, ClientSchema } from "../supabase/schemas";
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
-import { DEV_CLIENT_MIDDLEWARE_MANIFEST } from "next/constants";
 
 
 export async function getDayAppointments(day: TZDate) {

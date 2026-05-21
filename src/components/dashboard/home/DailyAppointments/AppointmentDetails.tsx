@@ -13,12 +13,12 @@ export default async function AppointmentDetails({ apt }: { apt: Appointment }) 
     
     return (
         <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+            <h3 className="flex items-center gap-1.5">
+                <User className="size-3.5 text-muted-foreground shrink-0" />
+                <span className="text-sm font-medium truncate capitalize">{client !== 'Usuario' ? client.name : client}</span>
+            </h3>
             <div className="flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                <span className="text-sm font-medium truncate">{client !== 'Usuario' ? client.name : client}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-                <Stethoscope className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                <Stethoscope className="size-3.5 text-muted-foreground shrink-0" />
                 <p className="text-xs text-muted-foreground">
                     Servicio <span className="text-black">{serviceName}</span>
                 </p>
