@@ -28,7 +28,7 @@ export async function getDayAppointments(day: TZDate) {
     return appointments;
 }
 
-export async function getClientById(id: string): Promise<Client | 'Usuario'> {
+export async function getClientById(id: string): Promise<Client | 'Cliente'> {
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -39,14 +39,14 @@ export async function getClientById(id: string): Promise<Client | 'Usuario'> {
 
     if (error) {
         console.error('ERROR GETTING USER', error.message);
-        return 'Usuario';
+        return 'Cliente';
     }
 
     const validClient = ClientSchema.safeParse(data);
 
     if (!validClient.success) {
         console.error('ERROR PARSING CLIENT', validClient.error);
-        return 'Usuario';
+        return 'Cliente';
     }
 
     return validClient.data;
