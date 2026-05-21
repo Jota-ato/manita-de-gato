@@ -14,8 +14,6 @@ export async function getDayAppointments(day: TZDate) {
     const { data, error } = await supabase
         .from('Appointments')
         .select('*')
-        .gte('timeMin', startOfDay.toISOString())
-        .lt('timeMin', endOfDay.toISOString());
     console.log(data);
 
     const appointments = (data ?? []).flatMap((appointment) => {
