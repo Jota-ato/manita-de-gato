@@ -17,16 +17,13 @@ export async function getDayAppointments(day: TZDate) {
         .select('*')
         .gte('timeMin', startOfDay.toISOString())
         .lt('timeMin', endOfDay.toISOString());
-    console.log(data);
-    console.log(`El inicio del día es: ${startOfDay}, el fin del día es: ${endOfDay}`)
 
     const appointments = (data ?? []).flatMap((appointment) => {
         const result = AppointmentSchema.safeParse(appointment);
 
         return result.success ? [formatAppointmentDates(result.data)] : [];
-    });
+    }).sort((a, b) => new Date(a.timeMin).getTime() - new Date(b.timeMin).getTime());
 
     if (error) console.error('ERROR GETTING DAY APPOINTMENTS', error.message);
-    console.log(appointments);
     return appointments;
 }
