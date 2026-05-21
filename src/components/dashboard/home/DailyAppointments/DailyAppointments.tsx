@@ -20,6 +20,7 @@ export default async function DailyAppointments() {
     );
 
     const todayAppointments = await getDayAppointments(today);
+    console.log(todayAppointments);
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
     return (
