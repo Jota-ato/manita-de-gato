@@ -12,6 +12,7 @@ import { getDayAppointments } from "@/lib/dashboard/actions";
 export default async function DailyAppointments() {
 
     const today = new TZDate(new Date(), TIMEZONE);
+    console.log(today);
 
     const formattedDate = format(
         today,
