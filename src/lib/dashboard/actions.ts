@@ -60,8 +60,6 @@ export async function updateAppointmentStatus(
 ): Promise<void> {
     const supabase = await createClient();
 
-    const { data } = await supabase.auth.getUser();
-
     const { error } = await supabase
         .from('Appointments')
         .update({ status })
