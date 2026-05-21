@@ -13,7 +13,7 @@ export default function DailyAppointmentsHeader({ appointmentNumber, capitalized
                 <CardTitle className="text-base font-medium">Citas del día</CardTitle>
                 <CardDescription className="text-sm">{capitalizedDate}</CardDescription>
             </div>
-            <span className="text-xs font-medium bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
+            <span className="text-xs text-center font-medium bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
                 {appointmentNumber} citas
             </span>
         </CardHeader>

@@ -1,16 +1,19 @@
 import { getClientById } from "@/lib/dashboard/actions";
-import { getServices } from "@/lib/form/service";
 import { Appointment } from "@/lib/supabase/schemas";
+import { Service } from "@/schemas/services";
 import { Sparkles, User } from "lucide-react";
 
-export default async function AppointmentDetails({ apt }: { apt: Appointment }) {
+interface AppointmentDetailsProps {
+    apt: Appointment,
+    services: Service[]
+}
 
-    const services = await getServices();
+export default async function AppointmentDetails({ apt, services }: AppointmentDetailsProps) {
 
-    const serviceName = services.find(service => service.id === apt.service_id)?.name;
+
     const client = await getClientById(apt.client_id);
+    const serviceName = services.find(service => service.id === apt.service_id)?.name;
 
-    
     return (
         <div className="flex flex-col gap-2 flex-1 min-w-0">
             <h3 className="flex items-center gap-1">
