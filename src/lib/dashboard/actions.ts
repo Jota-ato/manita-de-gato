@@ -16,6 +16,7 @@ export async function getDayAppointments(day: TZDate) {
         .select('*')
         .gte('timeMin', startOfDay.toISOString())
         .lt('timeMin', endOfDay.toISOString());
+    console.log(data)
 
     const appointments = (data ?? []).flatMap((appointment) => {
         const result = AppointmentSchema.safeParse(appointment);
