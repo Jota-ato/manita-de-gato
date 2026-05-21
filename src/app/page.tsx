@@ -13,6 +13,14 @@ export default function page() {
                     Ir a la agenda
                 </Button>
             </Link>
+            <Link
+                href={'/dashboard'}
+            >
+                <Button
+                >
+                    Ir al dashboard
+                </Button>
+            </Link>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { CardContent } from "@/components/ui/card";
-import DurationBadge from "./DurationBadge";
+import StatusBadge from "./StatusBadge";
 import { Appointment } from "@/lib/supabase/schemas";
 import NoDailyAppointments from "./NoDailyAppointments";
 import TimeLine from "./TimeLine";
@@ -21,7 +21,7 @@ export default async function DailyAppointmentsTable({ todayAppointments }: Dail
                     {todayAppointments.map((apt) => (
                         <li
                             key={apt.id}
-                            className="flex items-center gap-4 px-6 py-4 hover:bg-muted/50 transition-colors"
+                            className="flex flex-col md:flex-row items-center md:gap-4 gap-2 px-6 py-4 hover:bg-muted/50 transition-colors"
                         >
                             {/* Franja de tiempo */}
                             <TimeLine apt={apt}/>
@@ -33,7 +33,7 @@ export default async function DailyAppointmentsTable({ todayAppointments }: Dail
                             <AppointmentDetails apt={apt}/>
 
                             {/* Badge de duración */}
-                            <DurationBadge timeMin={apt.timeMin} timeMax={apt.timeMax} />
+                            <StatusBadge status={apt.status} />
                         </li>
                     ))}
                 </ul>
