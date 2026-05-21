@@ -1,14 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
 import { TZDate } from "@date-fns/tz";
 import { AppointmentSchema } from "../supabase/schemas";
-import { formatAppointmentDates } from "../supabase/utils/helpers";
+import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
+
 
 export async function getDayAppointments(day: TZDate) {
     const supabase = await createClient();
 
-    const startOfDay = new TZDate(day);
+    const startOfDay = new TZDate(day, TIMEZONE);
     startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new TZDate(day);
+    const endOfDay = new TZDate(day, TIMEZONE);
     endOfDay.setHours(23, 59, 59, 999);
 
     const { data, error } = await supabase

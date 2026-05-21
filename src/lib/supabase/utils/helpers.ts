@@ -1,6 +1,6 @@
 import { Appointment } from "../schemas";
 import { TZDate } from "@date-fns/tz";
-const TIMEZONE = "America/Mexico_City";
+export const TIMEZONE = "America/Mexico_City";
 
 
 export const formatAppointmentDates = (appointment: Appointment) => {
