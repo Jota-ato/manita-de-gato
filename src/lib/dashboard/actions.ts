@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { TZDate } from "@date-fns/tz";
-import { AppointmentSchema } from "../supabase/schemas";
+import { AppointmentSchema, Client, ClientSchema } from "../supabase/schemas";
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
+import { DEV_CLIENT_MIDDLEWARE_MANIFEST } from "next/constants";
 
 
 export async function getDayAppointments(day: TZDate) {
@@ -26,4 +27,28 @@ export async function getDayAppointments(day: TZDate) {
 
     if (error) console.error('ERROR GETTING DAY APPOINTMENTS', error.message);
     return appointments;
+}
+
+export async function getClientById(id: string): Promise<Client | 'Usuario'> {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+        .from('Clients')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        console.error('ERROR GETTING USER', error.message);
+        return 'Usuario';
+    }
+
+    const validClient = ClientSchema.safeParse(data);
+
+    if (!validClient.success) {
+        console.error('ERROR PARSING CLIENT', validClient.error);
+        return 'Usuario';
+    }
+
+    return validClient.data;
 }

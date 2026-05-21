@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card";
 import DailyAppointmentsHeader from "./DailyAppointmentsHeader";
 import DailyAppointmentsTable from "./DailyAppointmentsTable";
-
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 const TIMEZONE = "America/Mexico_City";
@@ -30,7 +29,6 @@ export default async function DailyAppointments() {
             />
             <DailyAppointmentsTable
                 todayAppointments={todayAppointments}
-                TIMEZONE={TIMEZONE}
             />
         </Card>
     )
