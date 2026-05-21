@@ -2,7 +2,7 @@ import { CardContent } from "@/components/ui/card";
 import { Appointment } from "@/lib/supabase/schemas";
 import NoDailyAppointments from "./NoDailyAppointments";
 import { getServices } from "@/lib/form/service";
-import DailyAppointmentRow from "./DailyAppointmentRow";
+import DailyAppointmentRow from "../rows/DailyAppointmentRow";
 
 interface DailyAppointmentsTableProps {
     todayAppointments: Appointment[]

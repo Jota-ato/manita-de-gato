@@ -1,6 +1,6 @@
 import { Card, CardFooter } from "@/components/ui/card";
 import DailyAppointmentsHeader from "./DailyAppointmentsHeader";
-import DailyAppointmentsTable from "./DailyAppointmentsTable";
+import DailyAppointmentsTable from "./table/DailyAppointmentsTable";
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 const TIMEZONE = "America/Mexico_City";

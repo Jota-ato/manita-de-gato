@@ -7,15 +7,14 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription,
-    DialogTrigger
 } from "@/components/ui/dialog";
 import { Appointment, Client } from "@/lib/supabase/schemas";
 import { Service } from "@/schemas/services";
-import TimeLine from "./TimeLine";
+import TimeLine from "@/components/ui/TimeLine";
 import { Separator } from "@/components/ui/separator";
-import AppointmentDetails from "./AppointmentDetails";
-import StatusBadge from "./StatusBadge";
-import AppointmentInfoDialog from "./AppointmentInfoDialog";
+import AppointmentDetails from "../appointment-dialog/AppointmentDetails";
+import StatusBadge from "@/components/ui/StatusBadge";
+import AppointmentInfoDialog from "../appointment-dialog/AppointmentInfoDialog";
 
 
 interface AppointmentRowClientProps {

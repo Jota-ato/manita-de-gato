@@ -28,7 +28,11 @@ export const AppointmentSchema = z.object({
     service_id: z.number(),
     timeMin: toTZDate,
     timeMax: toTZDate,
-    status: AppointmentStatus
+    status: AppointmentStatus,
+    client_name_snapshot: z.string(),
+    service_price_snapshot: z.number(),
+    service_name_snapshot: z.string(),
+    total_price: z.number()
 })
 
 export const ClientSchema = z.object({

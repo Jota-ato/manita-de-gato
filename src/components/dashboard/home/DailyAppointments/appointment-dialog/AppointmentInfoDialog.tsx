@@ -1,7 +1,7 @@
 import { CalendarCheck, Clock, Sparkles, User } from "lucide-react";
 import { format } from "date-fns";
 import { Appointment } from "@/lib/supabase/schemas";
-import StatusBadge from "./StatusBadge";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 interface AppointmentInfoDialogProps { 
     apt: Appointment,
