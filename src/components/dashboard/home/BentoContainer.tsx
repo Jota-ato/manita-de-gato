@@ -1,7 +1,7 @@
 import {
     Card,
 } from "@/components/ui/card";
-import DailyAppointments from "./DailyAppointments/DailyAppointments";
+import DailyAppointments from "./DailyAppointments/DailyAppointmentsSection";
 
 export default async function BentoContainer() {
 
