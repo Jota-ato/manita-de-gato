@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import DailyAppointmentsHeader from "./DailyAppointmentsHeader";
 import DailyAppointmentsTable from "./DailyAppointmentsTable";
 import { format } from "date-fns";
@@ -6,6 +6,7 @@ import { es } from 'date-fns/locale';
 const TIMEZONE = "America/Mexico_City";
 import { TZDate, tz } from "@date-fns/tz";
 import { getDayAppointments } from "@/lib/dashboard/actions";
+import { Button } from "@/components/ui/button";
 
 
 export default async function DailyAppointments() {
@@ -30,6 +31,9 @@ export default async function DailyAppointments() {
             <DailyAppointmentsTable
                 todayAppointments={todayAppointments}
             />
+            <CardFooter>
+                <Button>Crear nueva cita</Button>
+            </CardFooter>
         </Card>
     )
 }

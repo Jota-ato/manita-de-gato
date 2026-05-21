@@ -34,7 +34,7 @@ export default function AppointmentRowClient({ apt, client, services }: Appointm
         <>
             <li
                 onClick={() => setOpen(true)}
-                className="flex flex-col md:flex-row items-center md:gap-4 gap-2 px-6 py-4 hover:bg-muted/50 transition-colors cursor-pointer"
+                className="flex flex-col md:flex-row items-center md:gap-4 gap-2 px-6 py-4 hover:bg-muted/50 transition-colors cursor-pointer border-y-border border-b first-of-type:border-t"
             >
                 <TimeLine apt={apt} />
                 <Separator orientation="vertical" />
@@ -43,7 +43,6 @@ export default function AppointmentRowClient({ apt, client, services }: Appointm
             </li>
 
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger />
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Detalles de la cita</DialogTitle>

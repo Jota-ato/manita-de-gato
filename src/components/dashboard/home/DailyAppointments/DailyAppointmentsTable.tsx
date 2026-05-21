@@ -17,7 +17,7 @@ export default async function DailyAppointmentsTable({ todayAppointments }: Dail
             {todayAppointments.length === 0 ? (
                 <NoDailyAppointments />
             ) : (
-                <ul className="divide-y divide-border">
+                <ul>
                     {todayAppointments.map((apt) => (
                         <DailyAppointmentRow
                             key={apt.id}
