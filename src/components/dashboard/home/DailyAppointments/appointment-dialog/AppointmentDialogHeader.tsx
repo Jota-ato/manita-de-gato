@@ -8,7 +8,7 @@ export default function AppointmentDialogHeader() {
     return (
         <DialogHeader>
             <DialogTitle>Detalles de la cita</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="sr-only">
                 Detalles importantes
             </DialogDescription>
         </DialogHeader>
