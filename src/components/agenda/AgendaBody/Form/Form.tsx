@@ -44,6 +44,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
         resolver: zodResolver(AgendaFormSchema),
         defaultValues: {
             name: '',
+            last_name: '',
             phone: '',
             serviceId: '',
             secondary_phone: ''
@@ -73,6 +74,13 @@ export default function Form({ hour, onSuccess }: FormProps) {
                     label='¿Cuál es tu nombre?'
                     error={errors.name?.message}
                     {...register('name')}
+                />
+                <FieldWLabel
+                    id='last_name'
+                    type='text'
+                    label='¿Cuál es tu apellido?'
+                    error={errors.last_name?.message}
+                    {...register('last_name')}
                 />
                 <ServiceSelect
                     control={control}

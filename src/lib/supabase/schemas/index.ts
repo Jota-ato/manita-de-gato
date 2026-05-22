@@ -37,6 +37,7 @@ export const AppointmentSchema = z.object({
 
 export const ClientSchema = z.object({
     name: z.string(),
+    last_name: z.string(),
     phone: z.string(),
     secondary_phone: z.string().nullable().optional(),
     id: z.string()

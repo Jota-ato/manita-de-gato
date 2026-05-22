@@ -25,7 +25,7 @@ export default function AppointmentRowClient({ apt, client, services }: Appointm
     const [open, setOpen] = useState(false);
 
     const serviceName = services.find(s => s.id === apt.service_id)?.name ?? 'Servicio sin nombre';
-    const clientName = client !== 'Cliente' ? client.name : client;
+    const clientName = client !== 'Cliente' ? `${client.name} ${client.last_name}`: client;
 
     return (
         <>
