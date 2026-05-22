@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Toaster } from "@/components/ui/sonner"
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
@@ -51,6 +52,7 @@ export default function RootLayout({
             >
                 <TooltipProvider>
                     {children}
+                    <Toaster position="top-right" richColors expand={true} />
                 </TooltipProvider>
             </body>
             <SpeedInsights />
