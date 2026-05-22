@@ -16,7 +16,6 @@ export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
     const [isPending, startTransition] = useTransition();
 
     function handleUpdatePrice(value: number | string) {
-
         const newPrice = Number(value)
         if (isNaN(newPrice)) return;
 

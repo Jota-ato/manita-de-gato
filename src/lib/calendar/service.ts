@@ -1,4 +1,4 @@
-import type { AppointmentDetails } from './types';
+import type { CalendarEventDetails } from './types';
 import { getCalendarClient } from './client';
 import { calendar_v3 } from "googleapis";
 import { getCurrentWeekRange } from './helpers';
@@ -11,7 +11,7 @@ import { getCurrentWeekRange } from './helpers';
  * @throws {Error} If the Google Calendar API does not return an event ID.
  */
 export async function createAppointmentInGoogle(
-    appointmentDetails: AppointmentDetails
+    appointmentDetails: CalendarEventDetails
 ): Promise<string> {
     const calendar = getCalendarClient();
 

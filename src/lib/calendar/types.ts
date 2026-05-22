@@ -2,7 +2,7 @@
  * Payload required to create a new appointment in Google Calendar.
  * All datetime fields must follow the ISO 8601 format with a timezone offset.
  */
-export interface AppointmentDetails {
+export interface CalendarEventDetails {
     /** Full name of the client booking the appointment. */
     clientName: string;
     /** Name of the service the client is requesting. */

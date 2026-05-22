@@ -32,7 +32,8 @@ export const AppointmentSchema = z.object({
     client_name_snapshot: z.string(),
     service_price_snapshot: z.number(),
     service_name_snapshot: z.string(),
-    total_price: z.number()
+    total_price: z.number(),
+    google_event_id: z.string()
 }).strip()
 
 export const ClientSchema = z.object({

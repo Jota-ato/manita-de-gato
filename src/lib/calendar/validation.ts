@@ -1,4 +1,4 @@
-import type { AppointmentDetails, GetAppointmentsDetails } from './types';
+import type { CalendarEventDetails, GetAppointmentsDetails } from './types';
 /**
  * Type guard that validates whether an unknown value conforms to `AppointmentDetails`.
  *
@@ -7,11 +7,11 @@ import type { AppointmentDetails, GetAppointmentsDetails } from './types';
  * @param body - The value to validate (typically a parsed JSON request body).
  * @returns `true` if `body` satisfies the `AppointmentDetails` shape; `false` otherwise.
  */
-export function validatePostBody(body: unknown): body is AppointmentDetails {
+export function validatePostBody(body: unknown): body is CalendarEventDetails {
     if (!body || typeof body !== "object") return false;
     const b = body as Record<string, unknown>;
 
-    const requiredFields: (keyof AppointmentDetails)[] = [
+    const requiredFields: (keyof CalendarEventDetails)[] = [
         "clientName",
         "serviceName",
         "phone",

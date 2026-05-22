@@ -4,6 +4,8 @@ import { TZDate } from "@date-fns/tz";
 import { Appointment, AppointmentSchema, Client, ClientSchema } from "../supabase/schemas";
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
 import { revalidatePath } from "next/cache";
+import { CalendarEventDetails } from "../calendar/types";
+import { createAppointmentInGoogle } from "../calendar/service";
 
 
 export async function getDayAppointments(day: TZDate) {
@@ -57,23 +59,96 @@ type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
 
 export async function updateAppointment(
     appointmentId: string,
-    updates: UpdateAppointmentPayload // <--- Magia de TS aquí
+    updates: UpdateAppointmentPayload
 ): Promise<void> {
     const supabase = await createClient();
 
-    // 3. Pasamos el objeto de actualizaciones completo a Supabase.
-    // Supabase es lo suficientemente inteligente para mapear las llaves de este objeto
-    // a las columnas de SQL correspondientes.
+    if (Object.keys(updates).includes('status') && (updates.status === 'approved' || updates.status === 'paid')) { 
+        await createEventInCalendar(appointmentId);
+    }
+
     const { error } = await supabase
         .from('Appointments')
         .update(updates)
         .eq('id', appointmentId);
 
     if (error) {
-        // En una app de producción, aquí podrías mapear el error de Supabase
-        // a un error de dominio específico o enviarlo a Sentry.
         throw new Error(`Error actualizando la cita: ${error.message}`);
     }
 
     revalidatePath('/dashboard');
+}
+
+export type ActionResponse = {
+    success: boolean;
+    message: string;
+    data?: unknown;
+};
+
+export async function createEventInCalendar(appointmentId: string): Promise<ActionResponse> {
+    try {
+        const supabase = await createClient();
+
+        // 1. Obtener la cita
+        const { data, error } = await supabase
+            .from('Appointments')
+            .select('*')
+            .eq('id', appointmentId)
+            .single();
+
+        if (error || !data) {
+            return { success: false, message: 'No se encontró la cita en la base de datos.' };
+        }
+
+        const result = AppointmentSchema.safeParse(data);
+
+        if (!result.success) {
+            console.error('ERROR PARSING APPOINTMENT', result.error.message);
+            return { success: false, message: 'Los datos de la cita están incompletos o son inválidos.' };
+        }
+
+        const appointment = result.data;
+
+
+        if (appointment.google_event_id) {
+            return { success: false, message: 'Esta cita ya tiene un evento en el calendario.' };
+        }
+
+        const client = await getClientById(appointment.client_id);
+        if (client === 'Cliente') {
+            return { success: false, message: 'No se pudo obtener la información del cliente.' };
+        }
+
+        const googleCalendarEvent: CalendarEventDetails = {
+            clientName: `${client.name} ${client.last_name}`,
+            startTime: new TZDate(appointment.timeMin, TIMEZONE).toISOString(),
+            endTime: new TZDate(appointment.timeMin, TIMEZONE).toISOString(),
+            serviceName: appointment.service_name_snapshot,
+            phone: client.phone
+        };
+
+        const eventId = await createAppointmentInGoogle(googleCalendarEvent);
+
+        if (!eventId) {
+            throw new Error('Google Calendar no devolvió un ID de evento válido.');
+        }
+
+        await updateAppointment(appointmentId, {
+            google_event_id: eventId
+        }); 
+
+        revalidatePath('/dashboard');
+
+        return {
+            success: true,
+            message: 'Evento creado y sincronizado exitosamente.'
+        };
+
+    } catch (error: any) {
+        console.error('CRITICAL ERROR CREATING CALENDAR EVENT:', error);
+        return {
+            success: false,
+            message: error.message || 'Ocurrió un error inesperado al contactar con el calendario.'
+        };
+    }
 }
