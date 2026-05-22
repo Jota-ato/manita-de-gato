@@ -5,7 +5,7 @@ import { tz } from "@date-fns/tz";
 
 export default function TimeLine({ apt }: {apt: Appointment}) {
     return (
-        <div className="flex md:flex-col gap-2 md:gap-0 items-center min-w-13">
+        <div className="flex flex-col gap-2  items-center min-w-13">
             <span className="text-sm font-semibold tabular-nums leading-tight">
                 {format(apt.timeMin, 'HH:mm', { in: tz(TIMEZONE) })}
             </span>
