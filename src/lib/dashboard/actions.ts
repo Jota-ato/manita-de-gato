@@ -1,7 +1,7 @@
 'use server';
 import { createClient } from "@/lib/supabase/server";
 import { TZDate } from "@date-fns/tz";
-import { AppointmentSchema, AppointmentStatus, Client, ClientSchema } from "../supabase/schemas";
+import { Appointment, AppointmentSchema, Client, ClientSchema } from "../supabase/schemas";
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
 import { revalidatePath } from "next/cache";
 
@@ -53,19 +53,27 @@ export async function getClientById(id: string): Promise<Client | 'Cliente'> {
 
     return validClient.data;
 }
+type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
 
-export async function updateAppointmentStatus(
+export async function updateAppointment(
     appointmentId: string,
-    status: AppointmentStatus
+    updates: UpdateAppointmentPayload // <--- Magia de TS aquí
 ): Promise<void> {
     const supabase = await createClient();
 
+    // 3. Pasamos el objeto de actualizaciones completo a Supabase.
+    // Supabase es lo suficientemente inteligente para mapear las llaves de este objeto
+    // a las columnas de SQL correspondientes.
     const { error } = await supabase
         .from('Appointments')
-        .update({ status })
+        .update(updates)
         .eq('id', appointmentId);
 
-    if (error) throw new Error(error.message);
+    if (error) {
+        // En una app de producción, aquí podrías mapear el error de Supabase
+        // a un error de dominio específico o enviarlo a Sentry.
+        throw new Error(`Error actualizando la cita: ${error.message}`);
+    }
 
     revalidatePath('/dashboard');
 }

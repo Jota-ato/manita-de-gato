@@ -3,7 +3,8 @@ import { CalendarCheck } from "lucide-react";
 import { Appointment } from "@/lib/supabase/schemas";
 import { Separator } from "@/components/ui/separator";
 import AppointmentDialogDetails from "./AppointmentDialogDetails";
-import AppointmentDialogSelect from "./select/AppointmentDialogSelect";
+import AppointmentDialogSelect from "./fields/AppointmentDialogSelect";
+import AppointmentDialogInput from "./fields/AppointmentDialogInput";
 
 interface AppointmentInfoDialogProps {
     apt: Appointment,
@@ -29,6 +30,9 @@ export default function AppointmentInfoDialog({ apt, clientName, serviceName }: 
                     apt={apt}
                 />
             </li>
+            <AppointmentDialogInput
+                apt={apt}
+            />
         </div>
     )
 }

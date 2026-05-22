@@ -8,7 +8,7 @@ import {
     SelectGroup
 } from "@/components/ui/select";
 import StatusBadge from "@/components/ui/StatusBadge";
-import { updateAppointmentStatus } from "@/lib/dashboard/actions";
+import { updateAppointment } from "@/lib/dashboard/actions";
 import { Appointment, AppointmentStatus } from "@/lib/supabase/schemas";
 import { useState, useTransition } from "react";
 
@@ -36,7 +36,9 @@ export default function AppointmentDialogSelect({ apt }: { apt: Appointment }) {
 
         startTransition(async () => {
             try {
-                await updateAppointmentStatus(apt.id, value);
+                await updateAppointment(apt.id, {
+                    status: value
+                });
             } catch {
                 setStatus(previous);
             }

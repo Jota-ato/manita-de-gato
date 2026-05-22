@@ -38,7 +38,7 @@ export function useRealtimeAppointments() {
 
                     switch (payload.eventType) {
                         case 'DELETE': {
-                            toast.error('Cita eliminada', {
+                            toast.warning('Cita eliminada', {
                                 description: `La cita de ${result.data.client_name_snapshot} ha sido eliminada.`,
                             });
                             break;
@@ -52,7 +52,7 @@ export function useRealtimeAppointments() {
                         }
 
                         case 'UPDATE': {
-                            toast.info('Cita actualizada', {
+                            toast('Cita actualizada', {
                                 description: `Se han modificado los datos de ${result.data.client_name_snapshot}.`,
                             });
                             break;
