@@ -52,7 +52,7 @@ export default function RootLayout({
             >
                 <TooltipProvider>
                     {children}
-                    <Toaster position="top-right" richColors expand={true} />
+                    <Toaster position="top-right" richColors />
                 </TooltipProvider>
             </body>
             <SpeedInsights />

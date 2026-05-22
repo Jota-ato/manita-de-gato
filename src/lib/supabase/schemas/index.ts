@@ -33,7 +33,7 @@ export const AppointmentSchema = z.object({
     service_price_snapshot: z.number(),
     service_name_snapshot: z.string(),
     total_price: z.number()
-})
+}).strip()
 
 export const ClientSchema = z.object({
     name: z.string(),

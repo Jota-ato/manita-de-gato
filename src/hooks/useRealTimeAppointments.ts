@@ -28,35 +28,33 @@ export function useRealtimeAppointments() {
                     table: 'Appointments',
                 },
                 (payload: PayloadType) => {
+                    const data = payload.eventType === 'DELETE' ? payload.old : payload.new;
+                    const result = AppointmentSchema.safeParse(data);
+
+                    if (!result.success) {
+                        router.refresh();
+                        return;
+                    }
+
                     switch (payload.eventType) {
                         case 'DELETE': {
-                            const result = AppointmentSchema.safeParse(payload.old);
-                            if (result.success) {
-                                toast.error('Cita eliminada', {
-                                    description: `La cita de ${result.data.client_name_snapshot} ha sido eliminada.`,
-                                });
-                            }
+                            toast.error('Cita eliminada', {
+                                description: `La cita de ${result.data.client_name_snapshot} ha sido eliminada.`,
+                            });
                             break;
                         }
 
                         case 'INSERT': {
-                            const result = AppointmentSchema.safeParse(payload.new);
-                            if (result.success) {
-                                toast.success('¡Nueva cita recibida!', {
-                                    description: `${result.data.client_name_snapshot} acaba de agendar una cita.`,
-                                });
-                            }
+                            toast.success('¡Nueva cita recibida!', {
+                                description: `${result.data.client_name_snapshot} acaba de agendar una cita.`,
+                            });
                             break;
                         }
 
                         case 'UPDATE': {
-                            const result = AppointmentSchema.safeParse(payload.new);
-                            if (result.success) {
-                                // Corrección del mensaje para diferenciarlo de un INSERT
-                                toast.info('Cita actualizada', {
-                                    description: `Se han modificado los datos de ${result.data.client_name_snapshot}.`,
-                                });
-                            }
+                            toast.info('Cita actualizada', {
+                                description: `Se han modificado los datos de ${result.data.client_name_snapshot}.`,
+                            });
                             break;
                         }
                     }
