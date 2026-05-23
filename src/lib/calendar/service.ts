@@ -81,3 +81,18 @@ export async function getAppointments({
 
     return response.data.items ?? [];
 }
+
+export async function deleteGoogleCalendarEvent(eventId: string) {
+    const calendar = getCalendarClient();
+
+    const response = await calendar.events.delete({
+        eventId,
+        calendarId: process.env.GOOGLE_CALENDAR_ID
+    })
+
+    if (!response.ok) { 
+        throw new Error('Error deleting event');
+    }
+
+    return { success: true, message: `Deleted event old id ${eventId}` };
+}

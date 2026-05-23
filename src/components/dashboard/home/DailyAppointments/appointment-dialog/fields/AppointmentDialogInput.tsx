@@ -7,6 +7,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { updateAppointment } from "@/lib/dashboard/actions";
 import { Appointment } from "@/lib/supabase/schemas";
 import { cn } from "@/lib/utils";
+import { formatPriceMXN } from "@/lib/utils/currency";
 import { useState, useTransition } from "react";
 import { BiMoney } from "react-icons/bi";
 import { toast } from "sonner";
@@ -26,7 +27,7 @@ export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
                     total_price: newPrice
                 });
                 if (!response.success) toast.error(response.message);
-                else toast.info(response.message);
+                else toast.info(`${response.message} Nuevo coste: ${formatPriceMXN(newPrice)}`);
             } catch {
                 setPrice(apt.total_price);
             }

@@ -1,11 +1,43 @@
 'use server';
+
 import { createClient } from "@/lib/supabase/server";
 import { TZDate } from "@date-fns/tz";
 import { Appointment, AppointmentSchema, Client, ClientSchema } from "../supabase/schemas";
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
 import { revalidatePath } from "next/cache";
 import { CalendarEventDetails } from "../calendar/types";
-import { createAppointmentInGoogle } from "../calendar/service";
+import { createAppointmentInGoogle, deleteGoogleCalendarEvent } from "../calendar/service";
+
+export type ActionResponse = {
+    success: boolean;
+    message: string;
+    data?: unknown;
+};
+
+type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
+
+async function getValidAppointment(appointmentId: string) {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+        .from('Appointments')
+        .select('*')
+        .eq('id', appointmentId)
+        .single();
+
+    if (error || !data) {
+        return { success: false, error: 'No se encontró la cita en la base de datos.', data: null };
+    }
+
+    const result = AppointmentSchema.safeParse(data);
+
+    if (!result.success) {
+        console.error('ERROR PARSING APPOINTMENT', result.error.message);
+        return { success: false, error: 'Los datos de la cita están incompletos o son inválidos.', data: null };
+    }
+
+    return { success: true, error: null, data: result.data };
+}
 
 
 export async function getDayAppointments(day: TZDate) {
@@ -22,15 +54,18 @@ export async function getDayAppointments(day: TZDate) {
         .gte('timeMin', startOfDay.toISOString())
         .lt('timeMin', endOfDay.toISOString());
 
-    const appointments = (data ?? []).flatMap((appointment) => {
-        const result = AppointmentSchema.safeParse(appointment);
+    if (error) {
+        console.error('ERROR GETTING DAY APPOINTMENTS', error.message);
+    }
 
-        return result.success ? [formatAppointmentDates(result.data)] : [];
-    }).sort((a, b) => new Date(a.timeMin).getTime() - new Date(b.timeMin).getTime());
-
-    if (error) console.error('ERROR GETTING DAY APPOINTMENTS', error.message);
-    return appointments;
+    return (data ?? [])
+        .flatMap((appointment) => {
+            const result = AppointmentSchema.safeParse(appointment);
+            return result.success ? [formatAppointmentDates(result.data)] : [];
+        })
+        .sort((a, b) => new Date(a.timeMin).getTime() - new Date(b.timeMin).getTime());
 }
+
 
 export async function getClientById(id: string): Promise<Client | 'Cliente'> {
     const supabase = await createClient();
@@ -55,13 +90,7 @@ export async function getClientById(id: string): Promise<Client | 'Cliente'> {
 
     return validClient.data;
 }
-type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
 
-export type ActionResponse = {
-    success: boolean;
-    message: string;
-    data?: unknown;
-};
 
 export async function updateAppointment(
     appointmentId: string,
@@ -69,17 +98,21 @@ export async function updateAppointment(
 ): Promise<ActionResponse> {
     try {
         const supabase = await createClient();
+        let message = 'Cita actualizada con éxito.';
 
-        // 1. Caso especial: Manejo del Calendario
-        const requiereCalendario = Object.keys(updates).includes('status') &&
-            (updates.status === 'approved' || updates.status === 'paid');
+        const requiereCalendario = Object.keys(updates).includes('status');
+        const requiereCreateEvent = updates.status === 'approved' || updates.status === 'paid';
 
         if (requiereCalendario) {
-            const calendarResponse = await createEventInCalendar(appointmentId);
+            if (requiereCreateEvent) {
+                const calendarResponse = await createEventInCalendar(appointmentId);
+                if (!calendarResponse.success) return calendarResponse;
 
-            // Si el calendario falla, cortamos inmediatamente antes de modificar Supabase
-            if (!calendarResponse.success) {
-                return calendarResponse;
+                message = `${calendarResponse.message} ${message}`;
+            } else {
+                const calendarResponse = await deleteEventInCalendar(appointmentId);
+                if (!calendarResponse.success) return calendarResponse;
+                message = `${calendarResponse.message} ${message}`;
             }
         }
 
@@ -96,10 +129,7 @@ export async function updateAppointment(
         }
 
         revalidatePath('/dashboard');
-        return {
-            success: true,
-            message: 'Cita actualizada con éxito.'
-        };
+        return { success: true, message };
 
     } catch (error: any) {
         console.error('Error crítico en updateAppointment:', error);
@@ -112,27 +142,8 @@ export async function updateAppointment(
 
 export async function createEventInCalendar(appointmentId: string): Promise<ActionResponse> {
     try {
-        const supabase = await createClient();
-
-        const { data, error } = await supabase
-            .from('Appointments')
-            .select('*')
-            .eq('id', appointmentId)
-            .single();
-
-        if (error || !data) {
-            return { success: false, message: 'No se encontró la cita en la base de datos.' };
-        }
-
-        const result = AppointmentSchema.safeParse(data);
-
-        if (!result.success) {
-            console.error('ERROR PARSING APPOINTMENT', result.error.message);
-            return { success: false, message: 'Los datos de la cita están incompletos o son inválidos.' };
-        }
-
-        const appointment = result.data;
-
+        const { success: valid, error, data: appointment } = await getValidAppointment(appointmentId);
+        if (!valid || !appointment) return { success: false, message: error! };
 
         if (appointment.google_event_id) {
             return { success: true, message: 'Esta cita ya tiene un evento en el calendario.' };
@@ -157,22 +168,58 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
             throw new Error('Google Calendar no devolvió un ID de evento válido.');
         }
 
-        await updateAppointment(appointmentId, {
-            google_event_id: eventId
-        });
+        const supabase = await createClient();
+        await supabase
+            .from('Appointments')
+            .update({ google_event_id: eventId })
+            .eq('id', appointmentId);
 
         revalidatePath('/dashboard');
-
-        return {
-            success: true,
-            message: 'Evento creado y sincronizado exitosamente.'
-        };
+        return { success: true, message: 'Evento sincronizado exitosamente.' };
 
     } catch (error: any) {
         console.error('CRITICAL ERROR CREATING CALENDAR EVENT:', error);
         return {
             success: false,
             message: error.message || 'Ocurrió un error inesperado al contactar con el calendario.'
+        };
+    }
+}
+
+
+export async function deleteEventInCalendar(appointmentId: string): Promise<ActionResponse> {
+    try {
+        const { success: valid, error, data: appointment } = await getValidAppointment(appointmentId);
+        if (!valid || !appointment) return { success: false, message: error! };
+
+        if (!appointment.google_event_id) {
+            return { success: true, message: 'El evento no estaba en el calendario, no se requirió acción.' };
+        }
+
+        const calendarResult = await deleteGoogleCalendarEvent(appointment.google_event_id);
+
+        if (!calendarResult.success) {
+            return { success: false, message: 'Error eliminando el evento de Google Calendar.' };
+        }
+
+        const supabase = await createClient();
+        const { error: updateError } = await supabase
+            .from('Appointments')
+            .update({ google_event_id: null })
+            .eq('id', appointmentId);
+
+        if (updateError) {
+            return { success: false, message: 'Evento eliminado del calendario, pero falló al actualizar la base de datos.' };
+        }
+
+        revalidatePath('/dashboard');
+        return { success: true, message: 'La cita ha sido eliminada del calendario.' };
+
+    } catch (error: any) {
+        console.error('CRITICAL ERROR DELETING CALENDAR EVENT:', error);
+        return {
+            success: false,
+            message: 'Ocurrió un error inesperado al intentar eliminar el evento.'
         };
     }
 }
