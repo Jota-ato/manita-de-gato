@@ -57,39 +57,65 @@ export async function getClientById(id: string): Promise<Client | 'Cliente'> {
 }
 type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
 
-export async function updateAppointment(
-    appointmentId: string,
-    updates: UpdateAppointmentPayload
-): Promise<void> {
-    const supabase = await createClient();
-
-    if (Object.keys(updates).includes('status') && (updates.status === 'approved' || updates.status === 'paid')) { 
-        await createEventInCalendar(appointmentId);
-    }
-
-    const { error } = await supabase
-        .from('Appointments')
-        .update(updates)
-        .eq('id', appointmentId);
-
-    if (error) {
-        throw new Error(`Error actualizando la cita: ${error.message}`);
-    }
-
-    revalidatePath('/dashboard');
-}
-
 export type ActionResponse = {
     success: boolean;
     message: string;
     data?: unknown;
 };
 
+export async function updateAppointment(
+    appointmentId: string,
+    updates: UpdateAppointmentPayload
+): Promise<ActionResponse> {
+    try {
+        const supabase = await createClient();
+
+        // 1. Caso especial: Manejo del Calendario
+        const requiereCalendario = Object.keys(updates).includes('status') &&
+            (updates.status === 'approved' || updates.status === 'paid');
+
+        if (requiereCalendario) {
+            const calendarResponse = await createEventInCalendar(appointmentId);
+
+            // Si el calendario falla, cortamos inmediatamente antes de modificar Supabase
+            if (!calendarResponse.success) {
+                return calendarResponse;
+            }
+        }
+
+        // 2. Operación principal: Actualizar en Supabase
+        const { error } = await supabase
+            .from('Appointments')
+            .update(updates)
+            .eq('id', appointmentId);
+
+        if (error) {
+            return {
+                success: false,
+                message: `Error actualizando la cita: ${error.message}`
+            };
+        }
+
+        // 3. Todo salió bien
+        revalidatePath('/dashboard');
+        return {
+            success: true,
+            message: 'Cita actualizada con éxito.'
+        };
+
+    } catch (error: any) {
+        console.error('Error crítico en updateAppointment:', error);
+        return {
+            success: false,
+            message: 'Ocurrió un error inesperado al procesar la solicitud.'
+        };
+    }
+}
+
 export async function createEventInCalendar(appointmentId: string): Promise<ActionResponse> {
     try {
         const supabase = await createClient();
 
-        // 1. Obtener la cita
         const { data, error } = await supabase
             .from('Appointments')
             .select('*')
@@ -111,7 +137,7 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
 
 
         if (appointment.google_event_id) {
-            return { success: false, message: 'Esta cita ya tiene un evento en el calendario.' };
+            return { success: true, message: 'Esta cita ya tiene un evento en el calendario.' };
         }
 
         const client = await getClientById(appointment.client_id);
@@ -122,7 +148,7 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
         const googleCalendarEvent: CalendarEventDetails = {
             clientName: `${client.name} ${client.last_name}`,
             startTime: new TZDate(appointment.timeMin, TIMEZONE).toISOString(),
-            endTime: new TZDate(appointment.timeMin, TIMEZONE).toISOString(),
+            endTime: new TZDate(appointment.timeMax, TIMEZONE).toISOString(),
             serviceName: appointment.service_name_snapshot,
             phone: client.phone
         };
@@ -135,7 +161,7 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
 
         await updateAppointment(appointmentId, {
             google_event_id: eventId
-        }); 
+        });
 
         revalidatePath('/dashboard');
 

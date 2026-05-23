@@ -11,6 +11,7 @@ import StatusBadge from "@/components/ui/StatusBadge";
 import { updateAppointment } from "@/lib/dashboard/actions";
 import { Appointment, AppointmentStatus } from "@/lib/supabase/schemas";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 const statusMap: AppointmentStatus[] = [
     'approved',
@@ -36,9 +37,12 @@ export default function AppointmentDialogSelect({ apt }: { apt: Appointment }) {
 
         startTransition(async () => {
             try {
-                await updateAppointment(apt.id, {
+                const response = await updateAppointment(apt.id, {
                     status: value
                 });
+
+                if (response.success) toast.success(response.message);
+                else toast.error(response.message);
             } catch {
                 setStatus(previous);
             }
