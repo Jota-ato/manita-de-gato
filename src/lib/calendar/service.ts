@@ -2,6 +2,7 @@ import type { CalendarEventDetails } from './types';
 import { getCalendarClient } from './client';
 import { calendar_v3 } from "googleapis";
 import { getCurrentWeekRange } from './helpers';
+import { GoogleCalendarEventSchema } from './schemas';
 
 /**
  * Creates a new event in Google Calendar based on the provided appointment details.
@@ -103,17 +104,21 @@ export async function deleteGoogleCalendarEvent(eventId: string) {
     }
 }
 
-// En tu archivo ../calendar/service.ts
-
 export async function checkGoogleEventExists(eventId: string): Promise<boolean> {
     try {
         const calendar = getCalendarClient()
-        await calendar.events.get({
+        const event = await calendar.events.get({
             calendarId: process.env.GOOGLE_CALENDAR_ID,
             eventId: eventId,
         });
-        return true;
+
+        if (event.data.status === 'confirmed') { 
+            return true;
+        }
+
+        return false;
     } catch (error: any) {
+        console.log(error.code, error);
         if (error.code === 404 || error.code === 410) {
             return false;
         }

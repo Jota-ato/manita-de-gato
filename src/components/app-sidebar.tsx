@@ -11,8 +11,7 @@ import {
     SidebarMenu,
     SidebarMenuItem,
     SidebarMenuButton,
-    useSidebar,
-    SidebarTrigger
+    useSidebar
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Home, Calendar, BookOpen, Mail, PawPrint, PanelLeft } from "lucide-react";

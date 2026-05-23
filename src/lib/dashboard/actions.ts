@@ -146,11 +146,10 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
         if (!valid || !appointment) return { success: false, message: error! };
 
         if (appointment.google_event_id) {
-            const eventExists = await checkGoogleEventExists(appointment.google_event_id);
-            console.log(eventExists);
+            const eventExist = await checkGoogleEventExists(appointment.google_event_id);
 
-            if (eventExists) {
-                return { success: true, message: 'Esta cita ya tiene un evento en el calendario.' };
+            if (eventExist) {
+                return { success: true, message: 'El evento ya existe en el calendario.' };
             }
         }
 

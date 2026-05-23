@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+export const GoogleCalendarEventStatusEnum = z.enum([
+    'cancelled',
+    'confirmed'
+]);
+
 /**
  * Zod schema for a single appointment event as returned by the Google Calendar API.
  *
@@ -17,6 +22,9 @@ export const GoogleCalendarEventSchema = z.object({
 
     summary: z.string()
         .describe("Title of the event as displayed in the calendar."),
+
+    status: GoogleCalendarEventStatusEnum
+        .describe('Event status, cancelled if is deleted and confirmed if not'),
 
     creator: z.object({
         email: z.email()
