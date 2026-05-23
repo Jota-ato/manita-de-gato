@@ -83,16 +83,40 @@ export async function getAppointments({
 }
 
 export async function deleteGoogleCalendarEvent(eventId: string) {
-    const calendar = getCalendarClient();
+    try {
+        const calendar = getCalendarClient();
+        await calendar.events.delete({
+            calendarId: process.env.GOOGLE_CALENDAR_ID,
+            eventId: eventId,
+        });
 
-    const response = await calendar.events.delete({
-        eventId,
-        calendarId: process.env.GOOGLE_CALENDAR_ID
-    })
+        return { success: true };
+    } catch (error: any) {
+        if (error.code === 404 || error.code === 410) {
+            console.warn(`El evento ${eventId} ya había sido eliminado manualmente en Google Calendar.`);
+            return { success: true };
+        }
 
-    if (!response.ok) { 
-        throw new Error('Error deleting event');
+        // Si es un error real (ej. credenciales inválidas, sin internet, etc.)
+        console.error('Error genuino en la API de Google:', error);
+        return { success: false, message: error.message };
     }
+}
 
-    return { success: true, message: `Deleted event old id ${eventId}` };
+// En tu archivo ../calendar/service.ts
+
+export async function checkGoogleEventExists(eventId: string): Promise<boolean> {
+    try {
+        const calendar = getCalendarClient()
+        await calendar.events.get({
+            calendarId: process.env.GOOGLE_CALENDAR_ID,
+            eventId: eventId,
+        });
+        return true;
+    } catch (error: any) {
+        if (error.code === 404 || error.code === 410) {
+            return false;
+        }
+        throw error;
+    }
 }

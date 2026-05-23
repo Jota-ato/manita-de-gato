@@ -6,7 +6,7 @@ import { Appointment, AppointmentSchema, Client, ClientSchema } from "../supabas
 import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
 import { revalidatePath } from "next/cache";
 import { CalendarEventDetails } from "../calendar/types";
-import { createAppointmentInGoogle, deleteGoogleCalendarEvent } from "../calendar/service";
+import { checkGoogleEventExists, createAppointmentInGoogle, deleteGoogleCalendarEvent } from "../calendar/service";
 
 export type ActionResponse = {
     success: boolean;
@@ -146,7 +146,12 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
         if (!valid || !appointment) return { success: false, message: error! };
 
         if (appointment.google_event_id) {
-            return { success: true, message: 'Esta cita ya tiene un evento en el calendario.' };
+            const eventExists = await checkGoogleEventExists(appointment.google_event_id);
+            console.log(eventExists);
+
+            if (eventExists) {
+                return { success: true, message: 'Esta cita ya tiene un evento en el calendario.' };
+            }
         }
 
         const client = await getClientById(appointment.client_id);
