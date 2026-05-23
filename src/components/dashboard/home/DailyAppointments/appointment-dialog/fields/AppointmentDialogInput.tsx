@@ -9,6 +9,7 @@ import { Appointment } from "@/lib/supabase/schemas";
 import { cn } from "@/lib/utils";
 import { useState, useTransition } from "react";
 import { BiMoney } from "react-icons/bi";
+import { toast } from "sonner";
 
 export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
 
@@ -21,9 +22,11 @@ export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
 
         startTransition(async () => {
             try {
-                await updateAppointment(apt.id, {
+                const response = await updateAppointment(apt.id, {
                     total_price: newPrice
                 });
+                if (!response.success) toast.error(response.message);
+                else toast.info(response.message);
             } catch {
                 setPrice(apt.total_price);
             }

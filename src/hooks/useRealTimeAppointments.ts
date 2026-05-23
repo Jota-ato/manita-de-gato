@@ -50,18 +50,6 @@ export function useRealtimeAppointments() {
                             });
                             break;
                         }
-
-                        case 'UPDATE': {
-                            const oldData = payload.old
-                            const resultOld = AppointmentSchema.safeParse(oldData);
-
-                            if (result.data.status !== resultOld.data?.status) return;
-
-                            toast('Cita actualizada', {
-                                description: `Se han modificado los datos de ${result.data.client_name_snapshot}.`,
-                            });
-                            break;
-                        }
                     }
                     router.refresh();
                 }

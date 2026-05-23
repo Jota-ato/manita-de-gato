@@ -83,7 +83,6 @@ export async function updateAppointment(
             }
         }
 
-        // 2. Operación principal: Actualizar en Supabase
         const { error } = await supabase
             .from('Appointments')
             .update(updates)
@@ -96,7 +95,6 @@ export async function updateAppointment(
             };
         }
 
-        // 3. Todo salió bien
         revalidatePath('/dashboard');
         return {
             success: true,
