@@ -2,7 +2,7 @@ import type { CalendarEventDetails } from './types';
 import { getCalendarClient } from './client';
 import { calendar_v3 } from "googleapis";
 import { getCurrentWeekRange } from './helpers';
-import { GoogleCalendarEventSchema } from './schemas';
+import { throwGoogleCalendarError } from '../utils/error';
 
 /**
  * Creates a new event in Google Calendar based on the provided appointment details.
@@ -92,19 +92,12 @@ export async function deleteGoogleCalendarEvent(eventId: string) {
         });
 
         return { success: true };
-    } catch (error: any) {
-        if (error.code === 404 || error.code === 410) {
-            console.warn(`El evento ${eventId} ya había sido eliminado manualmente en Google Calendar.`);
-            return { success: true };
-        }
-
-        // Si es un error real (ej. credenciales inválidas, sin internet, etc.)
-        console.error('Error genuino en la API de Google:', error);
-        return { success: false, message: error.message };
+    } catch (error) {
+        throwGoogleCalendarError(error, eventId);
     }
 }
 
-export async function checkGoogleEventExists(eventId: string): Promise<boolean> {
+export async function checkGoogleEventExists(eventId: string) {
     try {
         const calendar = getCalendarClient()
         const event = await calendar.events.get({
@@ -112,16 +105,12 @@ export async function checkGoogleEventExists(eventId: string): Promise<boolean> 
             eventId: eventId,
         });
 
-        if (event.data.status === 'confirmed') { 
+        if (event.data.status === 'confirmed') {
             return true;
         }
 
         return false;
-    } catch (error: any) {
-        console.log(error.code, error);
-        if (error.code === 404 || error.code === 410) {
-            return false;
-        }
-        throw error;
+    } catch (error: unknown) {
+        throwGoogleCalendarError(error, eventId);
     }
 }

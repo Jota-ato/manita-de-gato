@@ -131,11 +131,13 @@ export async function updateAppointment(
         revalidatePath('/dashboard');
         return { success: true, message };
 
-    } catch (error: any) {
+    } catch (error) {
         console.error('Error crítico en updateAppointment:', error);
         return {
             success: false,
-            message: 'Ocurrió un error inesperado al procesar la solicitud.'
+            message: error instanceof Error
+                ? error.message
+                : 'Ocurrió un error inesperado al procesar la solicitud.'
         };
     }
 }
@@ -181,11 +183,13 @@ export async function createEventInCalendar(appointmentId: string): Promise<Acti
         revalidatePath('/dashboard');
         return { success: true, message: 'Evento sincronizado exitosamente.' };
 
-    } catch (error: any) {
+    } catch (error) {
         console.error('CRITICAL ERROR CREATING CALENDAR EVENT:', error);
         return {
             success: false,
-            message: error.message || 'Ocurrió un error inesperado al contactar con el calendario.'
+            message: error instanceof Error
+                ? error.message
+                : 'Ocurrió un error inesperado al contactar con el calendario.'
         };
     }
 }
@@ -202,7 +206,7 @@ export async function deleteEventInCalendar(appointmentId: string): Promise<Acti
 
         const calendarResult = await deleteGoogleCalendarEvent(appointment.google_event_id);
 
-        if (!calendarResult.success) {
+        if (!calendarResult || !calendarResult.success) {
             return { success: false, message: 'Error eliminando el evento de Google Calendar.' };
         }
 
@@ -219,11 +223,13 @@ export async function deleteEventInCalendar(appointmentId: string): Promise<Acti
         revalidatePath('/dashboard');
         return { success: true, message: 'La cita ha sido eliminada del calendario.' };
 
-    } catch (error: any) {
+    } catch (error) {
         console.error('CRITICAL ERROR DELETING CALENDAR EVENT:', error);
         return {
             success: false,
-            message: 'Ocurrió un error inesperado al intentar eliminar el evento.'
+            message: error instanceof Error
+                ? error.message
+                : 'Ocurrió un error inesperado al intentar eliminar el evento.'
         };
     }
 }
