@@ -200,7 +200,7 @@ export default function LandingPage() {
                             <div className="p-2 bg-slate-800 rounded-full border border-slate-700 group-hover:border-pink-500 group-hover:bg-slate-800 transition-colors">
                                 <BsInstagram className="h-4 w-4 text-slate-300 group-hover:text-pink-400" />
                             </div>
-                            @manitadegato_nails
+                            @{process.env.NEXT_PUBLIC_INSTAGRAM_PROFILE}
                         </a>
                     </div>
                 </div>
