@@ -19,6 +19,7 @@ export async function createAppointmentInGoogle(
     const response = await calendar.events.insert({
         calendarId: process.env.GOOGLE_CALENDAR_ID,
         requestBody: {
+            colorId: (Math.floor(Math.random() * 11) + 1).toString(),
             summary: `Cita de ${appointmentDetails.clientName}`,
             description: `Servicio: ${appointmentDetails.serviceName}\nTeléfono: ${appointmentDetails.phone}`,
             start: { dateTime: appointmentDetails.startTime },
