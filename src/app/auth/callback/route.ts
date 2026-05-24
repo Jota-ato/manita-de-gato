@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) {
             console.log(`${origin}${next}`);
-            return NextResponse.redirect(`https://manita-de-gato.vercel.app/${next}`);
+            return NextResponse.redirect(`${origin}${next}`);
         }
         console.error("[AUTH_CALLBACK_ERROR]:", error.message);
     }

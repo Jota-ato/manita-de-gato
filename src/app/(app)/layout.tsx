@@ -7,8 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
             <AppSidebar />
 
-            <SidebarTrigger className="fixed top-8 sm:top-6 z-100 flex items-center gap-4 border-b px-4 md:hidden" />
-
+            <SidebarTrigger className="fixed bottom-4 right-4 z-10 flex items-center bg-primary text-secondary rounded-full p-4 md:hidden" />
             <main className="w-full">
                 {children}
             </main>
