@@ -56,7 +56,6 @@ export function useRealtimeAppointments() {
             )
             .subscribe();
 
-        // 3. Limpieza de memoria garantizada
         return () => {
             supabase.removeChannel(channel);
         };
