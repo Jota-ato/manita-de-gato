@@ -28,13 +28,14 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
             />
 
             {/* Days columns */}
-            {weekDays.map(day => (
+            {weekDays.map((day,dayDifference) => (
                 <div key={day.toISOString()} className="relative border-r border-pink-50 last:border-r-0">
                     {/* Background Grid Lines */}
-                    {hours.map(hour => (
+                    {hours.map((hour) => (
                         <HourCell
                             key={hour.getTime()}
                             hour={hour}
+                            dayDifference={dayDifference}
                         />
                     ))}
 

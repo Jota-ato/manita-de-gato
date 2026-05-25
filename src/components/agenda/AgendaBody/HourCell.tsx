@@ -7,15 +7,16 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { format, addHours } from "date-fns";
+import { format, addHours, addDays } from "date-fns";
 import Form from "./Form/Form";
 import { useState } from "react";
 
 interface HourCellProps {
     hour: Date
+    dayDifference: number
 }
 
-export default function HourCell({ hour }: HourCellProps) {
+export default function HourCell({ hour, dayDifference }: HourCellProps) {
 
     const [open, setOpen] = useState(false);
     const startHour = format(hour, 'HH:mm');
@@ -36,7 +37,7 @@ export default function HourCell({ hour }: HourCellProps) {
                     <DialogDescription>Ayúdanos a contactarte</DialogDescription>
                 </DialogHeader>
                 <Form
-                    hour={hour}
+                    hour={addDays(hour, dayDifference)}
                     onSuccess={setOpen}
                 />
             </DialogContent>

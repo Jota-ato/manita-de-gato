@@ -27,6 +27,8 @@ interface FormProps {
 
 export default function Form({ hour, onSuccess }: FormProps) {
 
+    const timeMin = hour;
+    const timeMax = addHours(hour, 2);
     const [services, setServices] = useState<Service[]>([])
     useEffect(() => {
         const fetchServices = async () => {
@@ -34,6 +36,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
         }
         fetchServices()
     }, [])
+
 
     const {
         register,
@@ -52,8 +55,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
     });
 
     const onValidSubmit = async (data: AgendaFormData) => {
-        const timeMin = hour;
-        const timeMax = addHours(hour, 2);
+
         try {
             await createAppointment({ timeMin, timeMax, ...data });
             const service = services.filter(service => service.id.toString() === data.serviceId)[0];

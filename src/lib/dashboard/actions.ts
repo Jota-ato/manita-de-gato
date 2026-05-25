@@ -52,7 +52,7 @@ export async function getDayAppointments(day: TZDate) {
         .from('Appointments')
         .select('*')
         .gte('timeMin', startOfDay.toISOString())
-        .lt('timeMin', endOfDay.toISOString());
+        .lte('timeMin', endOfDay.toISOString());
 
     if (error) {
         console.error('ERROR GETTING DAY APPOINTMENTS', error.message);
