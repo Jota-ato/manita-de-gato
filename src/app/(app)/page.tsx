@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, MapPin, Sparkles, Star } from "lucide-react";
-import { BsInstagram } from "react-icons/bs";
 import Footer from "@/components/landing/Footer/Footer";
 
 export default function LandingPage() {

@@ -15,8 +15,8 @@ export default function SidebarTrigger({ isExpanded, toggleSidebar } : AppSideba
                 tooltip={isExpanded ? 'Cerrar barra lateral' : 'Abrir barra lateral'}
                 className={cn(!isExpanded && "justify-center cursor-pointer")}
             >
-                <PanelLeft className="size-10" />
-                {isExpanded && <span className="text-lg">Cerrar menú</span>}
+                <PanelLeft className="size-5! md:size-4!" />
+                {isExpanded && <span>Cerrar menú</span>}
             </SidebarMenuButton>
         </SidebarMenuItem>
     )

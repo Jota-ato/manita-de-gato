@@ -25,7 +25,6 @@ export function AppSidebar() {
             </SidebarContent>
             <AppSidebarFooter
                 isExpanded={isExpanded}
-                isMobile={isMobile}
             />
         </Sidebar>
     );

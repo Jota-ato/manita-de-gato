@@ -1,15 +1,14 @@
 import { cn } from "@/lib/utils";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-import { LucideProps } from "lucide-react";
+import { IconType } from "react-icons";
 
 interface AppSidebarItemProps {
     isExpanded: boolean
     sidebarMenuItem: {
         title: string;
         url: string;
-        icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+        icon: IconType;
     }
 }
 
@@ -26,10 +25,10 @@ export default function SidebarItem({ isExpanded, sidebarMenuItem } : AppSidebar
                     className="flex items-center gap-2"
                 >
                     <sidebarMenuItem.icon
-                        className="size-10"
+                        className="size-5! md:size-4!"
                     />
 
-                    {isExpanded && <span className="text-lg">{sidebarMenuItem.title}</span>}
+                    {isExpanded && <span>{sidebarMenuItem.title}</span>}
                 </Link>
             </SidebarMenuButton>
         </SidebarMenuItem>
