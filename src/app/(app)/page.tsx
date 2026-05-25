@@ -1,30 +1,10 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, MapPin, Sparkles, Star } from "lucide-react";
-import Footer from "@/components/landing/Footer/Footer";
+import { MapPin,  Star } from "lucide-react";
 
 export default function LandingPage() {
     return (
         <div className="flex flex-col min-h-dvh bg-white text-slate-900">
-
-            {/* NAVEGACIÓN SUPERIOR */}
-            <header className="px-6 py-4 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-pink-100">
-                <div className="flex items-center gap-2">
-                    <Sparkles className="h-6 w-6 text-pink-500" />
-                    <span className="text-xl font-bold text-slate-800">Manita de Gato</span>
-                </div>
-                <nav className="hidden md:flex gap-6">
-                    <Link href="#servicios" className="text-sm font-medium text-slate-600 hover:text-pink-600 transition-colors">Servicios</Link>
-                    <Link href="#resenas" className="text-sm font-medium text-slate-600 hover:text-pink-600 transition-colors">Reseñas</Link>
-                </nav>
-                <Button className="bg-pink-500 hover:bg-pink-600 text-white rounded-full shadow-sm border border-pink-600 transition-colors">
-                    <CalendarDays className="mr-2 h-4 w-4" />
-                    Agendar Cita
-                </Button>
-            </header>
-
             <main className="flex-1">
-
                 {/* SECCIÓN HERO (Principal) */}
                 <section className="w-full py-20 md:py-32 flex flex-col items-center text-center px-4 bg-linear-to-b from-pink-50/50 to-white relative overflow-hidden">
                     <div className="absolute top-10 left-10 w-64 h-64 bg-rose-200/40 rounded-full blur-3xl pointer-events-none" />
@@ -176,9 +156,6 @@ export default function LandingPage() {
                     </div>
                 </section>
             </main>
-
-            {/* FOOTER */}
-           <Footer />
         </div>
     );
 }

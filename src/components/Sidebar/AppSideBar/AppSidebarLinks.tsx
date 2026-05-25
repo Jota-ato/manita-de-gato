@@ -17,8 +17,7 @@ export interface navItems {
 
 const navItems = [
     { title: "Inicio", url: "/", icon: Home },
-    { title: "Agenda", url: "/agenda", icon: Calendar },
-    { title: "Blog", url: "/blog", icon: BookOpen },
+    { title: "Agendar cita", url: "/agenda", icon: Calendar },
     { title: "Acerca de nosotros", url: "/about-us", icon: PawPrint },
     { title: "Contacto", url: "/contact", icon: Mail },
 ];
