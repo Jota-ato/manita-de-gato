@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, MapPin, Sparkles, Star } from "lucide-react";
 import { BsInstagram } from "react-icons/bs";
+import Footer from "@/components/landing/Footer/Footer";
 
 export default function LandingPage() {
     return (
@@ -178,37 +179,7 @@ export default function LandingPage() {
             </main>
 
             {/* FOOTER */}
-            <footer className="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800">
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                    <div className="flex flex-col items-center md:items-start">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Sparkles className="h-5 w-5 text-pink-400" />
-                            <span className="text-xl font-bold text-white">Manita de Gato</span>
-                        </div>
-                        <p className="text-sm max-w-xs text-slate-500">Tu espacio seguro para relajarte y lucir unas uñas espectaculares.</p>
-                    </div>
-
-                    <div className="flex flex-col items-center md:items-start gap-3">
-                        <h4 className="font-semibold text-slate-200 mb-2">Contacto</h4>
-                        <a href="#" className="hover:text-pink-400 transition-colors text-sm">WhatsApp: (55) 1234-5678</a>
-                        <a href="#" className="hover:text-pink-400 transition-colors text-sm">hola@manitadegato.com</a>
-                    </div>
-
-                    <div className="flex flex-col items-center md:items-start gap-3">
-                        <h4 className="font-semibold text-slate-200 mb-2">Síguenos</h4>
-                        <a href="#" className="flex items-center gap-2 hover:text-pink-400 transition-colors text-sm group">
-                            <div className="p-2 bg-slate-800 rounded-full border border-slate-700 group-hover:border-pink-500 group-hover:bg-slate-800 transition-colors">
-                                <BsInstagram className="h-4 w-4 text-slate-300 group-hover:text-pink-400" />
-                            </div>
-                            @{process.env.NEXT_PUBLIC_INSTAGRAM_PROFILE}
-                        </a>
-                    </div>
-                </div>
-
-                <div className="max-w-6xl mx-auto border-t border-slate-800 mt-12 pt-8 text-center text-sm text-slate-600">
-                    © {new Date().getFullYear()} Manita de Gato. Todos los derechos reservados.
-                </div>
-            </footer>
+           <Footer />
         </div>
     );
 }

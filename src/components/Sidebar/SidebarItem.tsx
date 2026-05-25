@@ -25,7 +25,9 @@ export default function SidebarItem({ isExpanded, sidebarMenuItem } : AppSidebar
                     href={sidebarMenuItem.url}
                     className="flex items-center gap-2"
                 >
-                    <sidebarMenuItem.icon className="size-10" />
+                    <sidebarMenuItem.icon
+                        className="size-10"
+                    />
 
                     {isExpanded && <span className="text-lg">{sidebarMenuItem.title}</span>}
                 </Link>
