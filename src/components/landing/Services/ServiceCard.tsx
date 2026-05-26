@@ -52,7 +52,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                         </SheetTrigger>
                     </CardFooter>
                 </Card>
-                <SheetContent showCloseButton={false} className="overflow-y-auto pb-4 bg-linear-to-b from-white to-pink-50">
+                <SheetContent className="overflow-y-auto pb-4 bg-linear-to-b from-white to-pink-50">
                     <SheetHeader>
                         <SheetTitle className="text-3xl tracking-wider font-cavalier">
                             {capitalizeFirstLetter(name)}

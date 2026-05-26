@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 export default function Map() {
     return (
         <section className="py-20 bg-linear-to-r from-pink-500 via-rose-500 to-fuchsia-500 text-white px-6 relative overflow-hidden">
-            <div className="mx-auto text-center flex flex-col items-center relative z-10">
+            <div className="max-w-6xl mx-auto text-center flex flex-col items-center relative z-10">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">¿Lista para consentirte?</h2>
                 <p className="text-pink-50 mb-10 text-lg md:text-xl max-w-2xl">
                     Nuestra agenda se llena rápido. Asegura tu lugar hoy mismo y déjanos transformar tus manos.
