@@ -54,14 +54,14 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                 </Card>
                 <SheetContent className="overflow-y-auto pb-4 bg-linear-to-b from-white to-pink-50">
                     <SheetHeader>
-                        <SheetTitle className="text-xl">
+                        <SheetTitle className="text-3xl tracking-wider font-cavalier">
                             {capitalizeFirstLetter(name)}
                         </SheetTitle>
                         <SheetDescription>
                             {capitalizeFirstLetter(description)}.
                         </SheetDescription>
                     </SheetHeader>
-                    <section className="w-[85%] mx-auto md:text-lg">
+                    <section className="w-[85%] mx-auto">
                         <Image
                             src={image_url || "/public/logos/logo.svg"}
                             alt={`Imagen de ${name}`}
@@ -70,7 +70,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                             className="relative z-20 mb-4 brightness-60"
                         />
                         <div className="flex flex-col gap-2">
-                            <span className="text-center text-2xl font-bold text-pink-400">{formatPriceMXN(min_price)}</span>
+                            <span className="text-center tracking-wider font-cavalier text-2xl font-bold text-pink-400">{formatPriceMXN(min_price)}</span>
                             {what_is}
                         </div>
                         <div className="space-y-6 mt-4">
