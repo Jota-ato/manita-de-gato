@@ -31,12 +31,11 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* SECCIÓN DE SERVICIOS */}
                 <Services />
 
                 {/* SECCIÓN DE RESEÑAS */}
                 <section id="resenas" className="py-20 bg-pink-50/30 px-6 border-y border-pink-100/50">
-                    <div className="max-w-6xl mx-auto">
+                    <div className="mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl font-bold text-slate-900 mb-4">Lo que dicen nuestras clientas</h2>
                             <div className="flex justify-center items-center gap-1 mb-3">
