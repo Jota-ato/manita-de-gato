@@ -55,7 +55,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                 <SheetContent className="overflow-y-auto pb-4 bg-linear-to-b from-white to-pink-50">
                     <SheetHeader>
                         <SheetTitle className="text-xl">
-                            {capitalizeFirstLetter(name)} - {formatPriceMXN(min_price)}
+                            {capitalizeFirstLetter(name)}
                         </SheetTitle>
                         <SheetDescription>
                             {capitalizeFirstLetter(description)}.
@@ -69,9 +69,11 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                             height={500}
                             className="relative z-20 mb-4 brightness-60"
                         />
-                        {what_is}
+                        <div className="flex flex-col gap-2">
+                            <span className="text-center text-2xl font-bold text-pink-400">{formatPriceMXN(min_price)}</span>
+                            {what_is}
+                        </div>
                         <div className="space-y-6 mt-4">
-
                             {/* Incluye */}
                             <div className="rounded-2xl border border-pink-200 bg-linear-to-br from-pink-50 to-pink-100 p-5 shadow-sm">
                                 <div className="flex items-center gap-2 mb-4">
