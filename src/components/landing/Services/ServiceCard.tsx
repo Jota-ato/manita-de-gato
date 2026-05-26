@@ -31,7 +31,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                         alt={`Imagen de ${name}`}
                         width={150}
                         height={150}
-                        className="relative z-20 aspect-video h-50 w-full object-cover brightness-60"
+                        className="relative z-20 aspect-video h-50 w-full object-cover brightness-90"
                     />
                     <CardHeader>
                         <CardTitle
@@ -61,7 +61,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                             {capitalizeFirstLetter(description)}.
                         </SheetDescription>
                     </SheetHeader>
-                    <section className="w-[85%] mx-auto text-lg">
+                    <section className="w-[85%] mx-auto md:text-lg">
                         <Image
                             src={image_url || "/public/logos/logo.svg"}
                             alt={`Imagen de ${name}`}
