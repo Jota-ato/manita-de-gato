@@ -6,11 +6,11 @@ interface DurationBadgeProps {
 }
 
 export const statusColorsMap: Record<AppointmentStatus, string> = {
-    'pending': "bg-amber-100 border-amber-300 text-amber-800",
-    'approved': "bg-emerald-100 border-emerald-300 text-emerald-800",
-    'paid': "bg-blue-100 border-blue-300 text-blue-800",
-    'cancelled': "bg-red-100 border-red-300 text-red-700",
-    'no_show': "bg-slate-100 border-slate-300 text-slate-800",
+    'pending': "bg-warning border-warning-foreground text-warning-foreground",
+    'approved': "bg-success border-success-foreground text-success-foreground",
+    'paid': "bg-info border-info-foreground text-info-foreground",
+    'cancelled': "bg-destructive border-destructive-foreground text-destructive-foreground",
+    'no_show': "bg-background/80",
 };
 
 export default function StatusBadge({ status }: DurationBadgeProps) {

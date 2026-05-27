@@ -3,7 +3,6 @@ import { AppSidebar } from "@/components/Sidebar/App-sidebar";
 import Header from "@/components/landing/Header/Header";
 import WhatsappButton from "@/components/ui/whatsappButton";
 import Footer from "@/components/landing/Footer/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 
@@ -11,17 +10,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
             <AppSidebar />
             <main className="w-full">
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <Header />
-                    {children}
-                    <WhatsappButton />
-                    <Footer />
-                </ThemeProvider>
+                <Header />
+                {children}
+                <WhatsappButton />
+                <Footer />
             </main>
         </SidebarProvider>
     )

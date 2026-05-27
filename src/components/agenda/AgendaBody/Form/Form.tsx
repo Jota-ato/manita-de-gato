@@ -37,7 +37,6 @@ export default function Form({ hour, onSuccess }: FormProps) {
         fetchServices()
     }, [])
 
-
     const {
         register,
         handleSubmit,
@@ -55,7 +54,6 @@ export default function Form({ hour, onSuccess }: FormProps) {
     });
 
     const onValidSubmit = async (data: AgendaFormData) => {
-
         try {
             await createAppointment({ timeMin, timeMax, ...data });
             const service = services.filter(service => service.id.toString() === data.serviceId)[0];
