@@ -14,8 +14,8 @@ export default function Header() {
 
     return (
         <header className="px-6 py-4 flex items-center justify-between backdrop-blur-md sticky top-0 z-50 border-b border-muted-foreground">
-            <div className="flex items-center gap-2">
-                <span className="text-xl font-bold">Manita de Gato</span>
+            <div className="flex items-center gap-2 font-cavalier tracking-widest">
+                <span className="text-xl md:text-2xl">Manita de Gato</span>
                 <Logo width={24} height={24} />
             </div>
             {pathName === '/' && (<nav className="hidden md:flex gap-6">
