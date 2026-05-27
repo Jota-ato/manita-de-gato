@@ -28,11 +28,10 @@ const reseniasData = [
     }
 ];
 
-
 export default function Resenias() {
-
     return (
-        <section id="resenas" className="py-20 px-6 border-y border-pink-100/50">
+        /* Cambiamos a fondo secundario y removemos bordes rosas manuales */
+        <section id="resenas" className="py-20 px-6 bg-secondary text-secondary-foreground border-y border-border">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold mb-4">Lo que dicen nuestras clientas</h2>
@@ -41,12 +40,14 @@ export default function Resenias() {
                             <Star key={i} className="h-6 w-6 fill-primary text-primary" />
                         ))}
                     </div>
-                    <p className="text-accent-foreground font-medium">Calificadas con 5 estrellas por nuestro trato y calidad.</p>
+                    {/* text-muted-foreground se adaptará en base al contexto del fondo secundario */}
+                    <p className="text-muted-foreground font-medium">Calificadas con 5 estrellas por nuestro trato y calidad.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {reseniasData.map((resenia, index) => (
-                        <Card key={index} className="rounded-3xl border-accent shadow-sm flex flex-col h-full bg-card">
+                        /* Cada tarjeta mantiene bg-card, que contrastará elegantemente sobre el bg-secondary */
+                        <Card key={index} className="rounded-3xl border-border shadow-md flex flex-col h-full bg-card text-card-foreground">
                             <CardHeader className="pl-8">
                                 <div className="flex gap-1">
                                     {[...Array(5)].map((_, i) => (
@@ -58,8 +59,10 @@ export default function Resenias() {
                             <CardContent className="flex-1 text-sm md:text-base italic leading-relaxed">
                                 &quot;{resenia.texto}&quot;
                             </CardContent>
+
                             <CardFooter className="flex items-center gap-3">
-                                <div className="h-10 w-10 bg-accent-foreground text-primary rounded-full flex items-center justify-center font-bold shrink-0">
+                                {/* Usamos las variables semánticas corregidas para el avatar circular */}
+                                <div className="h-10 w-10 bg-accent text-accent-foreground rounded-full flex items-center justify-center font-bold shrink-0 border border-border">
                                     {resenia.inicial}
                                 </div>
                                 <div>
