@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "../ui/spinner";
 import { createContactMessage } from "@/lib/contact/actions";
 import { appToast } from "@/lib/utils/toast";
+import { toast } from "sonner";
 
 interface ContactFormField {
     label: string,
@@ -79,16 +80,14 @@ export default function Form() {
     const onValidSubmit = async (data: contactFormType) => {
         const response = await createContactMessage(data);
 
-        if (response.success) appToast('Formulario enviado', {
-            variant: 'success',
+        if (response.success) toast.success('Formulario enviado', {
             description: `Te contactaremos en breve ${data.name}`
         })
-        if (!response.success) appToast('Error al envíar el formulario', {
-            variant: 'error',
+        if (!response.success) toast.error('Error al envíar el formulario', {
             description: `Lo sentimos, intenta otra vez en un rato`
         })
 
-        reset();
+        // reset();
     }
 
     return (
