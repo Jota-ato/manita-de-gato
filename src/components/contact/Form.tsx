@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import FieldWLabel from "../agenda/AgendaBody/Form/FieldWLabel";
 import { cn } from "@/lib/utils";
 import { Spinner } from "../ui/spinner";
+import { toast } from "sonner";
 
 interface ContactFormField {
     label: string,
@@ -73,8 +74,8 @@ export default function Form() {
         }
     });
 
-    const onValidSubmit = (data: contactFormType) => { 
-        console.log(data);
+    const onValidSubmit = (data: contactFormType) => {
+        toast.success('Hemos envíado tu solicitud, en breve recibirás una respuesta');
     }
 
     return (
