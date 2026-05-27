@@ -28,7 +28,7 @@ export default function AgendaHeader({ weekDays, today, onNext, onPrev }: Agenda
 
     return (
         <header
-            className="bg-primary shadow-md transition-all"
+            className="bg-secondary shadow-md transition-all"
         >
             <div className="p-4 text-center font-bold">
                 {period}
@@ -46,7 +46,7 @@ export default function AgendaHeader({ weekDays, today, onNext, onPrev }: Agenda
                     const isToday = isSameDay(today, day);
                     return (<div
                         key={day.toISOString()}
-                        className={cn("py-4 border-r border-accent-foreground last:border-r-0 flex items-center justify-center flex-col animate-in fade-in duration-300", isToday ? 'bg-secondary text-muted-foreground' : 'bg-primary')}
+                        className={cn("py-4 border-r border-accent-foreground last:border-r-0 flex items-center justify-center flex-col animate-in fade-in duration-300", isToday ? 'bg-primary' : 'bg-secondary text-muted-foreground')}
                     >
                         <p className="text-sm font-bold uppercase tracking-widest">
                             {format(day, 'EEE', { locale: es })}

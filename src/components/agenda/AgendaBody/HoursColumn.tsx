@@ -6,11 +6,11 @@ interface HoursColumnProps {
 
 export default function HoursColumn({ hours } : HoursColumnProps) {
     return (
-        <div className="col-span-1 border-r bg-primary">
+        <div className="col-span-1 border-r bg-secondary">
             {hours.map(hour => (
                 <div
                     key={hour.toISOString()}
-                    className="w-full flex items-start justify-center h-20 pt-3 border-y border-accent-foreground text-sm md:text-md font-bold uppercase tracking-tighter"
+                    className="w-full flex items-start justify-center h-20 pt-3 border-b border-foreground text-sm md:text-md font-bold uppercase tracking-tighter"
                 >
                     {format(hour, 'HH:mm')}
                 </div>

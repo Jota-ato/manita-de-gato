@@ -12,7 +12,6 @@ import FieldWLabel from "../agenda/AgendaBody/Form/FieldWLabel";
 import { cn } from "@/lib/utils";
 import { Spinner } from "../ui/spinner";
 import { createContactMessage } from "@/lib/contact/actions";
-import { appToast } from "@/lib/utils/toast";
 import { toast } from "sonner";
 
 interface ContactFormField {

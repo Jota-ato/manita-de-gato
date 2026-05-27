@@ -12,14 +12,14 @@ export default function Pagination({ onNext, onPrev }: PaginationProps) {
             <Button
                 size={'icon'}
                 onClick={onPrev}
-                className="p-2 rounded-full hover:text-accent-foreground transition-colors duration-300 active:scale-90"
+                className="p-2 rounded-full text-foreground bg-transparent hover:text-primary hover:bg-transparent transition-colors duration-300"
             >
                 <ArrowLeft className="size-5" />
             </Button>
             <Button
                 size={'icon'}
                 onClick={onNext}
-                className="p-2 rounded-full hover:text-accent-foreground transition-colors duration-300 active:scale-90"
+                className="p-2 rounded-full text-foreground bg-transparent hover:text-primary hover:bg-transparent transition-colors duration-300"
             >
                 <ArrowRight className="size-5" />
             </Button>
