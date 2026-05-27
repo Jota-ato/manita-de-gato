@@ -41,7 +41,8 @@ export const ClientSchema = z.object({
     last_name: z.string(),
     phone: z.string(),
     secondary_phone: z.string().nullable().optional(),
-    id: z.string()
+    id: z.string(),
+    email: z.email().nullable().optional()
 })
 
 export type Appointment = z.infer<typeof AppointmentSchema>;

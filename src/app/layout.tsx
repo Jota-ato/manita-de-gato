@@ -53,7 +53,25 @@ export default function RootLayout({
             >
                 <TooltipProvider>
                     {children}
-                    <Toaster position="top-right" richColors />
+                    <Toaster
+                        position='top-right'
+                        closeButton
+                        toastOptions={{
+                            classNames: {
+                                toast: 'rounded-2xl border border-border bg-card text-card-foreground shadow-lg',
+
+                                title: 'font-semibold text-sm',
+
+                                description: 'text-sm text-muted-foreground',
+
+                                actionButton: 'bg-primary text-primary-foreground hover:bg-primary/90',
+
+                                cancelButton: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+
+                                closeButton: 'border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground',
+                            },
+                        }}
+                    />
                 </TooltipProvider>
             </body>
             <SpeedInsights />

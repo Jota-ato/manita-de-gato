@@ -11,14 +11,15 @@ import { useForm } from "react-hook-form";
 import FieldWLabel from "../agenda/AgendaBody/Form/FieldWLabel";
 import { cn } from "@/lib/utils";
 import { Spinner } from "../ui/spinner";
-import { toast } from "sonner";
+import { createContactMessage } from "@/lib/contact/actions";
+import { appToast } from "@/lib/utils/toast";
 
 interface ContactFormField {
     label: string,
     type: 'text' | 'email' | 'tel' | 'textarea'
     placeholder: string
     id: keyof contactFormType
-    className?: string 
+    className?: string
 }
 
 const contactFormFields: ContactFormField[] = [
@@ -62,6 +63,7 @@ export default function Form() {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isSubmitting }
     } = useForm<contactFormType>({
         resolver: zodResolver(contactFormSchema),
@@ -74,14 +76,25 @@ export default function Form() {
         }
     });
 
-    const onValidSubmit = (data: contactFormType) => {
-        toast.success('Hemos envíado tu solicitud, en breve recibirás una respuesta');
+    const onValidSubmit = async (data: contactFormType) => {
+        const response = await createContactMessage(data);
+
+        if (response.success) appToast('Formulario enviado', {
+            variant: 'success',
+            description: `Te contactaremos en breve ${data.name}`
+        })
+        if (!response.success) appToast('Error al envíar el formulario', {
+            variant: 'error',
+            description: `Lo sentimos, intenta otra vez en un rato`
+        })
+
+        reset();
     }
 
     return (
         <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-6">
             <FieldGroup className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                {contactFormFields.slice(0,2).map((field) => (
+                {contactFormFields.slice(0, 2).map((field) => (
                     <FieldWLabel
                         key={field.id}
                         label={field.label}
@@ -107,11 +120,12 @@ export default function Form() {
                 ))}
             </FieldGroup>
             <Button
+                size={'lg'}
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(isSubmitting && 'cursor-not-allowed')}
             >
-                {isSubmitting ? <p><Spinner />Enviando...</p> : 'Enviar'}
+                {isSubmitting ? <p className="flex items-center gap-2"><Spinner />Enviando...</p> : 'Enviar'}
             </Button>
         </form>
     )

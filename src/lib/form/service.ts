@@ -37,7 +37,7 @@ export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
     const { name, serviceId, phone, secondary_phone, timeMin, timeMax, last_name } = data;
 
-    const client_id = await getClientId({name, last_name, phone, secondary_phone});
+    const client_id = await getClientId({ name, last_name, phone, secondary_phone });
 
     const { data: insertedData, error } = await supabase
         .from('Appointments')
@@ -68,7 +68,8 @@ interface ClientInfo {
     name: string;
     last_name: string;
     phone: string;
-    secondary_phone?: string;
+    secondary_phone?: string | null;
+    email?: string | null;
 }
 
 /**
@@ -86,7 +87,7 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
 
     const { data: clientFound, error: clientError } = await supabase
         .from('Clients')
-        .select('id')
+        .select('id, email')
         .eq('phone', clientInfo.phone)
         .maybeSingle();
 
@@ -97,6 +98,23 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
 
     let clientId = clientFound?.id;
 
+    if (
+        clientFound &&
+        !clientFound.email &&
+        clientInfo.email
+    ) {
+        const { error: updateError } = await supabase
+            .from('Clients')
+            .update({
+                email: clientInfo.email
+            })
+            .eq('id', clientId);
+
+        if (updateError) {
+            console.error("[UPDATE_CLIENT_EMAIL_ERROR]:", updateError.message);
+            throw new Error("Failed to update client email.");
+        }
+    }
     if (!clientId) {
         const { data: newClient, error: createError } = await supabase
             .from('Clients')
@@ -104,7 +122,8 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
                 name: clientInfo.name,
                 last_name: clientInfo.last_name,
                 phone: clientInfo.phone,
-                secondary_phone: clientInfo.secondary_phone || null
+                secondary_phone: clientInfo.secondary_phone || null,
+                email: clientInfo.email || null
             })
             .select('id')
             .single();
@@ -113,6 +132,7 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
             console.error("[CREATE_CLIENT_ERROR]:", createError.message);
             throw new Error("Failed to register new client.");
         }
+
         clientId = newClient.id;
     }
 
