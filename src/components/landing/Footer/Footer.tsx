@@ -1,12 +1,23 @@
+import FooterSlogan from "./FooterSlogan";
+import FooterNav from "./FooterNav";
+import FooterSocialLinks from "./FooterSocialLinks";
 import FooterCopyright from "./FooterCopyright";
-import FooterGridContainer from "./FooterGridContainer";
 
 
 export default function Footer() {
+
     return (
-        <footer className="bg-slate-900 text-slate-400 py-12 px-6 border-t border-slate-800">
-            <FooterGridContainer />
-            <FooterCopyright />
+        <footer className="w-full bg-primary border-t border-border">
+            <div className="max-w-7xl mx-auto px-6 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+                    <FooterSlogan />
+                    <FooterNav />
+                    <FooterSocialLinks />
+
+                </div>
+
+                <FooterCopyright />
+            </div>
         </footer>
-    )
+    );
 }

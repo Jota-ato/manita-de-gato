@@ -2,7 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/Sidebar/App-sidebar";
 import Header from "@/components/landing/Header/Header";
 import WhatsappButton from "@/components/ui/whatsappButton";
-import FooterGoogle from "@/components/landing/Footer/FooterGoogle";
+import Footer from "@/components/landing/Footer/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <Header />
                     {children}
                     <WhatsappButton />
-                    <FooterGoogle />
+                    <Footer />
                 </ThemeProvider>
             </main>
         </SidebarProvider>

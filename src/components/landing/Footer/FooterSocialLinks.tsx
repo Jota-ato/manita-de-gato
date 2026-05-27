@@ -1,6 +1,6 @@
 import { BsFacebook, BsInstagram } from "react-icons/bs";
-import { FaWhatsapp } from "react-icons/fa";
 import FooterSocialMediaButton from "./FooterSocialMediaButton";
+import { FaWhatsapp } from "react-icons/fa";
 
 const socialMediaLinks = [
     {
@@ -19,23 +19,26 @@ const socialMediaLinks = [
         link: process.env.NEXT_PUBLIC_WHATSAPP_URL!,
         label: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || 'WhatsApp',
         icon: FaWhatsapp,
-        className: 'hover:text-green-500 transition-colors duration-300'
+        className: 'hover:text-emerald-300 transition-colors duration-300'
     }
 ];
 
-export default function FooterLinks() {
+
+export default function FooterSocialLinks() {
     return (
-        <div className="flex flex-col items-center md:items-start gap-3">
-            <h4 className="font-semibold text-slate-200 mb-2">Síguenos</h4>
-            {socialMediaLinks.map(socialMediaLink => (
-                <FooterSocialMediaButton
-                    key={socialMediaLink.link}
-                    label={socialMediaLink.label}
-                    link={socialMediaLink.link}
-                    Icon={socialMediaLink.icon}
-                    className={socialMediaLink.className}
-                />
-            ))}
+        <div className="space-y-4">
+            <h4 className="text-2xl font-bold text-accent">Contáctanos</h4>
+            <div className="space-y-4">
+                {socialMediaLinks.map(socialMediaLink => (
+                    <FooterSocialMediaButton
+                        key={socialMediaLink.link}
+                        label={socialMediaLink.label}
+                        link={socialMediaLink.link}
+                        Icon={socialMediaLink.icon}
+                        className={socialMediaLink.className}
+                    />
+                ))}
+            </div>
         </div>
     )
 }

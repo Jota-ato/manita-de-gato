@@ -14,7 +14,7 @@ export default function FooterSocialMediaButton({ className, link, label, Icon }
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-2 text-gray-600 text-sm ${className}`}
+            className={`flex items-center gap-2 text-sm ${className}`}
         >
             <Icon className="shrink-0 text-base fill-current" />
             <span>{label}</span>
