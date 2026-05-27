@@ -51,79 +51,111 @@
 }
 
 :root {
-    --background: oklch(0.99 0.005 340);
-    /* Blanco con un toque mínimo de rosa */
-    --foreground: oklch(0.25 0.02 340);
-    /* Rosa oscuro para legibilidad */
+    /* Base */
+    --background: oklch(0.98 0.006 340);
+    --foreground: oklch(0.20 0.03 340);
+    /* Más oscuro para asegurar contraste tipográfico */
+
+    /* Contenedores */
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.25 0.02 340);
+    --card-foreground: oklch(0.20 0.03 340);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.25 0.02 340);
-    --primary: oklch(0.85 0.08 340);
-    /* Rosa pastel profesional */
-    --primary-foreground: oklch(0.25 0.02 340);
-    --secondary: oklch(0.95 0.03 340);
-    /* Rosa pastel muy suave */
-    --secondary-foreground: oklch(0.25 0.02 340);
-    --muted: oklch(0.97 0.01 340);
-    --muted-foreground: oklch(0.5 0.05 340);
-    --accent: oklch(0.95 0.03 340);
-    --accent-foreground: oklch(0.25 0.02 340);
-    --destructive: oklch(0.6 0.18 25);
-    --border: oklch(0.9 0.03 340);
-    --input: oklch(0.9 0.03 340);
-    --ring: oklch(0.85 0.08 340);
-    --chart-1: oklch(0.85 0.08 340);
-    --chart-2: oklch(0.75 0.1 340);
-    --chart-3: oklch(0.65 0.12 340);
-    --chart-4: oklch(0.55 0.14 340);
-    --chart-5: oklch(0.45 0.16 340);
+    --popover-foreground: oklch(0.20 0.03 340);
+
+    /* Acciones Principales */
+    --primary: oklch(0.60 0.16 340);
+    /* Bajamos la luminosidad a 0.60 y subimos croma para un rosa/magenta accesible con texto blanco */
+    --primary-foreground: oklch(0.99 0.005 340);
+    /* Texto claro sobre fondo oscuro */
+
+    --secondary: oklch(0.95 0.02 340);
+    --secondary-foreground: oklch(0.30 0.04 340);
+
+    /* Muted (Atenuado - Menos contraste adrede) */
+    --muted: oklch(0.96 0.01 340);
+    --muted-foreground: oklch(0.45 0.02 340);
+    /* Grisáceo con un sutil matiz rosa */
+
+    /* Accent (Interactivo / Hovers) */
+    --accent: oklch(0.92 0.03 340);
+    /* Ligeramente más oscuro que el fondo para denotar selección/hover */
+    --accent-foreground: oklch(0.15 0.04 340);
+
+    /* UI Elements */
+    --destructive: oklch(0.55 0.18 25);
+    --border: oklch(0.88 0.02 340);
+    --input: oklch(0.88 0.02 340);
+    --ring: oklch(0.60 0.16 340);
+
+    /* Charts & Sidebar */
+    --chart-1: oklch(0.60 0.16 340);
+    --chart-2: oklch(0.70 0.12 340);
+    --chart-3: oklch(0.45 0.14 340);
+    --chart-4: oklch(0.80 0.08 340);
+    --chart-5: oklch(0.35 0.10 340);
     --radius: 0.625rem;
-    --sidebar: oklch(0.99 0.005 340);
-    --sidebar-foreground: oklch(0.25 0.02 340);
-    --sidebar-primary: oklch(0.85 0.08 340);
-    --sidebar-primary-foreground: oklch(0.25 0.02 340);
-    --sidebar-accent: oklch(0.95 0.03 340);
-    --sidebar-accent-foreground: oklch(0.25 0.02 340);
-    --sidebar-border: oklch(0.9 0.03 340);
-    --sidebar-ring: oklch(0.85 0.08 340);
+
+    --sidebar: oklch(0.98 0.006 340);
+    --sidebar-foreground: oklch(0.20 0.03 340);
+    --sidebar-primary: oklch(0.60 0.16 340);
+    --sidebar-primary-foreground: oklch(0.99 0.005 340);
+    --sidebar-accent: oklch(0.92 0.03 340);
+    --sidebar-accent-foreground: oklch(0.15 0.04 340);
+    --sidebar-border: oklch(0.88 0.02 340);
+    --sidebar-ring: oklch(0.60 0.16 340);
 }
 
 .dark {
-    --background: oklch(0.18 0.02 340);
-    /* Rosa oscuro profundo, no negro puro */
-    --foreground: oklch(0.98 0.01 340);
-    /* Blanco con tinte rosa */
-    --card: oklch(0.22 0.03 340);
-    --card-foreground: oklch(0.98 0.01 340);
-    --popover: oklch(0.22 0.03 340);
-    --popover-foreground: oklch(0.98 0.01 340);
-    --primary: oklch(0.88 0.06 340);
-    /* Rosa pastel brillante para contraste */
-    --primary-foreground: oklch(0.2 0.02 340);
-    --secondary: oklch(0.28 0.04 340);
-    --secondary-foreground: oklch(0.98 0.01 340);
-    --muted: oklch(0.28 0.04 340);
-    --muted-foreground: oklch(0.7 0.03 340);
-    --accent: oklch(0.28 0.04 340);
+    /* Base */
+    --background: oklch(0.14 0.015 340);
+    /* Fondo ligeramente más profundo para mejorar contraste */
+    --foreground: oklch(0.97 0.01 340);
+
+    /* Contenedores */
+    --card: oklch(0.18 0.02 340);
+    --card-foreground: oklch(0.97 0.01 340);
+    --popover: oklch(0.18 0.02 340);
+    --popover-foreground: oklch(0.97 0.01 340);
+
+    /* Acciones Principales */
+    --primary: oklch(0.75 0.11 340);
+    /* Rosa pastel eléctrico y luminoso para contraste sobre fondo oscuro */
+    --primary-foreground: oklch(0.12 0.02 340);
+    /* Texto muy oscuro sobre el rosa brillante */
+
+    --secondary: oklch(0.22 0.03 340);
+    --secondary-foreground: oklch(0.97 0.01 340);
+
+    /* Muted */
+    --muted: oklch(0.20 0.02 340);
+    --muted-foreground: oklch(0.65 0.02 340);
+
+    /* Accent */
+    --accent: oklch(0.25 0.03 340);
+    /* Resalta sutilmente sobre el fondo base y el card */
     --accent-foreground: oklch(0.98 0.01 340);
-    --destructive: oklch(0.5 0.15 25);
-    --border: oklch(0.3 0.05 340 / 30%);
-    --input: oklch(0.3 0.05 340 / 40%);
-    --ring: oklch(0.88 0.06 340);
-    --chart-1: oklch(0.88 0.06 340);
-    --chart-2: oklch(0.78 0.08 340);
-    --chart-3: oklch(0.68 0.1 340);
-    --chart-4: oklch(0.58 0.12 340);
-    --chart-5: oklch(0.48 0.14 340);
-    --sidebar: oklch(0.2 0.025 340);
-    --sidebar-foreground: oklch(0.98 0.01 340);
-    --sidebar-primary: oklch(0.88 0.06 340);
-    --sidebar-primary-foreground: oklch(0.2 0.02 340);
-    --sidebar-accent: oklch(0.28 0.04 340);
+
+    /* UI Elements */
+    --destructive: oklch(0.45 0.15 25);
+    --border: oklch(0.25 0.03 340 / 40%);
+    --input: oklch(0.25 0.03 340 / 50%);
+    --ring: oklch(0.75 0.11 340);
+
+    /* Charts & Sidebar */
+    --chart-1: oklch(0.75 0.11 340);
+    --chart-2: oklch(0.60 0.12 340);
+    --chart-3: oklch(0.85 0.08 340);
+    --chart-4: oklch(0.50 0.10 340);
+    --chart-5: oklch(0.40 0.09 340);
+
+    --sidebar: oklch(0.16 0.02 340);
+    --sidebar-foreground: oklch(0.97 0.01 340);
+    --sidebar-primary: oklch(0.75 0.11 340);
+    --sidebar-primary-foreground: oklch(0.12 0.02 340);
+    --sidebar-accent: oklch(0.25 0.03 340);
     --sidebar-accent-foreground: oklch(0.98 0.01 340);
-    --sidebar-border: oklch(0.3 0.05 340 / 30%);
-    --sidebar-ring: oklch(0.88 0.06 340);
+    --sidebar-border: oklch(0.25 0.03 340 / 40%);
+    --sidebar-ring: oklch(0.75 0.11 340);
 }
 
 @layer base {
