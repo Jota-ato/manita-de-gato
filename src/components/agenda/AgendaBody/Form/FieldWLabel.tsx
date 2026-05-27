@@ -1,28 +1,57 @@
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import type { InputHTMLAttributes } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
-interface FieldWLabelProps extends InputHTMLAttributes<HTMLInputElement> {
-    error?: string;
-    label: string;
-};
+type FieldWLabelProps =
+    | ({
+        textarea?: false;
+        error?: string;
+        label: string;
+    } & InputHTMLAttributes<HTMLInputElement>)
+    | ({
+        textarea: true;
+        error?: string;
+        label: string;
+    } & TextareaHTMLAttributes<HTMLTextAreaElement>);
 
-export default function FieldWLabel({ label, error, ...props }: FieldWLabelProps) {
+export default function FieldWLabel(props: FieldWLabelProps) {
+
+    const { label, error, className } = props;
+
     return (
-        <Field>
-            <FieldLabel
-                htmlFor={props.id}
-            >
+        <Field className={className}>
+            <FieldLabel htmlFor={props.id}>
                 {label}
             </FieldLabel>
-            <Input
-                id={props.id}
-                {...props}
-            />
-            {error &&
+
+            {props.textarea ? (
+                (() => {
+                    const {  ...textareaProps } = props;
+
+                    return (
+                        <Textarea
+                            {...textareaProps}
+                        />
+                    );
+                })()
+            ) : (
+                (() => {
+                    const { ...inputProps } = props;
+
+                    return (
+                        <Input
+                            {...inputProps}
+                        />
+                    );
+                })()
+            )}
+
+            {error && (
                 <FieldError>
                     {error}
-                </FieldError>}
+                </FieldError>
+            )}
         </Field>
-    )
+    );
 }
