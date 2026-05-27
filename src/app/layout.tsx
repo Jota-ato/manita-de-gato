@@ -46,6 +46,7 @@ export default function RootLayout({
         <html
             lang="en"
             className={`${Stickman.variable} ${Cavalier.variable} ${inter.variable}`}
+            suppressHydrationWarning
         >
             <body
                 className="min-h-full flex flex-col font-sans antialiased text-xl"
