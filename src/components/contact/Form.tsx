@@ -87,7 +87,7 @@ export default function Form() {
             description: `Lo sentimos, intenta otra vez en un rato`
         })
 
-        // reset();
+        reset();
     }
 
     return (
