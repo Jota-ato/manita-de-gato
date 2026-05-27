@@ -9,7 +9,7 @@ export default function LeftColumn() {
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
                     Tus manos merecen una <br />
                     <span className="relative inline-block">
-                        <span className="text-primary text-8xl font-stickman tracking-wider">Manita de Gato</span>
+                        <span className="text-primary text-6xl md:text-8xl font-stickman tracking-wider">Manita de Gato</span>
                         <svg
                             className="absolute -bottom-2 left-0 w-full h-2 text-primary/30"
                             viewBox="0 0 100 10"
