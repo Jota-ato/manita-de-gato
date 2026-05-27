@@ -5,7 +5,7 @@ import Services from "@/components/landing/Services/Services";
 
 export default function LandingPage() {
     return (
-        <div className="flex flex-col min-h-dvh bg-white text-slate-900">
+        <div className="flex flex-col min-h-dvh">
             <main>
                 <Hero />
                 <Services />

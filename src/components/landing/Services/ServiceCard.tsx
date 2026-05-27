@@ -46,13 +46,13 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                         <SheetTrigger
                             asChild
                         >
-                            <Button className="bg-pink-400 hover:bg-pink-600 transition-colors duration-300">
+                            <Button>
                                 Ver detalles
                             </Button>
                         </SheetTrigger>
                     </CardFooter>
                 </Card>
-                <SheetContent className="overflow-y-auto pb-4 bg-linear-to-b from-white to-pink-50">
+                <SheetContent className="overflow-y-auto pb-4 ">
                     <SheetHeader>
                         <SheetTitle className="text-3xl tracking-wider font-cavalier">
                             {capitalizeFirstLetter(name)}
@@ -75,63 +75,51 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                         </div>
                         <div className="space-y-6 mt-4">
                             {/* Incluye */}
-                            <div className="rounded-2xl border border-pink-200 bg-linear-to-br from-pink-50 to-pink-100 p-5 shadow-sm">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <div className="flex items-center justify-center rounded-full bg-pink-500 p-2 text-white">
-                                        <Check size={18} />
-                                    </div>
-
-                                    <h3 className="text-xl font-bold text-pink-700">
+                            <Card className="rounded-2xl border border-foreground shadow-sm">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Check />
                                         Tu servicio incluye
-                                    </h3>
-                                </div>
-
-                                <div className="space-y-3">
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
                                     {included_items.map(item => (
                                         <div
                                             key={item}
-                                            className="flex items-start gap-3 rounded-xl bg-white/70 p-3 backdrop-blur-sm"
+                                            className="flex items-center gap-3 px-3 py-2"
                                         >
-                                            <div className="mt-1 h-2 w-2 rounded-full bg-pink-500" />
-
-                                            <p className="text-sm text-zinc-700">
+                                            <div className="h-2 w-2 rounded-full bg-primary" />
+                                            <p className="text-md">
                                                 {item}
                                             </p>
                                         </div>
                                     ))}
-                                </div>
-                            </div>
+                                </CardContent>
+                            </Card>
 
                             {/* Extras */}
-                            <div className="rounded-2xl border border-fuchsia-200 bg-linear-to-br from-fuchsia-50 to-pink-100 p-5 shadow-sm">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <div className="flex items-center justify-center rounded-full bg-fuchsia-500 p-2 text-white">
-                                        <Sparkles size={18} />
-                                    </div>
+                            <Card className="rounded-2xl border border-foreground shadow-sm">
+                                <CardHeader className="flex items-center gap-2">
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Sparkles />
+                                        Extras Disponibles
+                                    </CardTitle>
+                                </CardHeader>
 
-                                    <h3 className="text-xl font-bold text-fuchsia-700">
-                                        Extras disponibles
-                                    </h3>
-                                </div>
-
-                                <div className="space-y-3">
+                                <CardContent>
                                     {available_extras.map(item => (
                                         <div
                                             key={item}
-                                            className="flex items-start gap-3 rounded-xl bg-white/70 p-3 backdrop-blur-sm"
+                                            className="flex items-center gap-3 px-3 py-2"
                                         >
-                                            <Sparkles
-                                                size={14}
-                                                className="mt-1 text-fuchsia-500"
-                                            />
-
-                                            <p className="text-sm text-zinc-700">
+                                            <div className="h-2 w-2 rounded-full bg-primary" />
+                                            <p className="text-md">
                                                 {item}
                                             </p>
                                         </div>
                                     ))}
-                                </div>
-                            </div>
+                                </CardContent>
+                            </Card>
 
                         </div>
                     </section>

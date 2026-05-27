@@ -8,8 +8,8 @@ export default async function Services() {
     return (
         <section id="servicios" className="py-20 px-6 max-w-6xl mx-auto">
             <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-slate-900 mb-4">Servicios que ofrecemos</h2>
-                <p className="text-slate-600">Trabajamos con materiales de la más alta calidad para cuidar tus uñas.</p>
+                <h2 className="text-3xl font-bold mb-4">Servicios que ofrecemos</h2>
+                <p>Trabajamos con materiales de la más alta calidad para cuidar tus uñas.</p>
             </div>
 
             {!services.length ?

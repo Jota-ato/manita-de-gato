@@ -8,7 +8,7 @@ export default function WhatsappButton() {
 
     return (
         <Button
-            className="fixed bottom-4 right-4 z-30 bg-green-400 rounded-full px-2 py-6 flex items-center justify-center hover:bg-green-700"
+            className="fixed bottom-4 right-4 z-30 bg-green-400 rounded-full px-2 py-6 flex items-center text-white justify-center hover:bg-green-700"
         >
             <a
                 href={buildCustomWhatsappMessageURL(message)}
