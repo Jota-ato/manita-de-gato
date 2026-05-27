@@ -19,7 +19,7 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
 
     return (
         <main
-            className="grid bg-white relative"
+            className="grid relative"
             style={{ gridTemplateColumns: `5rem repeat(${weekDays.length}, 1fr)` }}
         >
             {/* Hours column */}
@@ -29,8 +29,7 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
 
             {/* Days columns */}
             {weekDays.map((day,dayDifference) => (
-                <div key={day.toISOString()} className="relative border-r border-pink-50 last:border-r-0">
-                    {/* Background Grid Lines */}
+                <div key={day.toISOString()} className="relative border-r border-muted-foreground last:border-r-0">
                     {hours.map((hour) => (
                         <HourCell
                             key={hour.getTime()}

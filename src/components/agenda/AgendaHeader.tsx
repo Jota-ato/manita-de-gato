@@ -28,9 +28,9 @@ export default function AgendaHeader({ weekDays, today, onNext, onPrev }: Agenda
 
     return (
         <header
-            className="bg-pink-500 shadow-md transition-all"
+            className="bg-primary shadow-md transition-all"
         >
-            <div className="p-4 text-white text-center font-bold">
+            <div className="p-4 text-center font-bold">
                 {period}
             </div>
             <div
@@ -46,12 +46,12 @@ export default function AgendaHeader({ weekDays, today, onNext, onPrev }: Agenda
                     const isToday = isSameDay(today, day);
                     return (<div
                         key={day.toISOString()}
-                        className={cn("py-4 border-r last:border-r-0 flex items-center justify-center flex-col animate-in fade-in duration-300", isToday ? 'bg-pink-700' : 'bg-pink-400')}
+                        className={cn("py-4 border-r border-accent-foreground last:border-r-0 flex items-center justify-center flex-col animate-in fade-in duration-300", isToday ? 'bg-secondary text-muted-foreground' : 'bg-primary')}
                     >
-                        <p className="text-sm font-bold uppercase tracking-widest text-pink-100">
+                        <p className="text-sm font-bold uppercase tracking-widest">
                             {format(day, 'EEE', { locale: es })}
                         </p>
-                        <p className="text-md md:text-2xl font-black text-white">
+                        <p className="text-md md:text-2xl font-black">
                             {format(day, 'd')}
                         </p>
                     </div>)

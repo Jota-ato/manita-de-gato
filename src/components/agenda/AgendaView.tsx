@@ -64,7 +64,7 @@ export default function AgendaView() {
     );
 
     return (
-        <div className="w-full rounded-2xl border bg-white shadow-sm overflow-hidden relative">
+        <div className="w-full rounded-2xl border shadow-sm overflow-hidden relative">
             <AgendaHeader
                 weekDays={weekDays}
                 today={today}

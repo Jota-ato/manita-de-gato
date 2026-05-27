@@ -58,7 +58,6 @@ export default function Resenias() {
                             <CardContent className="flex-1 text-sm md:text-base italic leading-relaxed">
                                 &quot;{resenia.texto}&quot;
                             </CardContent>
-
                             <CardFooter className="flex items-center gap-3">
                                 <div className="h-10 w-10 bg-accent-foreground text-primary rounded-full flex items-center justify-center font-bold shrink-0">
                                     {resenia.inicial}
