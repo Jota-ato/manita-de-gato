@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
     ChartContainer,
     type ChartConfig,
@@ -10,31 +10,47 @@ import {
     ChartLegendContent
 } from "@/components/ui/chart";
 import { format } from "date-fns";
+import { TZDate } from "@date-fns/tz";
+import { formatPriceMXN } from "@/lib/utils/currency";
 
 const chartConfig = {
-    Expected: {
+    expected: {
         label: "Esperado",
         color: "var(--chart-2)",
     },
-    Paid: {
+    paid: {
         label: "Cobrado",
         color: "var(--chart-3)",
     },
 } satisfies ChartConfig;
 
-const chartData = [
-    {
-        period: format(new Date(), 'dd MMMM yyyy'),
-        Expected: 3000,
-        Paid: 1800
-    },
-];
 
-export default function DailyIncomeChart() {
+interface DailyIncomeChartProps {
+    today: TZDate
+    expected: number
+    paid: number
+}
+
+export default function DailyIncomeChart({ today, expected, paid }: DailyIncomeChartProps) {
+
+    const chartData = [
+        {
+            period: format(today, 'dd MMMM yyyy'),
+            expected,
+            paid
+        },
+    ];
+
     return (
         <ChartContainer config={chartConfig} className="min-h-50 w-full">
             <BarChart accessibilityLayer data={chartData}>
                 <CartesianGrid vertical={false} />
+                <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    
+                    tickFormatter={(value) => formatPriceMXN(value)}
+                />
                 <XAxis
                     dataKey="period"
                     tickLine={false}
@@ -44,8 +60,8 @@ export default function DailyIncomeChart() {
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
 
-                <Bar dataKey="Expected" fill="var(--color-Expected)" radius={4} />
-                <Bar dataKey="Paid" fill="var(--color-Paid)" radius={4} />
+                <Bar dataKey="expected" fill="var(--color-expected)" radius={4} />
+                <Bar dataKey="paid" fill="var(--color-paid)" radius={4} />
             </BarChart>
         </ChartContainer>
     );

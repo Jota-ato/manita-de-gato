@@ -5,13 +5,15 @@ import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 const TIMEZONE = "America/Mexico_City";
 import { TZDate, tz } from "@date-fns/tz";
-import { getDayAppointments } from "@/lib/dashboard/actions";
 import { Button } from "@/components/ui/button";
+import { Appointment } from "@/lib/supabase/schemas";
 
+interface DailyAppointmentsProps { 
+    today: TZDate,
+    todayAppointments: Appointment[]
+}
 
-export default async function DailyAppointments() {
-
-    const today = new TZDate(new Date(), TIMEZONE);
+export default async function DailyAppointments({ today, todayAppointments }: DailyAppointmentsProps) {
 
     const formattedDate = format(
         today,
@@ -19,11 +21,10 @@ export default async function DailyAppointments() {
         { locale: es, in: tz(TIMEZONE) }
     );
 
-    const todayAppointments = await getDayAppointments(today);
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
     return (
-        <Card className="md:col-span-2">
+        <Card className="md:col-span-3">
             <DailyAppointmentsHeader
                 capitalizedDate={capitalizedDate}
                 appointmentNumber={todayAppointments.length}
