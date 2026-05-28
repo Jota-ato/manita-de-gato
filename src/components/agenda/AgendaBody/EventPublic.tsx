@@ -1,6 +1,6 @@
-import { GoogleCalendarEvent } from "@/lib/calendar/schemas";
+import { Appointment } from "@/lib/supabase/schemas";
 import { cn } from "@/lib/utils";
-import { format, differenceInMinutes, parseISO } from "date-fns";
+import { format, differenceInMinutes } from "date-fns";
 
 /**
  * Color map optimized for the Pink Theme.
@@ -23,15 +23,18 @@ export const colorsMap: Record<string, string> = {
 };
 
 interface EventProps {
-    event: GoogleCalendarEvent
+    event: Appointment
     START_HOUR: number
     ROW_HEIGHT_REM: number
 }
 
 export default function Event({ event, START_HOUR, ROW_HEIGHT_REM } : EventProps) {
 
-    const startDate = parseISO(event.start.dateTime);
-    const endDate = parseISO(event.end.dateTime);
+    const safeStartDate = new Date(event.timeMin)
+    const safeEndDate = new Date(event.timeMax)
+
+    const startDate = safeStartDate.toISOString();
+    const endDate = safeEndDate.toISOString();
 
     // Calculate minutes from start (08:00)
     const startBase = new Date(startDate);
@@ -49,8 +52,7 @@ export default function Event({ event, START_HOUR, ROW_HEIGHT_REM } : EventProps
         <div
             key={event.id}
             className={cn(
-                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md  overflow-hidden transition-transform hover:scale-105 cursor-pointer text-white",
-                event.colorId ? colorsMap[event.colorId] : 'bg-pink-400'
+                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md  overflow-hidden transition-transform hover:scale-105 cursor-pointer text-warning-foreground bg-warning"
             )}
             style={{
                 top: `${topOffset}rem`,

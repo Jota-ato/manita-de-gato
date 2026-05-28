@@ -1,17 +1,19 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { startOfWeek, addDays, addHours, startOfDay, subDays, endOfDay } from "date-fns";
 import AgendaHeader from "./AgendaHeader";
 import AgendaBody from "./AgendaBody";
-import { getEvents } from "@/lib/agenda";
-import type { GoogleCalendarEvent } from "@/lib/calendar/schemas";
+import { Appointment } from "@/lib/supabase/schemas";
+import { TZDate } from "@date-fns/tz";
 
-export default function AgendaView() {
-    // 1. Inicializa la fecha como null
-    const [currentDate, setCurrentDate] = useState<Date | null>(null);
+interface AgendaViewProps {
+    events: Appointment[]
+    today: TZDate
+}
+
+export default function AgendaView({ events, today }: AgendaViewProps) {
     const [daysToShow, setDaysToShow] = useState(3);
-    const [appointments, setAppointments] = useState<GoogleCalendarEvent[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [viewDate, setViewDate] = useState<TZDate>(today);
 
     // Responsive Logic
     useEffect(() => {
@@ -25,55 +27,23 @@ export default function AgendaView() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // 2. Establece la fecha real solo en el cliente
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setCurrentDate(new Date());
-    }, []);
+    const startOfView = daysToShow === 7
+        ? startOfWeek(viewDate, { weekStartsOn: 1 })
+        : startOfDay(viewDate);
 
-    // Effect: Fetch events whenever the range or view changes
-    useEffect(() => {
-        // Bloqueamos la ejecución si la fecha aún no existe
-        if (!currentDate) return;
+    const endOfView = endOfDay(addDays(startOfView, daysToShow - 1));
 
-        const fetchCurrentEvents = async () => {
-            setIsLoading(true);
-            try {
-                const viewStart = daysToShow === 7 ?
-                    startOfWeek(currentDate, { weekStartsOn: 1 })
-                    : currentDate;
-                const timeMin = startOfDay(viewStart);
-                const timeMax = endOfDay(addDays(viewStart, daysToShow - 1));
-
-                const data = await getEvents({ timeMin, timeMax });
-                setAppointments(data);
-            } catch (error) {
-                console.error("Error loading appointments:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchCurrentEvents();
-    }, [currentDate, daysToShow]);
-
-    // 3. Early return (después de todos los hooks) mientras se carga la fecha real
-    if (!currentDate) {
-        // Puedes cambiar esto por un skeleton de la agenda para que se vea mejor
-        return <div className="w-full h-125 flex items-center justify-center border rounded-2xl">Cargando calendario...</div>;
-    }
-
-    // A partir de este punto, el código es 100% ejecutado en el cliente de forma segura
-    const today = new Date();
-
-    const startOfView = daysToShow === 7 ?
-        startOfWeek(currentDate, { weekStartsOn: 1 })
-        : currentDate;
+    const visibleEvents = useMemo(() => {
+        return events.filter(event => {
+            const safeStartDate = new Date(event.timeMin)
+            return (safeStartDate.toISOString() >= startOfView.toISOString()) && (safeStartDate.toISOString() <= endOfView.toISOString());
+        });
+    }, [events, startOfView, endOfView]);
 
     const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
 
-    const nextPeriod = () => setCurrentDate(prev => prev ? addDays(prev, daysToShow) : new Date());
-    const prevPeriod = () => setCurrentDate(prev => prev ? subDays(prev, daysToShow) : new Date());
+    const nextPeriod = () => setViewDate(prev => addDays(prev, daysToShow));
+    const prevPeriod = () => setViewDate(prev => subDays(prev, daysToShow));
 
     const hours = Array.from({ length: 5 }).map((_, i) =>
         addHours(startOfDay(startOfView), 10 + (2 * i))
@@ -90,8 +60,7 @@ export default function AgendaView() {
             <AgendaBody
                 weekDays={weekDays}
                 hours={hours}
-                events={appointments}
-                isLoading={isLoading}
+                events={visibleEvents}
             />
         </div>
     );

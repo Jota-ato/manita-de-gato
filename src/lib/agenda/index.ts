@@ -41,10 +41,10 @@ export async function getEventsFromDay(day: TZDate): Promise<Appointment[]> {
     const { data, error } = await supabase
         .from("Appointments")
         .select('*')
-        .gte('timeMin', startOfDay(day))
+        .gte('timeMin', startOfDay(day).toISOString())
         .in('status', ['approved', 'paid']);
 
-    if (error) { 
+    if (error) {
         console.error('Error consiguiendo las citas', error.message);
         return [];
     }

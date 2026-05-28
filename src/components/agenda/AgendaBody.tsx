@@ -1,20 +1,18 @@
 'use client';
-import { isSameDay, parseISO } from "date-fns";
-import type { GoogleCalendarEvent } from "@/lib/calendar/schemas";
-import { Spinner } from "@/components/ui/spinner";
+import { isSameDay } from "date-fns";
 import HoursColumn from "./AgendaBody/HoursColumn";
 import EventPublic from "./AgendaBody/EventPublic";
 import HourCell from "./AgendaBody/HourCell";
+import { Appointment } from "@/lib/supabase/schemas";
 
 
 interface AgendaBodyProps {
     weekDays: Date[];
     hours: Date[];
-    events: GoogleCalendarEvent[];
-    isLoading: boolean;
+    events: Appointment[];
 }
 
-export default function AgendaBody({ weekDays, hours, events, isLoading }: AgendaBodyProps) {
+export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps) {
     const ROW_HEIGHT_REM = 5;
     const START_HOUR = 10;
 
@@ -40,8 +38,8 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                     ))}
 
                     {/* Events Layer */}
-                    {!isLoading && events
-                        .filter(event => isSameDay(day, parseISO(event.start.dateTime)))
+                    {   events
+                        .filter(event => isSameDay(day, event.timeMin))
                         .map(event => (
                             <EventPublic
                                 key={event.id}
@@ -53,11 +51,6 @@ export default function AgendaBody({ weekDays, hours, events, isLoading }: Agend
                     }
                 </div>
             ))}
-            {isLoading && (
-                <div className="fixed top-auto left-auto flex items-center justify-center bg-white/40 z-20">
-                    <Spinner className="text-pink-500" />
-                </div>
-            )}
         </main>
     );
 }
