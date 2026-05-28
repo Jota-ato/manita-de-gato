@@ -7,7 +7,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
             <DashboardSidebar />
             <main className="w-full">
-                <SidebarTrigger className="fixed top-4 left-4 z-10 flex items-center bg-primary text-secondary rounded-full p-4 md:hidden" />
+                <SidebarTrigger className="fixed bottom-4 right-4 z-10 flex items-center bg-primary text-secondary rounded-full p-4 md:hidden" />
                 <div className="fixed top-4 right-4">
                     <ThemeToggle />
                 </div>
