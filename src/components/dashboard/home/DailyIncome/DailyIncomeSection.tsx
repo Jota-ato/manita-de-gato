@@ -20,7 +20,7 @@ export default async function DailyIncomeSection({ today, todayAppointments }: D
     const { expected, paid } = getExpectedPaidAppointments(todayAppointments);
 
     return (
-        <Card className="col-span-2">
+        <Card className="md:col-span-2">
             <CardHeader>
                 <CardTitle>Ingresos esperados</CardTitle>
                 <CardDescription className="sr-only">Relación entre ingresos de citas pagadas y citas aprobradas</CardDescription>
