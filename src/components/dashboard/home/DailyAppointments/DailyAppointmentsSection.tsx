@@ -1,11 +1,10 @@
-import { Card, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import DailyAppointmentsHeader from "./DailyAppointmentsHeader";
 import DailyAppointmentsTable from "./table/DailyAppointmentsTable";
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 const TIMEZONE = "America/Mexico_City";
 import { TZDate, tz } from "@date-fns/tz";
-import { Button } from "@/components/ui/button";
 import { Appointment } from "@/lib/supabase/schemas";
 
 interface DailyAppointmentsProps { 
@@ -32,9 +31,6 @@ export default async function DailyAppointments({ today, todayAppointments }: Da
             <DailyAppointmentsTable
                 todayAppointments={todayAppointments}
             />
-            <CardFooter>
-                <Button>Crear nueva cita</Button>
-            </CardFooter>
         </Card>
     )
 }

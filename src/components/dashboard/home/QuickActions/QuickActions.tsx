@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, CalendarOff, CalendarRange, Ban } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export default function QuickActions() {
     return (
@@ -54,7 +55,7 @@ export default function QuickActions() {
                 </Button>
 
                 {/* Separador visual para aislar la acción destructiva */}
-                <div className="my-1 border-t border-border/50" />
+                <Separator />
 
                 {/* Acción Destructiva: Mutación Masiva (Requiere AlertDialog en el futuro) */}
                 <Button
