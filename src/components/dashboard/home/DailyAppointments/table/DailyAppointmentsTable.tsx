@@ -14,7 +14,7 @@ export default async function DailyAppointmentsTable({ todayAppointments }: Dail
     const services = await getServices();
 
     return (
-        <CardContent className="p-0">
+        <CardContent className="p-0 max-h-60 overflow-y-scroll">
             <RealtimeListener />
             {todayAppointments.length === 0 ? (
                 <NoDailyAppointments />

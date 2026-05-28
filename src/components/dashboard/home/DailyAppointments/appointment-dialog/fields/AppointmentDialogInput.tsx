@@ -53,7 +53,7 @@ export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
             <Button
                 onClick={() => handleUpdatePrice(price)}
                 className={cn(
-                    isPending ? 'bg-black/60 cursor-not-allowed' : ''
+                    isPending ? 'bg-secondary text-muted-foreground cursor-not-allowed' : ''
                 )}
                 disabled={isPending}
             >

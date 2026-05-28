@@ -23,7 +23,7 @@ export default async function DailyAppointments() {
     const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
     return (
-        <Card className="col-span-2">
+        <Card className="md:col-span-2">
             <DailyAppointmentsHeader
                 capitalizedDate={capitalizedDate}
                 appointmentNumber={todayAppointments.length}
