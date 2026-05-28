@@ -1,3 +1,4 @@
+'use client';
 import { isSameDay, parseISO } from "date-fns";
 import type { GoogleCalendarEvent } from "@/lib/calendar/schemas";
 import { Spinner } from "@/components/ui/spinner";

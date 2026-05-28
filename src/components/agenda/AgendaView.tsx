@@ -7,11 +7,11 @@ import { getEvents } from "@/lib/agenda";
 import type { GoogleCalendarEvent } from "@/lib/calendar/schemas";
 
 export default function AgendaView() {
-    const [currentDate, setCurrentDate] = useState(new Date());
+    // 1. Inicializa la fecha como null
+    const [currentDate, setCurrentDate] = useState<Date | null>(null);
     const [daysToShow, setDaysToShow] = useState(3);
     const [appointments, setAppointments] = useState<GoogleCalendarEvent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const today = new Date();
 
     // Responsive Logic
     useEffect(() => {
@@ -25,15 +25,17 @@ export default function AgendaView() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Logic to calculate the range
-    const startOfView = daysToShow === 7 ?
-        startOfWeek(currentDate, { weekStartsOn: 1 })
-        : currentDate;
-
-    const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
+    // 2. Establece la fecha real solo en el cliente
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setCurrentDate(new Date());
+    }, []);
 
     // Effect: Fetch events whenever the range or view changes
     useEffect(() => {
+        // Bloqueamos la ejecución si la fecha aún no existe
+        if (!currentDate) return;
+
         const fetchCurrentEvents = async () => {
             setIsLoading(true);
             try {
@@ -53,14 +55,28 @@ export default function AgendaView() {
         };
 
         fetchCurrentEvents();
-    }, [currentDate, daysToShow]); 
+    }, [currentDate, daysToShow]);
 
-    // Pagination
-    const nextPeriod = () => setCurrentDate(prev => addDays(prev, daysToShow));
-    const prevPeriod = () => setCurrentDate(prev => subDays(prev, daysToShow));
+    // 3. Early return (después de todos los hooks) mientras se carga la fecha real
+    if (!currentDate) {
+        // Puedes cambiar esto por un skeleton de la agenda para que se vea mejor
+        return <div className="w-full h-125 flex items-center justify-center border rounded-2xl">Cargando calendario...</div>;
+    }
+
+    // A partir de este punto, el código es 100% ejecutado en el cliente de forma segura
+    const today = new Date();
+
+    const startOfView = daysToShow === 7 ?
+        startOfWeek(currentDate, { weekStartsOn: 1 })
+        : currentDate;
+
+    const weekDays = Array.from({ length: daysToShow }).map((_, i) => addDays(startOfView, i));
+
+    const nextPeriod = () => setCurrentDate(prev => prev ? addDays(prev, daysToShow) : new Date());
+    const prevPeriod = () => setCurrentDate(prev => prev ? subDays(prev, daysToShow) : new Date());
 
     const hours = Array.from({ length: 5 }).map((_, i) =>
-        addHours(startOfDay(today), 10 + (2 * i))
+        addHours(startOfDay(startOfView), 10 + (2 * i))
     );
 
     return (

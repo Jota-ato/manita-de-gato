@@ -41,6 +41,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
         register,
         handleSubmit,
         control,
+        reset,
         formState: { errors, isSubmitting }
     } = useForm<AgendaFormData>({
         resolver: zodResolver(AgendaFormSchema),
@@ -59,6 +60,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
             const service = services.filter(service => service.id.toString() === data.serviceId)[0];
             const redirectURL = buildWhatsAppRedirectUrl({ timeMin, timeMax, clientName: data.name, service: service.name });
             onSuccess(false);
+            reset();
             window.open(redirectURL, '_blank');
         } catch (error) {
             console.error("Submission failed", error);
