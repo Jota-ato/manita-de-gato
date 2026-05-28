@@ -36,6 +36,7 @@ type createAppointmentProps = AgendaFormData & {
 export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
     const { name, serviceId, phone, secondary_phone, timeMin, timeMax, last_name } = data;
+    console.log(timeMin, timeMax)
 
     const client_id = await getClientId({ name, last_name, phone, secondary_phone });
 
