@@ -1,11 +1,9 @@
-import {
-    Card,
-} from "@/components/ui/card";
 import DailyAppointments from "./DailyAppointments/DailyAppointmentsSection";
 import DailyIncomeSection from "./DailyIncome/DailyIncomeSection";
 import { TZDate } from "@date-fns/tz";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { getDayAppointments } from "@/lib/dashboard/actions";
+import QuickActions from "./QuickActions/QuickActions";
 
 export default async function BentoContainer() {
 
@@ -18,9 +16,7 @@ export default async function BentoContainer() {
                 today={today}
                 todayAppointments={todayAppointments}
             />
-            <Card>
-                1 columna
-            </Card>
+            <QuickActions />
             <DailyIncomeSection
                 today={today}
                 todayAppointments={todayAppointments}
