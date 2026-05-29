@@ -7,7 +7,7 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import { Plus, CalendarOff, CalendarRange, Ban, Trash2Icon } from "lucide-react";
+import { Plus, CalendarOff, CalendarRange } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Appointment } from "@/lib/supabase/schemas";
 import ActionModal from "./ActionModal";

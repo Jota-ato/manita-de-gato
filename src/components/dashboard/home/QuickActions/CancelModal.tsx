@@ -39,7 +39,7 @@ export default function CancelModal({ today }: { today: TZDate }) {
                     </AlertDialogMedia>
                     <AlertDialogTitle>¿Cancelar todas las citas de hoy?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Cancelarias todas las citas del {format(today, 'dd MMMM yyyy', { locale: es })}
+                        Cancelarias todas las citas del {format(today, "eeee, d 'de' MMMM 'de' yyyy", { locale: es })}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

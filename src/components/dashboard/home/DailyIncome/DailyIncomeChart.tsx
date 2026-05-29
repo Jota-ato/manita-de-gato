@@ -12,6 +12,7 @@ import {
 import { format } from "date-fns";
 import { TZDate } from "@date-fns/tz";
 import { formatPriceMXN } from "@/lib/utils/currency";
+import { es } from "date-fns/locale";
 
 const chartConfig = {
     expected: {
@@ -35,7 +36,7 @@ export default function DailyIncomeChart({ today, expected, paid }: DailyIncomeC
 
     const chartData = [
         {
-            period: format(today, 'dd MMMM yyyy'),
+            period: format(today, "eeee d 'de' MMMM 'de' yyyy", { locale: es }),
             expected,
             paid
         },
