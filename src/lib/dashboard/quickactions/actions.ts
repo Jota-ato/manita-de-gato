@@ -2,6 +2,8 @@
 
 import { deleteGoogleCalendarEvent } from "@/lib/calendar/service";
 import { createClient } from "@/lib/supabase/server";
+import { TIMEZONE } from "@/lib/supabase/utils/helpers";
+import { TZDate } from "@date-fns/tz";
 import { revalidatePath } from "next/cache";
 
 interface ActionResponse {
@@ -16,10 +18,10 @@ export async function cancellAllAppointmentsDay(dayStr: string | Date): Promise<
     const supabase = await createClient();
     const dateTarget = new Date(dayStr);
 
-    const startOfDay = new Date(dateTarget);
+    const startOfDay = new TZDate(dateTarget, TIMEZONE);
     startOfDay.setHours(0, 0, 0, 0);
 
-    const endOfDay = new Date(dateTarget);
+    const endOfDay = new TZDate(dateTarget, TIMEZONE);
     endOfDay.setHours(23, 59, 59, 999);
 
     try {
