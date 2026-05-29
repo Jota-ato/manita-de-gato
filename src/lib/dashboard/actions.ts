@@ -43,9 +43,9 @@ async function getValidAppointment(appointmentId: string) {
 export async function getDayAppointments(day: TZDate) {
     const supabase = await createClient();
 
-    const startOfDay = new Date(day);
+    const startOfDay = new TZDate(day, TIMEZONE);
     startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date(day);
+    const endOfDay = new TZDate(day, TIMEZONE);
     endOfDay.setHours(23, 59, 59, 999);
 
     const { data, error } = await supabase
