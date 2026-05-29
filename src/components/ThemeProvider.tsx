@@ -1,11 +1,24 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import type { ComponentProps } from "react";
 
-export function ThemeProvider({
+export default function ThemeProvider({
     children,
     ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
+}: ComponentProps<typeof NextThemesProvider>) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return <>{children}</>;
+    }
+
+    // 4. Una vez montado en el cliente, renderizamos el proveedor con total seguridad
     return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }

@@ -30,11 +30,9 @@ interface EventProps {
 
 export default function Event({ event, START_HOUR, ROW_HEIGHT_REM } : EventProps) {
 
-    const safeStartDate = new Date(event.timeMin)
-    const safeEndDate = new Date(event.timeMax)
 
-    const startDate = safeStartDate.toISOString();
-    const endDate = safeEndDate.toISOString();
+    const startDate = event.timeMin.toISOString();
+    const endDate =  event.timeMax.toISOString();
 
     // Calculate minutes from start (08:00)
     const startBase = new Date(startDate);

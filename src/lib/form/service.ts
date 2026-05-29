@@ -3,8 +3,6 @@
 import { serviceSchema, Service } from '@/schemas/services';
 import { createClient } from "@/lib/supabase/server";
 import { AgendaFormData } from "@/schemas/agendaForm";
-import { TZDate } from 'react-day-picker';
-import { TIMEZONE } from '../supabase/utils/helpers';
 
 export async function getServices(): Promise<Service[]> {
     const supabase = await createClient()
