@@ -7,19 +7,49 @@ import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 import { useForm } from "react-hook-form";
 import { AdminAppointmentFormData, AdminAppointmentSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Service } from "@/schemas/services";
+import ServiceSelect from "@/components/agenda/AgendaBody/Form/ServiceSelect";
+import { createAppointment } from "@/lib/form/service";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
+import { TZDate } from "react-day-picker";
+import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 
+interface NewApointmentFormProps {
+    services: Service[]
+}
 
-export default function NewApointmentForm() {
+interface FieldsType {
+    label: string
+    id: keyof AdminAppointmentFormData
+}
 
-    const timeMin = new Date()
-    timeMin.setHours(10, 0, 0, 0);
-    const timeMax = new Date()
-    timeMax.setHours(12, 0, 0, 0);
+const Fields: FieldsType[] = [
+    {
+        label: 'Nombre del cliente',
+        id: 'name'
+    },
+    {
+        label: 'Apellido del cliente',
+        id: 'last_name'
+    },
+    {
+        label: 'Teléfono',
+        id: 'phone'
+    },
+    {
+        label: 'Teléfono secundario',
+        id: 'secondary_phone'
+    },
+]
+
+export default function NewApointmentForm({ services }: NewApointmentFormProps) {
 
     const {
         register,
         handleSubmit,
         control,
+        reset,
         formState: { errors, isSubmitting }
     } = useForm<AdminAppointmentFormData>({
         resolver: zodResolver(AdminAppointmentSchema),
@@ -29,27 +59,79 @@ export default function NewApointmentForm() {
             phone: '',
             secondary_phone: '',
             serviceId: '',
-            timeMin: timeMin.toISOString(),
-            timeMax: timeMax.toISOString()
+            timeMin: '10:00',
+            timeMax: '12:00'
         }
     });
 
-    const onValidSubmit = () => {
+    const onValidSubmit = async (formData: AdminAppointmentFormData) => {
+        try {
+            const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);
+            const [endHours, endMinutes] = formData.timeMax.split(':').map(Number);
 
+            const timeMin = new TZDate(formData.date, TIMEZONE);
+            timeMin.setHours(startHours, startMinutes, 0, 0);
+
+            const timeMax = new TZDate(formData.date, TIMEZONE);
+            timeMax.setHours(endHours, endMinutes, 0, 0);
+
+            const payload = {
+                name: formData.name,
+                last_name: formData.last_name,
+                phone: formData.phone,
+                secondary_phone: formData.secondary_phone,
+                serviceId: formData.serviceId,
+                timeMin,
+                timeMax
+            };
+
+            const response = await createAppointment(payload);
+
+            if (response.success) {
+                toast.success(response.message);
+                reset();
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            toast.error("Ocurrió un error inesperado al procesar la cita.");
+            console.error(error);
+        }
     }
 
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
             <FieldSet>
-                <DatePickerTime />
+                <DatePickerTime
+                    control={control}
+                    nameDate="date"
+                    nameStartTime="timeMin"
+                    nameEndTime="timeMax"
+                    startError={errors.timeMin?.message}
+                    endError={errors.timeMax?.message}
+                />
                 <Separator />
                 <FieldGroup>
-                    <FieldWLabel
-                        label="Nombre del cliente"
+                    {Fields.map(field => (
+                        <FieldWLabel
+                            key={field.id}
+                            label={field.label}
+                            id={field.id}
+                            error={errors[field.id]?.message}
+                            {...register(field.id)}
+                        />
+                    ))}
+                    <ServiceSelect
+                        control={control}
+                        name="serviceId"
+                        error={errors.serviceId?.message}
+                        services={services}
                     />
                 </FieldGroup>
-                <Button>
-                    Crear
+                <Button
+                    type="submit"
+                >
+                    {isSubmitting ? <p className="flex items-center gap-2"><Spinner />Creando...</p> : 'Crear'}
                 </Button>
             </FieldSet>
         </form>

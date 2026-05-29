@@ -1,73 +1,86 @@
-import { format } from "date-fns"
-import { ChevronDownIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import { useState } from "react";
-import {
-    Field,
-    FieldGroup,
-    FieldLabel
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+// DatePickerTime.tsx
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { ChevronDown } from 'lucide-react';
+import { Control, FieldValues, Path, Controller } from 'react-hook-form';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale'; // Para poner la fecha en español
+import { Input } from '@/components/ui/input';
 
-export default function DatePickerTime() {
-    const [open, setOpen] = useState(false)
-    const [date, setDate] = useState<Date | undefined>(undefined)
+interface DatePickerTimeProps<T extends FieldValues> {
+    control: Control<T>;
+    nameDate: Path<T>;
+    nameStartTime: Path<T>;
+    nameEndTime: Path<T>;
+    dateError?: string;
+    startError?: string;
+    endError?: string;
+}
 
+export default function DatePickerTime<T extends FieldValues>({
+    control, nameDate, nameStartTime, nameEndTime, dateError, startError, endError
+}: DatePickerTimeProps<T>) {
     return (
-        <FieldGroup className="grid grid-cols-2">
+        <FieldGroup className="grid grid-cols-2 gap-4">
+            {/* 1. CALENDARIO */}
             <Field className="col-span-2">
-                <FieldLabel htmlFor="date-picker-optional">Fecha</FieldLabel>
-                <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            id="date-picker-optional"
-                            className="w-32 justify-between font-normal"
-                        >
-                            {date ? format(date, 'dd MMMM yyyy') : "Seleccionar fecha"}
-                            <ChevronDownIcon />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                        <Calendar
-                            mode="single"
-                            selected={date}
-                            captionLayout="dropdown"
-                            defaultMonth={date}
-                            onSelect={(date) => {
-                                setDate(date)
-                                setOpen(false)
-                            }}
+                <FieldLabel>Fecha de la Cita</FieldLabel>
+                <Controller
+                    control={control}
+                    name={nameDate}
+                    render={({ field }) => (
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant={'outline'} className="justify-between w-full">
+                                    {field.value ? format(field.value, "PPP", { locale: es }) : "Seleccionar una fecha"}
+                                    <ChevronDown className="h-4 w-4 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    )}
+                />
+                {dateError && <FieldError>{dateError}</FieldError>}
+            </Field>
+
+            <Field>
+                <FieldLabel>Hora Inicio</FieldLabel>
+                <Controller
+                    control={control}
+                    name={nameStartTime}
+                    render={({ field }) => (
+                        <Input
+                            type="time"
+                            {...field}
                         />
-                    </PopoverContent>
-                </Popover>
-            </Field>
-            <Field>
-                <FieldLabel htmlFor="timeMin">Tiempo de inicio</FieldLabel>
-                <Input
-                    type="time"
-                    id="timeMin"
-                    step="1"
-                    defaultValue="10:00:00"
-                    className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                    )}
                 />
+                {startError && <FieldError>{startError}</FieldError>}
             </Field>
+
             <Field>
-                <FieldLabel htmlFor="timeMax">Tiempo de fin</FieldLabel>
-                <Input
-                    type="time"
-                    id="timeMax"
-                    step="1"
-                    defaultValue="10:00:000"
-                    className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                <FieldLabel>Hora Fin</FieldLabel>
+                <Controller
+                    control={control}
+                    name={nameEndTime}
+                    render={({ field }) => (
+                        <Input
+                            type="time"
+                            {...field}
+                        />
+                    )}
                 />
+                {endError && <FieldError>{endError}</FieldError>}
             </Field>
         </FieldGroup>
-    )
+    );
 }

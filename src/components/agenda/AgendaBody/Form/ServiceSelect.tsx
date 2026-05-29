@@ -1,6 +1,6 @@
 'use client';
 
-import { Controller, type Control } from 'react-hook-form';
+import { Controller, FieldValues, Path, type Control } from 'react-hook-form';
 import {
     Select,
     SelectContent,
@@ -13,20 +13,24 @@ import { Field, FieldError } from "@/components/ui/field";
 import { Service } from '@/schemas/services';
 import { formatPriceMXN } from "@/lib/utils/currency";
 
-import type { AgendaFormData } from '@/schemas/agendaForm';
-
-interface ServiceSelectProps {
-    control: Control<AgendaFormData>;
+interface ServiceSelectProps<T extends FieldValues> {
+    control: Control<T>
+    name: Path<T>
     error?: string;
     services: Service[]
 }
 
-export default function ServiceSelect({ control, error, services }: ServiceSelectProps) {
+export default function ServiceSelect<T extends FieldValues>({ 
+    control, 
+    name,
+    error, 
+    services 
+}: ServiceSelectProps<T>) {
 
     return (
         <Field>
             <Controller
-                name="serviceId"
+                name={name}
                 control={control}
                 render={({ field }) => (
                     <Select

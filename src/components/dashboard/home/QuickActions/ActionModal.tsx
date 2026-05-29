@@ -24,7 +24,7 @@ export default function ActionModal({ title, description, trigger, children }: N
                 {trigger}
             </DialogTrigger>
 
-            <DialogContent>
+            <DialogContent className="overflow-y-scroll max-h-[90%]">
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>

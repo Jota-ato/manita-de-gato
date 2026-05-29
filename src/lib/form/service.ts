@@ -40,7 +40,7 @@ export async function createAppointment(data: createAppointmentProps) {
 
     const client_id = await getClientId({ name, last_name, phone, secondary_phone });
 
-    const { data: insertedData, error } = await supabase
+    const { error } = await supabase
         .from('Appointments')
         .insert({
             client_id,
@@ -53,10 +53,16 @@ export async function createAppointment(data: createAppointmentProps) {
 
     if (error) {
         console.error("[CREATE_APPOINTMENT_ERROR]:", error.message);
-        throw new Error("Failed to create appointment in database.");
+        return {
+        success: false,
+        message: `Error creando la cita`
+    };
     }
 
-    return insertedData;
+    return {
+        success: true,
+        message: `Cita de ${name} creada con éxito`
+    };
 }
 
 /**

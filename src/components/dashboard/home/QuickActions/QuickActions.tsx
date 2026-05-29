@@ -29,28 +29,31 @@ interface quickActionsType {
     children?: ReactNode
 }
 
-const quickActions: quickActionsType[] = [
-    {
-        title: 'Crear cita manualmente',
-        description: '',
-        trigger: <QuickActionsButton label="Nueva Cita Manual" Icon={Plus} />,
-        children: <NewApointmentForm />
-    },
-    {
-        title: 'Bloquear Día / Horario',
-        description: '',
-        trigger: <QuickActionsButton variant="outline" label="Bloquear Día / Horario" Icon={CalendarOff} />,
-        children: 'Bloquear Día / Horario'
-    },
-    {
-        title: 'Bloquear Periodo',
-        description: '',
-        trigger: <QuickActionsButton variant="outline" label="Bloquear Periodo" Icon={CalendarRange} />,
-        children: 'Bloquear Periodo'
-    },
-];
 
-export default function QuickActions({ }: QuickActionsProps) {
+
+export default function QuickActions({ services }: QuickActionsProps) {
+
+    const quickActions: quickActionsType[] = [
+        {
+            title: 'Crear cita manualmente',
+            description: '',
+            trigger: <QuickActionsButton label="Nueva Cita Manual" Icon={Plus} />,
+            children: <NewApointmentForm services={services} />
+        },
+        {
+            title: 'Bloquear Día / Horario',
+            description: '',
+            trigger: <QuickActionsButton variant="outline" label="Bloquear Día / Horario" Icon={CalendarOff} />,
+            children: 'Bloquear Día / Horario'
+        },
+        {
+            title: 'Bloquear Periodo',
+            description: '',
+            trigger: <QuickActionsButton variant="outline" label="Bloquear Periodo" Icon={CalendarRange} />,
+            children: 'Bloquear Periodo'
+        },
+    ];
+
     return (
         <Card className="h-full flex flex-col border-border shadow-sm">
             <CardHeader className="pb-4">

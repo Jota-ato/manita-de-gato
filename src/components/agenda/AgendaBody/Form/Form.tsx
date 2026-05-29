@@ -85,6 +85,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
                     {...register('last_name')}
                 />
                 <ServiceSelect
+                    name='serviceId'
                     control={control}
                     error={errors.serviceId?.message}
                     services={services}
