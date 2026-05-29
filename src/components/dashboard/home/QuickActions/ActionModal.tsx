@@ -24,7 +24,7 @@ export default function ActionModal({ title, description, trigger, children }: N
                 {trigger}
             </DialogTrigger>
 
-            <DialogContent className="overflow-y-scroll max-h-[90%]">
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>
@@ -38,7 +38,6 @@ export default function ActionModal({ title, description, trigger, children }: N
                         <p className="text-sm text-muted-foreground">Formulario en construcción...</p>
                     </div>
                 }
-
             </DialogContent>
         </Dialog>
     );

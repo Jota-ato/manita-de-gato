@@ -37,6 +37,9 @@ export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
     const { name, serviceId, phone, secondary_phone, timeMin, timeMax, last_name } = data;
 
+    const safeTimeMin = new Date(timeMin);
+    const safeTimeMax = new Date(timeMax);
+
     const client_id = await getClientId({ name, last_name, phone, secondary_phone });
 
     const { error } = await supabase
@@ -44,8 +47,8 @@ export async function createAppointment(data: createAppointmentProps) {
         .insert({
             client_id,
             service_id: Number(serviceId),
-            timeMin: timeMin.toISOString(),
-            timeMax: timeMax.toISOString()
+            timeMin: safeTimeMin.toISOString(),
+            timeMax: safeTimeMax.toISOString()
         })
         .select()
         .single();

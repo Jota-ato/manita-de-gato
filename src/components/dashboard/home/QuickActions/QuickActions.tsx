@@ -7,8 +7,7 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, CalendarOff, CalendarRange, Ban } from "lucide-react";
+import { Plus, CalendarOff, CalendarRange, Ban, Trash2Icon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Appointment } from "@/lib/supabase/schemas";
 import ActionModal from "./ActionModal";
@@ -17,9 +16,13 @@ import NewApointmentForm from "./Forms/NewApointmentForm";
 import QuickActionsButton from "./QuickActionsButton";
 import { Service } from "@/schemas/services";
 
+import { TZDate } from "@date-fns/tz";
+import CancelModal from "./CancelModal";
+
 interface QuickActionsProps {
     todayAppointments: Appointment[]
     services: Service[]
+    today: TZDate
 }
 
 interface quickActionsType {
@@ -31,7 +34,7 @@ interface quickActionsType {
 
 
 
-export default function QuickActions({ services }: QuickActionsProps) {
+export default function QuickActions({ services, today }: QuickActionsProps) {
 
     const quickActions: quickActionsType[] = [
         {
@@ -78,16 +81,9 @@ export default function QuickActions({ services }: QuickActionsProps) {
 
                 <Separator />
 
-                <Button
-                    variant="destructive"
-                    className="w-full justify-start gap-3"
-                    size="lg"
-                // onClick={() => openAlertDialog('cancel-all')}
-                >
-                    <Ban className="size-5" />
-                    Cancelar todo hoy
-                </Button>
-
+                <CancelModal
+                    today={today}
+                />
             </CardContent>
         </Card>
     );

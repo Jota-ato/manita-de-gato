@@ -28,11 +28,14 @@ interface EventProps {
     ROW_HEIGHT_REM: number
 }
 
-export default function Event({ event, START_HOUR, ROW_HEIGHT_REM } : EventProps) {
+export default function Event({ event, START_HOUR, ROW_HEIGHT_REM }: EventProps) {
 
 
-    const startDate = event.timeMin.toISOString();
-    const endDate =  event.timeMax.toISOString();
+    const start = new Date(event.timeMin);
+    const end = new Date(event.timeMax);
+
+    const startDate = start.toISOString();
+    const endDate = end.toISOString();
 
     // Calculate minutes from start (08:00)
     const startBase = new Date(startDate);

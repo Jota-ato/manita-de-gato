@@ -19,6 +19,7 @@ export default async function BentoContainer() {
                 todayAppointments={todayAppointments}
             />
             <QuickActions
+                today={today}
                 todayAppointments={todayAppointments}
                 services={services}
             />
