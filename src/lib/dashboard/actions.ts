@@ -58,6 +58,13 @@ export async function getDayAppointments(day: TZDate) {
         console.error('ERROR GETTING DAY APPOINTMENTS', error.message);
     }
 
+    console.log(`Inicio del día: ${startOfDay} - fin del día: ${endOfDay}`)
+    console.log(data?.flatMap((appointment) => {
+            const result = AppointmentSchema.safeParse(appointment);
+            return result.success ? [formatAppointmentDates(result.data)] : [];
+        })
+        .sort((a, b) => new Date(a.timeMin).getTime() - new Date(b.timeMin).getTime()).forEach((apt) => console.log(`Inicio de la cita: ${apt.timeMin.toISOString()} - fin de la cita: ${apt.timeMax.toISOString()}`)))
+
     return (data ?? [])
         .flatMap((appointment) => {
             const result = AppointmentSchema.safeParse(appointment);
