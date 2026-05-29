@@ -3,6 +3,8 @@
 import { serviceSchema, Service } from '@/schemas/services';
 import { createClient } from "@/lib/supabase/server";
 import { AgendaFormData } from "@/schemas/agendaForm";
+import { TZDate } from 'react-day-picker';
+import { TIMEZONE } from '../supabase/utils/helpers';
 
 export async function getServices(): Promise<Service[]> {
     const supabase = await createClient()
@@ -25,8 +27,8 @@ export async function getServices(): Promise<Service[]> {
 }
 
 type createAppointmentProps = AgendaFormData & {
-    timeMin: Date
-    timeMax: Date
+    timeMin: TZDate
+    timeMax: TZDate
 };
 
 /**
@@ -36,7 +38,8 @@ type createAppointmentProps = AgendaFormData & {
 export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
     const { name, serviceId, phone, secondary_phone, timeMin, timeMax, last_name } = data;
-    console.log(timeMin, timeMax)
+    const formatedTimeMin = new TZDate(timeMin, TIMEZONE)
+    const formatedTimeMax = new TZDate(timeMax, TIMEZONE)
 
     const client_id = await getClientId({ name, last_name, phone, secondary_phone });
 
@@ -45,8 +48,8 @@ export async function createAppointment(data: createAppointmentProps) {
         .insert({
             client_id,
             service_id: Number(serviceId),
-            timeMin: timeMin.toISOString(),
-            timeMax: timeMax.toISOString()
+            timeMin: formatedTimeMin.toISOString(),
+            timeMax: formatedTimeMax.toISOString()
         })
         .select()
         .single();
@@ -54,9 +57,9 @@ export async function createAppointment(data: createAppointmentProps) {
     if (error) {
         console.error("[CREATE_APPOINTMENT_ERROR]:", error.message);
         return {
-        success: false,
-        message: `Error creando la cita`
-    };
+            success: false,
+            message: `Error creando la cita`
+        };
     }
 
     return {
