@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from "@/components/ui/button";
 import { FieldGroup, FieldSet } from "@/components/ui/field";
 import DatePickerTime from "./DatePicker";
@@ -12,10 +13,11 @@ import ServiceSelect from "@/components/agenda/AgendaBody/Form/ServiceSelect";
 import { createAppointment } from "@/lib/form/service";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
-import { TZDate } from "react-day-picker";
+import { TZDate } from "react-day-picker"; // O "@date-fns/tz" dependiendo de tu versión
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { Appointment } from "@/lib/supabase/schemas";
 import { updateAppointment } from "@/lib/dashboard/actions";
+import { format } from "date-fns"; // 👈 Importante para la hidratación inversa
 
 interface NewApointmentFormProps {
     services: Service[]
@@ -28,27 +30,31 @@ interface FieldsType {
 }
 
 const Fields: FieldsType[] = [
-    {
-        label: 'Nombre del cliente',
-        id: 'name'
-    },
-    {
-        label: 'Apellido del cliente',
-        id: 'last_name'
-    },
-    {
-        label: 'Teléfono',
-        id: 'phone'
-    },
-    {
-        label: 'Teléfono secundario',
-        id: 'secondary_phone'
-    },
+    { label: 'Nombre del cliente', id: 'name' },
+    { label: 'Apellido del cliente', id: 'last_name' },
+    { label: 'Teléfono', id: 'phone' },
+    { label: 'Teléfono secundario', id: 'secondary_phone' },
 ]
 
 export default function NewApointmentForm({ services, appointment }: NewApointmentFormProps) {
 
-    const isEditing = typeof appointment === 'undefined';
+    // 1. Corregimos el booleano: Es edición si 'appointment' SÍ existe
+    const isEditing = !!appointment;
+
+    // 2. Hidratación Inversa de Fechas
+    const defaultDate = isEditing ? new Date(appointment.timeMin) : new Date();
+    const defaultStartHour = isEditing ? format(new Date(appointment.timeMin), 'HH:mm') : '10:00';
+    const defaultEndHour = isEditing ? format(new Date(appointment.timeMax), 'HH:mm') : '12:00';
+
+    // 3. Hidratación Inversa del Cliente
+    // Hacemos un cast temporal a 'any' por si tu type Appointment no tiene tipado el JOIN de clients
+    const appointmentData = appointment as Appointment;
+    const defaultName = isEditing ? (appointmentData.clients?.name || appointmentData.client_name_snapshot || '') : '';
+    const defaultLastName = isEditing ? (appointmentData.clients?.last_name || appointmentData.client_last_name_snapshot || '') : '';
+    const defaultPhone = isEditing ? (appointmentData.clients?.phone || '') : '';
+    const defaultSecPhone = isEditing ? (appointmentData.clients?.secondary_phone || '') : '';
+    const defaultService = isEditing ? String(appointment.service_id) : '';
+
     const {
         register,
         handleSubmit,
@@ -58,13 +64,14 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
     } = useForm<AdminAppointmentForm>({
         resolver: zodResolver(AdminAppointmentSchema),
         defaultValues: {
-            name: '',
-            last_name: '',
-            phone: '',
-            secondary_phone: '',
-            serviceId: '',
-            timeMin: '10:00',
-            timeMax: '12:00'
+            name: defaultName,
+            last_name: defaultLastName,
+            phone: defaultPhone,
+            secondary_phone: defaultSecPhone,
+            serviceId: defaultService,
+            date: defaultDate,
+            timeMin: defaultStartHour,
+            timeMax: defaultEndHour
         }
     });
 
@@ -88,31 +95,32 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
             timeMax
         };
 
+        // 4. Bifurcación correcta de la lógica
         if (isEditing) {
-            const response = await createAppointment(payload);
-
-            if (response.success) {
-                toast.success(response.message);
-                reset();
-            } else {
-                toast.error(response.message);
-            }
-        } else {
             const response = await updateAppointment(appointment.id, payload);
 
             if (response.success) {
                 toast.success(response.message);
-                reset();
+                // Nota: Usualmente no hacemos reset() en edición para que la UI no se quede en blanco,
+                // a menos que quieras cerrar el modal automáticamente.
+            } else {
+                toast.error(response.message);
+            }
+        } else {
+            const response = await createAppointment(payload);
+
+            if (response.success) {
+                toast.success(response.message);
+                reset(); // Reseteamos al crear para dejar el formulario limpio
             } else {
                 toast.error(response.message);
             }
         }
-
     }
 
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
-            <FieldSet>
+            <FieldSet disabled={isSubmitting}>
                 <DatePickerTime
                     control={control}
                     nameDate="date"
@@ -141,15 +149,18 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
                 </FieldGroup>
                 <Button
                     type="submit"
+                    disabled={isSubmitting}
                 >
-                    {isSubmitting ? <p className="flex items-center gap-2"><Spinner />Creando...</p> : 'Crear'}
+                    {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                            <Spinner />
+                            {isEditing ? 'Guardando cambios...' : 'Creando cita...'}
+                        </span>
+                    ) : (
+                        isEditing ? 'Guardar Cambios' : 'Crear Cita'
+                    )}
                 </Button>
             </FieldSet>
         </form>
     )
 }
-
-
-
-
-

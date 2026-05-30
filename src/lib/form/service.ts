@@ -78,6 +78,7 @@ export async function createAppointment(data: createAppointmentProps) {
  * @property secondary_phone<string | null>: secondary phone
  */
 interface ClientInfo {
+    id?: string
     name: string;
     last_name: string;
     phone: string;
@@ -94,6 +95,9 @@ interface ClientInfo {
  * @see ClientInfo to see properties.
  * @returns <string> A uuid that identifies the client.
  */
+// import { createClient } from "@/lib/supabase/server";
+// import { ClientSchema, ClientInfo, Client } from "..."; 
+
 export async function getClient(clientInfo: ClientInfo): Promise<{
     id: string,
     message: string,
@@ -101,11 +105,19 @@ export async function getClient(clientInfo: ClientInfo): Promise<{
 }> {
     const supabase = await createClient();
 
-    const { data: clientFound, error: clientError } = await supabase
-        .from('Clients')
-        .select('*')
-        .eq('phone', clientInfo.phone)
-        .maybeSingle();
+    // 1. CONSTRUCCIÓN DINÁMICA DE LA CONSULTA
+    let query = supabase.from('Clients').select('*');
+
+    if (clientInfo.id) {
+        // Si tenemos ID, es la búsqueda más precisa y rápida
+        query = query.eq('id', clientInfo.id);
+    } else {
+        // Fallback a la búsqueda por teléfono
+        query = query.eq('phone', clientInfo.phone);
+    }
+
+    // 2. EJECUCIÓN DE LA CONSULTA
+    const { data: clientFound, error: clientError } = await query.maybeSingle();
 
     if (clientError) {
         console.error("[FETCH_CLIENT_ERROR]:", clientError.message);
@@ -115,6 +127,7 @@ export async function getClient(clientInfo: ClientInfo): Promise<{
     let clientId = clientFound?.id;
     let client = clientFound;
 
+    // 3. SI EL CLIENTE EXISTE, LO VALIDAMOS Y ACTUALIZAMOS
     if (clientFound) {
         const response = ClientSchema.safeParse(clientFound);
 
@@ -126,6 +139,7 @@ export async function getClient(clientInfo: ClientInfo): Promise<{
             };
         }
 
+        // Enriquecemos el perfil si le faltaba el email
         if (!clientFound.email && clientInfo.email) {
             const { error: updateError } = await supabase
                 .from('Clients')
@@ -141,6 +155,7 @@ export async function getClient(clientInfo: ClientInfo): Promise<{
         }
     }
 
+    // 4. SI EL CLIENTE NO EXISTE, LO CREAMOS
     if (!clientId) {
         const { data: newClient, error: createError } = await supabase
             .from('Clients')
