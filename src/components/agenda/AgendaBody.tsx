@@ -1,5 +1,5 @@
 'use client';
-import { isSameDay } from "date-fns";
+import { endOfDay, isSameDay, startOfDay } from "date-fns";
 import HoursColumn from "./AgendaBody/HoursColumn";
 import EventPublic from "./AgendaBody/EventPublic";
 import HourCell from "./AgendaBody/HourCell";
@@ -28,42 +28,50 @@ export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps)
             />
 
             {/* Days columns */}
-            {weekDays.map((day, dayDifference) => (
-                <div key={day.toISOString()} className="relative border-r border-muted-foreground last:border-r-0">
-                    {hours.map((hour) => (
-                        <HourCell
-                            key={hour.getTime()}
-                            hour={hour}
-                            dayDifference={dayDifference}
-                        />
-                    ))}
+            {weekDays.map((day, dayDifference) => {
+                const currentDayStart = startOfDay(day);
+                const currentDayEnd = endOfDay(day);
 
-                    {/* Events Layer */}
-                    {events
-                        .filter(event => isSameDay(day, event.timeMin) && (event.status === 'approved' || event.status === 'paid'))
-                        .map(event => (
-                            <EventPublic
-                                key={event.id}
-                                event={event}
-                                START_HOUR={START_HOUR}
-                                ROW_HEIGHT_REM={ROW_HEIGHT_REM}
-                            />
-                        ))
-                    }
-                    {
-                        events
-                            .filter(event => isSameDay(day, event.timeMin) && event.status === 'no_show')
+                return (
+                    <div key={day.toISOString()} className="relative border-r border-muted-foreground last:border-r-0">
+                        {hours.map((hour) => (
+                            <HourCell key={hour.getTime()} hour={hour} dayDifference={dayDifference} />
+                        ))}
+
+                        {events
+                            .filter(event => isSameDay(day, event.timeMin) && (event.status === 'approved' || event.status === 'paid'))
                             .map(event => (
-                                <BlockPeriod
+                                <EventPublic
                                     key={event.id}
                                     event={event}
                                     START_HOUR={START_HOUR}
                                     ROW_HEIGHT_REM={ROW_HEIGHT_REM}
                                 />
                             ))
-                    }
-                </div>
-            ))}
+                        }
+
+                        {events
+                            .filter(event => {
+                                if (event.status !== 'no_show') return false;
+
+                                const eventStart = new Date(event.timeMin);
+                                const eventEnd = new Date(event.timeMax);
+
+                                return eventStart <= currentDayEnd && eventEnd >= currentDayStart;
+                            })
+                            .map(event => (
+                                <BlockPeriod
+                                    currentColumnDate={day}
+                                    key={event.id}
+                                    event={event}
+                                    START_HOUR={START_HOUR}
+                                    ROW_HEIGHT_REM={ROW_HEIGHT_REM}
+                                />
+                            ))
+                        }
+                    </div>
+                );
+            })}
         </main>
     );
 }
