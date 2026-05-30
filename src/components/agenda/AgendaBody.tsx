@@ -4,6 +4,7 @@ import HoursColumn from "./AgendaBody/HoursColumn";
 import EventPublic from "./AgendaBody/EventPublic";
 import HourCell from "./AgendaBody/HourCell";
 import { Appointment } from "@/lib/supabase/schemas";
+import BlockPeriod from "./AgendaBody/BlockPeriod";
 
 
 interface AgendaBodyProps {
@@ -38,8 +39,8 @@ export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps)
                     ))}
 
                     {/* Events Layer */}
-                    {   events
-                        .filter(event => isSameDay(day, event.timeMin))
+                    {events
+                        .filter(event => isSameDay(day, event.timeMin) && (event.status === 'approved' || event.status === 'paid'))
                         .map(event => (
                             <EventPublic
                                 key={event.id}
@@ -48,6 +49,18 @@ export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps)
                                 ROW_HEIGHT_REM={ROW_HEIGHT_REM}
                             />
                         ))
+                    }
+                    {
+                        events
+                            .filter(event => isSameDay(day, event.timeMin) && event.status === 'no_show')
+                            .map(event => (
+                                <BlockPeriod
+                                    key={event.id}
+                                    event={event}
+                                    START_HOUR={START_HOUR}
+                                    ROW_HEIGHT_REM={ROW_HEIGHT_REM}
+                                />
+                            ))
                     }
                 </div>
             ))}

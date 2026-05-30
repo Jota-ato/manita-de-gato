@@ -13,9 +13,6 @@ interface ActionResponse {
     message: string;
 }
 
-// Reutilizamos tu lógica auxiliar de borrado interno en Google
-// Asumimos que esta función ya la tienes exportada en tus servicios
-
 export async function cancellAllAppointmentsDay(dayStr: string | Date): Promise<ActionResponse> {
     const supabase = await createClient();
     const dateTarget = new Date(dayStr);
@@ -116,8 +113,6 @@ export async function createBlockTime({
             safeTimeMax = endOfDay(today);
         }
     }
-
-    console.log(`Inicio del bloqueo: ${safeTimeMin.toISOString()}, fin del bloqueo: ${safeTimeMax.toISOString()}`)
 
     const payload: createAppointmentProps = {
         name: 'BLOQUEO MANUAL',

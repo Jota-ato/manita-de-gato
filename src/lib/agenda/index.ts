@@ -42,7 +42,7 @@ export async function getEventsFromDay(day: TZDate): Promise<Appointment[]> {
         .from("Appointments")
         .select('*')
         .gte('timeMin', startOfDay(day).toISOString())
-        .in('status', ['approved', 'paid']);
+        .in('status', ['approved', 'paid', 'no_show']);
 
     if (error) {
         console.error('Error consiguiendo las citas', error.message);
