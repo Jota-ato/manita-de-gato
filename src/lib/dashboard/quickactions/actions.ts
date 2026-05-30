@@ -5,7 +5,8 @@ import { createAppointment, createAppointmentProps } from "@/lib/form/service";
 import { createClient } from "@/lib/supabase/server";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { TZDate } from "@date-fns/tz";
-import { endOfDay, startOfDay } from "date-fns";
+import { endOfDay, format, startOfDay } from "date-fns";
+import { es } from "date-fns/locale";
 import { revalidatePath } from "next/cache";
 
 interface ActionResponse {
@@ -123,6 +124,18 @@ export async function createBlockTime({
         timeMax: safeTimeMax,
         status: 'no_show'
     }
+    const formatedTimeMin = format(timeMin, "EE 'de' dd MMMM yyyy', a las' HH:mm", { locale: es })
+    const formatedTimeMax = format(timeMax, "EE 'de' dd MMMM yyyy', a las' HH:mm", { locale: es })
 
-    return await createAppointment(payload);
+    const result = await createAppointment(payload);
+    if (result.success) {
+        return {
+            success: true,
+            message: `Periodo de ${formatedTimeMin} - ${formatedTimeMax} bloqueado`
+        }
+    }
+    return {
+        success: false,
+        message: 'Error bloqueando periodo'
+    };
 }

@@ -17,16 +17,24 @@ interface DatePickerTimeProps<T extends FieldValues> {
     dateError?: string;
     startError?: string;
     endError?: string;
+    label?: string
 }
 
 export default function DatePickerTime<T extends FieldValues>({
-    control, nameDate, nameStartTime, nameEndTime, dateError, startError, endError
+    control,
+    nameDate, 
+    nameStartTime, 
+    nameEndTime, 
+    dateError, 
+    startError, 
+    endError,
+    label = 'Fecha de la Cita'
 }: DatePickerTimeProps<T>) {
     return (
         <FieldGroup className="grid grid-cols-2 gap-4">
             {/* 1. CALENDARIO */}
             <Field className="col-span-2">
-                <FieldLabel>Fecha de la Cita</FieldLabel>
+                <FieldLabel>{label}</FieldLabel>
                 <Controller
                     control={control}
                     name={nameDate}

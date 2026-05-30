@@ -1,4 +1,4 @@
-import { useState } from "react"; // 👈 Añadimos useState
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FieldSet } from "@/components/ui/field";
 import DatePickerTime from "./DatePicker";
@@ -79,6 +79,7 @@ export default function BlockTimeForm() {
         <form onSubmit={handleSubmit(onValidSubmit)}>
             <FieldSet disabled={isAnyLoading}>
                 <DatePickerTime
+                    label="Día del bloqueo"
                     control={control}
                     nameDate="date"
                     nameStartTime="timeMin"

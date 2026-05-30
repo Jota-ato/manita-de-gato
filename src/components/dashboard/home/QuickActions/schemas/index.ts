@@ -13,6 +13,29 @@ const validateTimeRange = (data: { date: Date; timeMin: string; timeMax: string 
     return timeMax > timeMin;
 };
 
+const validatePeriodRange = (data: {
+    timeMin: string;
+    timeMax: string;
+    startDate: Date;
+    endDate: Date;
+}) => {
+    const [startHours, startMinutes] = data.timeMin.split(':').map(Number);
+    const [endHours, endMinutes] = data.timeMax.split(':').map(Number);
+
+    const absoluteStart = new Date(data.startDate);
+    absoluteStart.setHours(startHours, startMinutes, 0, 0);
+
+    const absoluteEnd = new Date(data.endDate);
+    absoluteEnd.setHours(endHours, endMinutes, 0, 0);
+
+    return absoluteEnd > absoluteStart;
+}
+
+const periodRefineOptions = {
+    message: "La fecha y hora de fin debe ser posterior a la de inicio",
+    path: ["endDate"]
+}
+
 const timeRefineOptions = {
     message: "La hora de fin debe ser posterior a la de inicio",
     path: ["timeMax"]
@@ -40,3 +63,19 @@ export const CreateBlockTimeSchema = baseAppointmentFields
     })
     .refine(validateTimeRange, timeRefineOptions);
 export type CreateBlockTimeForm = z.infer<typeof CreateBlockTimeSchema>
+
+export const CreateBlockPeriodSchema = baseAppointmentFields
+    .pick({
+        timeMin: true,
+        timeMax: true,
+    })
+    .extend({
+        startDate: z.date(),
+        endDate: z.date(),
+    })
+    .refine(
+        validatePeriodRange,
+        periodRefineOptions
+);
+
+export type CreateBlockForm = z.infer<typeof CreateBlockPeriodSchema>

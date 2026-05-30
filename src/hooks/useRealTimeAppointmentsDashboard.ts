@@ -30,6 +30,7 @@ export function useRealtimeAppointments() {
                 (payload: PayloadType) => {
                     const data = payload.eventType === 'DELETE' ? payload.old : payload.new;
                     const result = AppointmentSchema.safeParse(data);
+                    const appointment = result.data;
 
                     if (!result.success) {
                         router.refresh();
@@ -45,6 +46,7 @@ export function useRealtimeAppointments() {
                         }
 
                         case 'INSERT': {
+                            if (appointment?.service_id === 0) return;
                             toast.success('¡Nueva cita recibida!', {
                                 description: `${result.data.client_name_snapshot} acaba de agendar una cita.`,
                             });
