@@ -1,8 +1,7 @@
 import Hero from "@/components/landing/about-us/Hero";
-import Team from "@/components/landing/about-us/Team";
 import Values from "@/components/landing/about-us/Values";
 import { Button } from "@/components/ui/button";
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
 export default function AboutUs() {
@@ -19,11 +18,10 @@ export default function AboutUs() {
             <Values />
 
             {/* Team Section */}
-            <Team />
 
             {/* CTA Section */}
             <section className="py-20 px-6 flex items-center justify-center">
-                <Card className="w-6xl bg-secondary text-secondary-foreground">
+                <Card className="w-[90%] max-w-6xl bg-secondary text-secondary-foreground">
                     <CardHeader>
                         <CardTitle className="text-center text-4xl font-bold">
                             ¿Lista para tu próxima Manita de Gato?

@@ -1,5 +1,6 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Heart, Sparkles, ShieldCheck, GraduationCap } from "lucide-react";
-
 
 const values = [
     {
@@ -26,24 +27,55 @@ const values = [
 
 export default function Values() {
     return (
-        <section className="py-20 bg-surface-container-lowest dark:bg-background border-y border-border/50">
-            <div className="max-w-7xl mx-auto px-6">
+        <section className="py-20 px-4 md:px-8 bg-background">
+            <div className="w-[90%] max-w-6xl mx-auto">
+
                 <div className="text-center mb-16">
-                    <h3 className="text-3xl font-bold mb-4">Nuestros Valores</h3>
-                    <div className="w-20 h-1 bg-primary mx-auto rounded-full opacity-30"></div>
+                    <h3 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">
+                        Mis Valores
+                    </h3>
+                    <Separator className="max-w-16 py-0.5 rounded-xl bg-primary mx-auto" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+                    <Card className="col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-2 bg-muted/40 border-primary/10 flex flex-col justify-between">
+                        <CardHeader>
+                            <CardTitle className="text-2xl font-bold text-primary">
+                                Sobre mí
+                            </CardTitle>
+                            <CardDescription className="font-semibold uppercase tracking-wider text-muted-foreground/80">
+                                La mente detrás del arte
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="text-muted-foreground text-sm sm:text-base leading-relaxed flex flex-col gap-4 pt-2">
+                            <p>
+                                ¡Hola! Me encanta que quieras vivir la experiencia Manita de Gato.
+                                Soy <span className="font-semibold text-secondary-foreground">Sarii Estrada</span>, técnica certificada en Organic Nails con 12 años de experiencia, especialista en nail art, formada en diseño industrial y apasionada del arte.
+                            </p>
+                            <p className="bg-background/60 p-3 rounded-lg border border-border text-xs sm:text-sm font-medium italic text-muted-foreground">
+                                ✨ Para darte el servicio de súper calidad que mereces, mi agenda es muy exclusiva. Los lugares vuelan, ¡te recomiendo reservar tu cita lo antes posible!
+                            </p>
+                        </CardContent>
+                    </Card>
                     {values.map((value, index) => (
-                        <div key={index} className="p-8 bg-background dark:bg-surface-dim border border-border rounded-2xl hover:shadow-lg transition-shadow">
-                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6">
-                                <value.icon className="w-6 h-6" />
-                            </div>
-                            <h4 className="text-xl font-bold mb-3">{value.title}</h4>
-                            <p className="text-muted-foreground leading-relaxed">{value.description}</p>
-                        </div>
+                        <Card key={index} className="col-span-1 sm:col-span-1 lg:col-span-2 bg-card hover:bg-muted/30 transition-colors duration-200">
+                            <CardHeader className="space-y-3">
+                                <CardTitle className="text-lg font-bold tracking-tight flex gap-4 items-center">
+                                    <div className="p-2 w-fit bg-primary/10 text-primary rounded-lg">
+                                        <value.icon className="w-8 h-8" />
+                                    </div>
+                                    {value.title}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+                                    {value.description}
+                                </p>
+                            </CardContent>
+                        </Card>
                     ))}
+
                 </div>
             </div>
         </section>
-    )
+    );
 }

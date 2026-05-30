@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const navItems: Record<string, string> = {
-    servicios: 'Servicios',
-    resenas: 'Reseñas',
-    ubicacion: 'Ubicación'
+    servicios: '$Servicios',
+    resenas: '#Reseñas',
+    ubicacion: '#Ubicación'
 };
 
 export default function FooterNav() {

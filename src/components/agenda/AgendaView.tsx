@@ -37,8 +37,7 @@ export default function AgendaView({ events, today }: AgendaViewProps) {
     const visibleEvents = useMemo(() => {
         return events.filter(event => {
             const safeStartDate = new TZDate(event.timeMin, TIMEZONE);
-            const safeEndDate = new TZDate(event.timeMax, TIMEZONE);
-            return (
+            const safeEndDate = new TZDate(event.timeMax, TIMEZONE);            return (
                 safeStartDate.toISOString() <= endOfView.toISOString() &&
                 safeEndDate.toISOString() >= startOfView.toISOString()
             );
