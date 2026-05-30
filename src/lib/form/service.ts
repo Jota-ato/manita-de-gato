@@ -3,6 +3,7 @@
 import { serviceSchema, Service } from '@/schemas/services';
 import { createClient } from "@/lib/supabase/server";
 import { AgendaFormData } from "@/schemas/agendaForm";
+import { AppointmentStatus } from '../supabase/schemas';
 
 export async function getServices(): Promise<Service[]> {
     const supabase = await createClient()
@@ -24,9 +25,10 @@ export async function getServices(): Promise<Service[]> {
     return [];
 }
 
-type createAppointmentProps = AgendaFormData & {
+export type createAppointmentProps = AgendaFormData & {
     timeMin: Date
     timeMax: Date
+    status?: AppointmentStatus
 };
 
 /**
@@ -35,7 +37,7 @@ type createAppointmentProps = AgendaFormData & {
  */
 export async function createAppointment(data: createAppointmentProps) {
     const supabase = await createClient();
-    const { name, serviceId, phone, secondary_phone, timeMin, timeMax, last_name } = data;
+    const { name, serviceId, phone, secondary_phone, timeMin, timeMax, last_name, status } = data;
 
     const safeTimeMin = new Date(timeMin);
     const safeTimeMax = new Date(timeMax);
@@ -48,7 +50,8 @@ export async function createAppointment(data: createAppointmentProps) {
             client_id,
             service_id: Number(serviceId),
             timeMin: safeTimeMin.toISOString(),
-            timeMax: safeTimeMax.toISOString()
+            timeMax: safeTimeMax.toISOString(),
+            status: status ? status : 'pending'
         })
         .select()
         .single();

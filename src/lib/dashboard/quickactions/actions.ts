@@ -1,9 +1,11 @@
 'use server';
 
 import { deleteGoogleCalendarEvent } from "@/lib/calendar/service";
+import { createAppointment, createAppointmentProps } from "@/lib/form/service";
 import { createClient } from "@/lib/supabase/server";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { TZDate } from "@date-fns/tz";
+import { endOfDay, startOfDay } from "date-fns";
 import { revalidatePath } from "next/cache";
 
 interface ActionResponse {
@@ -79,4 +81,53 @@ export async function cancellAllAppointmentsDay(dayStr: string | Date): Promise<
             message: error instanceof Error ? error.message : "Error crítico al ejecutar la cancelación masiva."
         };
     }
+}
+
+interface createBlockTimeProps {
+    timeMin?: string | Date
+    timeMax?: string | Date
+}
+
+export async function createBlockTime({
+    timeMin = startOfDay(new TZDate(new Date(), TIMEZONE)),
+    timeMax = endOfDay(new TZDate(new Date(), TIMEZONE))
+}: createBlockTimeProps)
+    : Promise<{
+        success: boolean;
+        message: string;
+    }> {
+
+    let safeTimeMin, safeTimeMax;
+
+    if (!timeMin || !timeMax) {
+        const today = new Date();
+        safeTimeMin = startOfDay(today);
+        safeTimeMax = endOfDay(today);
+    } else {
+        const parsedMin = new Date(timeMin);
+        const parsedMax = new Date(timeMax);
+
+        if (isNaN(parsedMin.getTime()) || !isNaN(parsedMax.getTime())) {
+            safeTimeMin = parsedMin;
+            safeTimeMax = parsedMax;
+        } else {
+            const today = new Date();
+            safeTimeMin = startOfDay(today);
+            safeTimeMax = endOfDay(today);
+        }
+    }
+
+    console.log(`Inicio del bloqueo: ${safeTimeMin.toISOString()}, fin del bloqueo: ${safeTimeMax.toISOString()}`)
+
+    const payload: createAppointmentProps = {
+        name: 'BLOQUEO MANUAL',
+        last_name: '',
+        phone: 'BLOQUEO MANUAL',
+        serviceId: '0',
+        timeMin: safeTimeMin,
+        timeMax: safeTimeMax,
+        status: 'no_show'
+    }
+
+    return await createAppointment(payload);
 }

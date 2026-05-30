@@ -5,7 +5,7 @@ import DatePickerTime from "./DatePicker";
 import { Separator } from "@/components/ui/separator";
 import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 import { useForm } from "react-hook-form";
-import { AdminAppointmentFormData, AdminAppointmentSchema } from "../schemas";
+import { AdminAppointmentForm, AdminAppointmentSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Service } from "@/schemas/services";
 import ServiceSelect from "@/components/agenda/AgendaBody/Form/ServiceSelect";
@@ -21,7 +21,7 @@ interface NewApointmentFormProps {
 
 interface FieldsType {
     label: string
-    id: keyof AdminAppointmentFormData
+    id: keyof AdminAppointmentForm
 }
 
 const Fields: FieldsType[] = [
@@ -51,7 +51,7 @@ export default function NewApointmentForm({ services }: NewApointmentFormProps) 
         control,
         reset,
         formState: { errors, isSubmitting }
-    } = useForm<AdminAppointmentFormData>({
+    } = useForm<AdminAppointmentForm>({
         resolver: zodResolver(AdminAppointmentSchema),
         defaultValues: {
             name: '',
@@ -64,7 +64,7 @@ export default function NewApointmentForm({ services }: NewApointmentFormProps) 
         }
     });
 
-    const onValidSubmit = async (formData: AdminAppointmentFormData) => {
+    const onValidSubmit = async (formData: AdminAppointmentForm) => {
         try {
             const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);
             const [endHours, endMinutes] = formData.timeMax.split(':').map(Number);

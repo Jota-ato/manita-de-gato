@@ -18,6 +18,7 @@ import { Service } from "@/schemas/services";
 
 import { TZDate } from "@date-fns/tz";
 import CancelModal from "./CancelModal";
+import BlockTimeForm from "./Forms/BlockTimeForm";
 
 interface QuickActionsProps {
     todayAppointments: Appointment[]
@@ -47,7 +48,7 @@ export default function QuickActions({ services, today }: QuickActionsProps) {
             title: 'Bloquear Día / Horario',
             description: '',
             trigger: <QuickActionsButton variant="outline" label="Bloquear Día / Horario" Icon={CalendarOff} />,
-            children: 'Bloquear Día / Horario'
+            children: <BlockTimeForm />
         },
         {
             title: 'Bloquear Periodo',
