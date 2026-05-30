@@ -49,9 +49,6 @@ export async function getEventsFromDay({ day, scope } : getEventsFromDayProps): 
         .gte('timeMin', startOfDay(day).toISOString())
         .in('status', scope);
 
-    console.log(data?.map(element => element.status));
-    console.log(scope);
-
     if (error) {
         console.error('Error consiguiendo las citas', error.message);
         return [];

@@ -14,9 +14,12 @@ import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import { TZDate } from "react-day-picker";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
+import { Appointment } from "@/lib/supabase/schemas";
+import { updateAppointment } from "@/lib/dashboard/actions";
 
 interface NewApointmentFormProps {
     services: Service[]
+    appointment?: Appointment
 }
 
 interface FieldsType {
@@ -43,8 +46,9 @@ const Fields: FieldsType[] = [
     },
 ]
 
-export default function NewApointmentForm({ services }: NewApointmentFormProps) {
+export default function NewApointmentForm({ services, appointment }: NewApointmentFormProps) {
 
+    const isEditing = typeof appointment === 'undefined';
     const {
         register,
         handleSubmit,
@@ -65,26 +69,26 @@ export default function NewApointmentForm({ services }: NewApointmentFormProps) 
     });
 
     const onValidSubmit = async (formData: AdminAppointmentForm) => {
-        try {
-            const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);
-            const [endHours, endMinutes] = formData.timeMax.split(':').map(Number);
+        const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);
+        const [endHours, endMinutes] = formData.timeMax.split(':').map(Number);
 
-            const timeMin = new TZDate(formData.date, TIMEZONE);
-            timeMin.setHours(startHours, startMinutes, 0, 0);
+        const timeMin = new TZDate(formData.date, TIMEZONE);
+        timeMin.setHours(startHours, startMinutes, 0, 0);
 
-            const timeMax = new TZDate(formData.date, TIMEZONE);
-            timeMax.setHours(endHours, endMinutes, 0, 0);
+        const timeMax = new TZDate(formData.date, TIMEZONE);
+        timeMax.setHours(endHours, endMinutes, 0, 0);
 
-            const payload = {
-                name: formData.name,
-                last_name: formData.last_name,
-                phone: formData.phone,
-                secondary_phone: formData.secondary_phone,
-                serviceId: formData.serviceId,
-                timeMin,
-                timeMax
-            };
+        const payload = {
+            name: formData.name,
+            last_name: formData.last_name,
+            phone: formData.phone,
+            secondary_phone: formData.secondary_phone,
+            serviceId: formData.serviceId,
+            timeMin,
+            timeMax
+        };
 
+        if (isEditing) {
             const response = await createAppointment(payload);
 
             if (response.success) {
@@ -93,10 +97,17 @@ export default function NewApointmentForm({ services }: NewApointmentFormProps) 
             } else {
                 toast.error(response.message);
             }
-        } catch (error) {
-            toast.error("Ocurrió un error inesperado al procesar la cita.");
-            console.error(error);
+        } else {
+            const response = await updateAppointment(appointment.id, payload);
+
+            if (response.success) {
+                toast.success(response.message);
+                reset();
+            } else {
+                toast.error(response.message);
+            }
         }
+
     }
 
     return (

@@ -19,6 +19,8 @@ import { createAppointment } from "@/lib/form/service";
 import { getServices } from "@/lib/form/service";
 import { Service } from '@/schemas/services';
 import { buildWhatsAppRedirectUrl } from "@/lib/form/helpers";
+import { usePathname } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface FormProps {
     hour: Date;
@@ -30,6 +32,9 @@ export default function Form({ hour, onSuccess }: FormProps) {
     const timeMin = hour;
     const timeMax = addHours(hour, 2);
     const [services, setServices] = useState<Service[]>([])
+
+    const isDashboard = usePathname().startsWith('/');
+
     useEffect(() => {
         const fetchServices = async () => {
             setServices(await getServices());
@@ -54,16 +59,26 @@ export default function Form({ hour, onSuccess }: FormProps) {
         }
     });
 
+    const nameLabel = isDashboard ? 'Escribe el nombre' : '¿Cuál es tu nombre?';
+    const lastNameLabel = isDashboard ? 'Escribe el apellido' : '¿Cuál es tu apellido';
+    const phoneLabel = isDashboard ? 'Escribe el número de teléfono' : 'Ingresa tu número de teléfono para contactarte';
+    const seocndaryPhoneLabel = isDashboard ? 'Número alternativo' : '¿Te gustaría compartir un teléfono alternativo';
+
     const onValidSubmit = async (data: AgendaFormData) => {
-        try {
-            await createAppointment({ timeMin, timeMax, ...data });
+        const response = await createAppointment({ timeMin, timeMax, ...data });
+        if (response.success && !isDashboard) {
             const service = services.filter(service => service.id.toString() === data.serviceId)[0];
             const redirectURL = buildWhatsAppRedirectUrl({ timeMin, timeMax, clientName: data.name, service: service.name });
             onSuccess(false);
+            toast.success(response.message);
             reset();
             window.open(redirectURL, '_blank');
-        } catch (error) {
-            console.error("Submission failed", error);
+        } else if (response.success) {
+            onSuccess(false);
+            toast.success(response.message);
+            reset();
+        } else { 
+            toast.error(response.message);
         }
     };
 
@@ -73,14 +88,14 @@ export default function Form({ hour, onSuccess }: FormProps) {
                 <FieldWLabel
                     id='name'
                     type='text'
-                    label='¿Cuál es tu nombre?'
+                    label={nameLabel}
                     error={errors.name?.message}
                     {...register('name')}
                 />
                 <FieldWLabel
                     id='last_name'
                     type='text'
-                    label='¿Cuál es tu apellido?'
+                    label={lastNameLabel}
                     error={errors.last_name?.message}
                     {...register('last_name')}
                 />
@@ -93,14 +108,14 @@ export default function Form({ hour, onSuccess }: FormProps) {
                 <FieldWLabel
                     id='phone'
                     type='tel'
-                    label='Ingresa tu número de teléfono para contactarte'
+                    label={phoneLabel}
                     error={errors.phone?.message}
                     {...register('phone')}
                 />
                 <CollapsableField
                     id='secondary_phone'
                     type='tel'
-                    label='¿Te gustaría compartir un teléfono alternativo?'
+                    label={seocndaryPhoneLabel}
                     error={errors.secondary_phone?.message}
                     {...register('secondary_phone')}
                 />

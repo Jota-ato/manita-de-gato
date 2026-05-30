@@ -2,6 +2,7 @@ import AgendaView from "@/components/agenda/AgendaView";
 import { getEventsFromDay } from "@/lib/agenda";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { TZDate } from "@date-fns/tz";
+import RealtimeListenerDashboard from "../home/DailyAppointments/RealTimeListenerDashboard";
 
 
 export default async function AgendaDashboard() {
@@ -11,6 +12,7 @@ export default async function AgendaDashboard() {
 
     return (
         <>
+            <RealtimeListenerDashboard />
             <AgendaView
                 events={events}
                 today={today}

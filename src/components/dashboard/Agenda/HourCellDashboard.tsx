@@ -34,7 +34,7 @@ export default function HourCellDashboard({ hour, dayDifference }: HourCellProps
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Has seleccionado el horario {startHour}-{endHour}</DialogTitle>
-                    <DialogDescription>Ayúdanos a contactarte</DialogDescription>
+                    <DialogDescription>Llena los campos</DialogDescription>
                 </DialogHeader>
                 <Form
                     hour={addDays(hour, dayDifference)}

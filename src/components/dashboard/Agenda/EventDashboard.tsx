@@ -1,6 +1,11 @@
-import { Appointment, AppointmentStatus } from "@/lib/supabase/schemas";
-import { cn } from "@/lib/utils";
+import { Appointment } from "@/lib/supabase/schemas";
 import { format, differenceInMinutes } from "date-fns";
+import ActionModal from "../home/QuickActions/ActionModal";
+import EventBackGround from "./EventBackground";
+import NewApointmentForm from "../home/QuickActions/Forms/NewApointmentForm";
+import { useEffect, useState } from "react";
+import { Service } from "@/schemas/services";
+import { getServices } from "@/lib/form/service";
 
 interface EventProps {
     event: Appointment
@@ -8,15 +13,18 @@ interface EventProps {
     ROW_HEIGHT_REM: number
 }
 
-const statusColorMap: Record<Exclude<AppointmentStatus, 'no_show'>, string> = {
-    'approved': 'bg-success text-success-foreground hover:bg-success/80',
-    'pending': 'bg-warning text-warning-foreground hover:bg-warning/80',
-    'cancelled': 'bg-destructive text-destructive-foreground hover:bg-destructive/80',
-    'paid': 'bg-info text-info-foreground hover:bg-info/80',
-};
+
 
 export default function Event({ event, START_HOUR, ROW_HEIGHT_REM }: EventProps) {
 
+    const [services, setServices] = useState<Service[]>([]);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            setServices(await getServices());
+        }
+        fetchServices()
+    }, []);
 
     const start = new Date(event.timeMin);
     const end = new Date(event.timeMax);
@@ -37,24 +45,22 @@ export default function Event({ event, START_HOUR, ROW_HEIGHT_REM }: EventProps)
     if (height < 5) return
 
     return (
-        <div
-            key={event.id}
-            className={cn(
-                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md  overflow-hidden cursor-pointer text-warning-foreground bg-warning",
-                event.status !== 'no_show' ? statusColorMap[event.status] : 
-                'bg-muted text-muted-foreground'
-            )}
-            style={{
-                top: `${topOffset}rem`,
-                height: `${height - 0.2}rem`,
-            }}
+        <ActionModal
+            trigger={
+                <EventBackGround
+                    event={event}
+                    topOffset={topOffset}
+                    height={height}
+                    startDate={startDate}
+                    endDate={endDate}
+                />
+            }
+            title={`Editando cita de ${event.client_name_snapshot}`}
+            description={`Hora: ${format(startDate, 'HH:mm')}-${format(endDate, 'HH:mm')}`}
         >
-            <p className="text-xs font-light opacity-90 uppercase truncate">
-                {format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}
-            </p>
-            <p className="text-sm font-bold leading-tight wrap-break-word">
-                {`${event.client_name_snapshot} ${event.client_last_name_snapshot}`}
-            </p>
-        </div>
+            <NewApointmentForm
+                services={services}
+            />
+        </ActionModal>
     )
 }
