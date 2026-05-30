@@ -10,14 +10,15 @@ import { AdminAppointmentForm, AdminAppointmentSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Service } from "@/schemas/services";
 import ServiceSelect from "@/components/agenda/AgendaBody/Form/ServiceSelect";
-import { createAppointment } from "@/lib/form/service";
+import { ClientInfo, createAppointment, getClient } from "@/lib/form/service";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
-import { TZDate } from "react-day-picker"; // O "@date-fns/tz" dependiendo de tu versión
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { Appointment } from "@/lib/supabase/schemas";
 import { updateAppointment } from "@/lib/dashboard/actions";
-import { format } from "date-fns"; // 👈 Importante para la hidratación inversa
+import { format } from "date-fns";
+import { useEffect } from "react";
+import { TZDate } from "@date-fns/tz";
 
 interface NewApointmentFormProps {
     services: Service[]
@@ -38,22 +39,14 @@ const Fields: FieldsType[] = [
 
 export default function NewApointmentForm({ services, appointment }: NewApointmentFormProps) {
 
-    // 1. Corregimos el booleano: Es edición si 'appointment' SÍ existe
-    const isEditing = !!appointment;
-
-    // 2. Hidratación Inversa de Fechas
-    const defaultDate = isEditing ? new Date(appointment.timeMin) : new Date();
-    const defaultStartHour = isEditing ? format(new Date(appointment.timeMin), 'HH:mm') : '10:00';
-    const defaultEndHour = isEditing ? format(new Date(appointment.timeMax), 'HH:mm') : '12:00';
-
-    // 3. Hidratación Inversa del Cliente
-    // Hacemos un cast temporal a 'any' por si tu type Appointment no tiene tipado el JOIN de clients
+    const isEditing = !!appointment
     const appointmentData = appointment as Appointment;
-    const defaultName = isEditing ? (appointmentData.clients?.name || appointmentData.client_name_snapshot || '') : '';
-    const defaultLastName = isEditing ? (appointmentData.clients?.last_name || appointmentData.client_last_name_snapshot || '') : '';
-    const defaultPhone = isEditing ? (appointmentData.clients?.phone || '') : '';
-    const defaultSecPhone = isEditing ? (appointmentData.clients?.secondary_phone || '') : '';
-    const defaultService = isEditing ? String(appointment.service_id) : '';
+    const defaultDate = isEditing ? new Date(appointmentData.timeMin) : new Date();
+    const defaultStartHour = isEditing ? format(new Date(appointmentData.timeMin), 'HH:mm') : '10:00';
+    const defaultEndHour = isEditing ? format(new Date(appointmentData.timeMax), 'HH:mm') : '12:00';
+
+    const defaultName = isEditing ? (appointmentData.client_name_snapshot || appointmentData.client_name_snapshot || '') : '';
+    const defaultLastName = isEditing ? (appointmentData.client_last_name_snapshot || appointmentData.client_last_name_snapshot || '') : '';
 
     const {
         register,
@@ -66,14 +59,43 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
         defaultValues: {
             name: defaultName,
             last_name: defaultLastName,
-            phone: defaultPhone,
-            secondary_phone: defaultSecPhone,
-            serviceId: defaultService,
+            phone: '',
+            secondary_phone: '',
+            serviceId: isEditing ? String(appointmentData.service_id) : '',
             date: defaultDate,
             timeMin: defaultStartHour,
             timeMax: defaultEndHour
         }
     });
+
+    useEffect(() => {
+        const fetchFullClient = async () => {
+            if (isEditing && appointmentData?.client_id) {
+                try {
+                    const response = await getClient({ id: appointmentData.client_id, name: appointment.client_name_snapshot, last_name: appointment.client_last_name_snapshot } as ClientInfo);
+
+                    if (response.client) {
+                        reset({
+                            name: response.client.name,
+                            last_name: response.client.last_name,
+                            phone: response.client.phone,
+                            secondary_phone: response.client.secondary_phone || '',
+                            serviceId: String(appointmentData.service_id),
+                            date: defaultDate,
+                            timeMin: defaultStartHour,
+                            timeMax: defaultEndHour
+                        });
+                    }
+                } catch (error) {
+                    console.error("No se pudo obtener el cliente", error);
+                    toast.error("Error al cargar los datos completos del cliente.");
+                }
+            }
+        };
+
+        fetchFullClient();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isEditing, appointmentData]);
 
     const onValidSubmit = async (formData: AdminAppointmentForm) => {
         const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);

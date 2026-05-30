@@ -59,6 +59,7 @@ export default function Event({ event, START_HOUR, ROW_HEIGHT_REM }: EventProps)
             description={`Hora: ${format(startDate, 'HH:mm')}-${format(endDate, 'HH:mm')}`}
         >
             <NewApointmentForm
+                appointment={event}
                 services={services}
             />
         </ActionModal>
