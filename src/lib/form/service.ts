@@ -42,7 +42,8 @@ export async function createAppointment(data: createAppointmentProps) {
     const safeTimeMin = new Date(timeMin);
     const safeTimeMax = new Date(timeMax);
 
-    const client_id = await getClient({ name, last_name, phone, secondary_phone });
+    const response = await getClient({ name, last_name, phone, secondary_phone });
+    const client_id = response.client?.id
 
     const { error } = await supabase
         .from('Appointments')
