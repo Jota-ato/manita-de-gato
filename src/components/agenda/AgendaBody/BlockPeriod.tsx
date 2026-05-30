@@ -45,7 +45,7 @@ export default function BlockPeriod({ event, START_HOUR, ROW_HEIGHT_REM, current
         <div
             key={event.id}
             className={cn(
-                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md overflow-hidden transition-transform hover:scale-105 cursor-pointer text-muted-foreground bg-muted"
+                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md overflow-hidden cursor-pointer text-muted-foreground bg-muted"
             )}
             style={{
                 top: `${clampedTop}rem`,

@@ -33,7 +33,7 @@ export default function Event({ event, START_HOUR, ROW_HEIGHT_REM }: EventProps)
         <div
             key={event.id}
             className={cn(
-                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md  overflow-hidden transition-transform hover:scale-105 cursor-pointer text-warning-foreground bg-warning"
+                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md  overflow-hidden cursor-pointer text-warning-foreground bg-warning"
             )}
             style={{
                 top: `${topOffset}rem`,
