@@ -7,7 +7,7 @@ import RealtimeListenerPublic from "../dashboard/home/DailyAppointments/table/Re
 export default async function Agenda() {
 
     const today = new TZDate(new Date, TIMEZONE)
-    const events = await getEventsFromDay(today);
+    const events = await getEventsFromDay(today)
 
     return (
         <>

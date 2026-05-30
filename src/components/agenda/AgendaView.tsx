@@ -5,6 +5,7 @@ import AgendaHeader from "./AgendaHeader";
 import AgendaBody from "./AgendaBody";
 import { Appointment } from "@/lib/supabase/schemas";
 import { TZDate } from "@date-fns/tz";
+import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 
 interface AgendaViewProps {
     events: Appointment[]
@@ -35,8 +36,8 @@ export default function AgendaView({ events, today }: AgendaViewProps) {
 
     const visibleEvents = useMemo(() => {
         return events.filter(event => {
-            const safeStartDate = new Date(event.timeMin);
-            const safeEndDate = new Date(event.timeMax);
+            const safeStartDate = new TZDate(event.timeMin, TIMEZONE);
+            const safeEndDate = new TZDate(event.timeMax, TIMEZONE);
             return (
                 safeStartDate.toISOString() <= endOfView.toISOString() &&
                 safeEndDate.toISOString() >= startOfView.toISOString()
@@ -54,7 +55,7 @@ export default function AgendaView({ events, today }: AgendaViewProps) {
     );
 
     return (
-        <div className="w-full rounded-2xl border shadow-sm overflow-hidden relative">
+        <div className="w-[90%] max-w-6xl rounded-2xl border shadow-sm overflow-hidden relative">
             <AgendaHeader
                 weekDays={weekDays}
                 today={today}
