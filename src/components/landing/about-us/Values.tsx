@@ -27,7 +27,7 @@ const values = [
 
 export default function Values() {
     return (
-        <section className="flex items-center justify-center px-4 md:px-8 min-h-screen bg-background">
+        <section className="flex items-center justify-center px-4 md:px-8 min-h-screen bg-background py-12">
             <div className="w-[90%] max-w-6xl mx-auto">
 
                 <div className="text-center mb-16">
@@ -52,7 +52,7 @@ export default function Values() {
                                 Soy <span className="font-semibold text-secondary-foreground">Sarii Estrada</span>, técnica certificada en Organic Nails con 12 años de experiencia, especialista en nail art, formada en diseño industrial y apasionada del arte.
                             </p>
                             <p className="bg-background/60 p-3 rounded-lg border border-border text-xs sm:text-sm font-medium italic text-muted-foreground">
-                                ✨ Para darte el servicio de súper calidad que mereces, mi agenda es muy exclusiva. Los lugares vuelan, ¡te recomiendo reservar tu cita lo antes posible!
+                                ✨ Para darte el servicio de súper calidad que mereces. Mi agenda es muy exclusiva, los lugares vuelan, ¡te recomiendo reservar tu cita lo antes posible!
                             </p>
                         </CardContent>
                     </Card>

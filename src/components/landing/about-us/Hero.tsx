@@ -7,11 +7,11 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="px-4 md:px-8 bg-linear-to-b from-secondary to-background flex justify-center items-center min-h-screen">
-            <Card className="w-[90%] max-w-6xl flex flex-col md:flex-row py-0 h-160 overflow-hidden border-none shadow-xl bg-card gap-0">
+        <section className="px-4 md:px-8 py-12 bg-linear-to-b from-secondary to-background flex justify-center items-center min-h-screen">
+            <Card className="w-[90%] max-w-6xl flex flex-col md:flex-row py-0 md:h-160 overflow-hidden border-none shadow-xl bg-card gap-0">
 
                 <div
-                    className="w-full h-80 md:h-full relative"
+                    className="w-full min-h-68 md:h-full relative"
                     style={{ flex: '0.6 0 0%' }}
                 >
                     <Image
@@ -20,7 +20,7 @@ export default function Hero() {
                         width={800}
                         height={800}
                         priority
-                        className="absolute object-cover w-full h-full object-right md:object-center"
+                        className="absolute object-cover w-full h-full object-left md:object-center"
                     />
 
                     <div className="absolute inset-0 w-full h-full bg-linear-to-t from-card via-card/40 to-transparent md:bg-linear-to-r md:from-transparent md:via-card/50 md:to-card" />
