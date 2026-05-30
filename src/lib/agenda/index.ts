@@ -4,7 +4,7 @@ import { GoogleCalendarEventSchema, GoogleCalendarEvent } from "@/lib/calendar/s
 import { TZDate } from '@date-fns/tz';
 import { createClient } from '../supabase/server';
 import { startOfDay } from 'date-fns';
-import { AppointmentSchema, Appointment } from '../supabase/schemas';
+import { AppointmentSchema, Appointment, AppointmentStatus } from '../supabase/schemas';
 
 interface getEventsProps {
     timeMin: Date
@@ -34,7 +34,12 @@ export async function getEvents({ timeMin, timeMax, maxResults }: getEventsProps
     }
 }
 
-export async function getEventsFromDay(day: TZDate): Promise<Appointment[]> {
+interface getEventsFromDayProps { 
+    day: TZDate
+    scope: AppointmentStatus[]
+}
+
+export async function getEventsFromDay({ day, scope } : getEventsFromDayProps): Promise<Appointment[]> {
 
     const supabase = await createClient();
 
@@ -42,7 +47,10 @@ export async function getEventsFromDay(day: TZDate): Promise<Appointment[]> {
         .from("Appointments")
         .select('*')
         .gte('timeMin', startOfDay(day).toISOString())
-        .in('status', ['approved', 'paid', 'no_show']);
+        .in('status', scope);
+
+    console.log(data?.map(element => element.status));
+    console.log(scope);
 
     if (error) {
         console.error('Error consiguiendo las citas', error.message);

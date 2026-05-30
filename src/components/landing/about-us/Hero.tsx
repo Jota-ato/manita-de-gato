@@ -1,5 +1,9 @@
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
     return (
@@ -30,9 +34,9 @@ export default function Hero() {
                         <p className="text-primary font-bold text-sm uppercase tracking-[0.2em] italic">
                             Nuestra Historia
                         </p>
-                        <h1 className="text-foreground font-black text-3xl md:text-4xl lg:text-5xl leading-tight">
+                        <h2 className="text-foreground font-black text-3xl md:text-4xl lg:text-5xl leading-tight">
                             Donde la belleza encuentra su <span className="text-primary">refugio</span>
-                        </h1>
+                        </h2>
                     </div>
 
                     <div>
@@ -40,9 +44,33 @@ export default function Hero() {
                             Disfruta de una experiencia de lujo sin esfuerzo. Diseños de autor personalizados,
                             técnicas profesionales y el cuidado excepcional que tus uñas merecen.
                         </p>
+                        <Separator className="my-4" />
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Button
+                                size="lg"
+                                className="rounded-full h-14 px-8 text-base shadow-lg shadow-primary/20 transition-all hover:scale-105"
+                                asChild
+                            >
+                                <Link
+                                    href={'/agenda'}
+                                >
+                                    Ver Disponibilidad <ArrowRight className="ml-2 h-5 w-5" />
+                                </Link>
+                            </Button>
+                            <Button
+                                size="lg"
+                                variant="outline"
+                                className="rounded-full h-14 px-8 text-base border-primary/20 hover:bg-primary/5 transition-all"
+                                asChild
+                            >
+                                <Link href="/#servicios">
+                                    Nuestros Servicios
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </Card>
         </section>
     );

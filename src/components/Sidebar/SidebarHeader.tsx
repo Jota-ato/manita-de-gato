@@ -1,8 +1,20 @@
 import { cn } from "@/lib/utils";
 import { SidebarHeader } from "@/components/ui/sidebar";
 import Logo from "@/components/ui/logo";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function AppSidebarHeader({ isExpanded }: { isExpanded: boolean }) {
+
+    const pathName = usePathname();
+
+    const getHeaderHref = () => {
+        if (pathName.startsWith('/dashboard')) {
+            return '/dashboard';
+        }
+        return '/';
+    };
+
     return (
         <SidebarHeader
             className={cn(
@@ -10,7 +22,9 @@ export default function AppSidebarHeader({ isExpanded }: { isExpanded: boolean }
                 isExpanded ? "p-4" : "p-2 justify-center flex"
             )}
         >
-            {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<Logo width={32} height={32} /></span> : <Logo width={32} height={32} />}
+            <Link href={getHeaderHref()}>
+                {isExpanded ? <span className="flex items-center gap-2">Manita de Gato<Logo width={32} height={32} /></span> : <Logo width={32} height={32} />}
+            </Link>
         </SidebarHeader>
     )
 }

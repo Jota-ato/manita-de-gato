@@ -3,7 +3,6 @@ import { Appointment } from "@/lib/supabase/schemas";
 import NoDailyAppointments from "./NoDailyAppointments";
 import { getServices } from "@/lib/form/service";
 import DailyAppointmentRow from "../rows/DailyAppointmentRow";
-import RealtimeListenerDashboard from "../RealTimeListenerDashboard";
 
 interface DailyAppointmentsTableProps {
     todayAppointments: Appointment[]
@@ -15,7 +14,6 @@ export default async function DailyAppointmentsTable({ todayAppointments }: Dail
 
     return (
         <CardContent className="p-0 max-h-60 overflow-y-scroll">
-            <RealtimeListenerDashboard />
             {todayAppointments.length === 0 ? (
                 <NoDailyAppointments />
             ) : (

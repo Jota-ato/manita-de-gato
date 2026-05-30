@@ -5,6 +5,9 @@ import EventPublic from "./AgendaBody/EventPublic";
 import HourCell from "./AgendaBody/HourCell";
 import { Appointment } from "@/lib/supabase/schemas";
 import BlockPeriod from "./AgendaBody/BlockPeriod";
+import { usePathname } from "next/navigation";
+import HourCellDashboard from "../dashboard/Agenda/HourCellDashboard";
+import Event from "../dashboard/Agenda/EventDashboard";
 
 
 interface AgendaBodyProps {
@@ -16,6 +19,8 @@ interface AgendaBodyProps {
 export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps) {
     const ROW_HEIGHT_REM = 5;
     const START_HOUR = 10;
+    const pathName = usePathname()
+
 
     return (
         <main
@@ -34,20 +39,29 @@ export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps)
 
                 return (
                     <div key={day.toISOString()} className="relative border-r border-muted-foreground last:border-r-0">
-                        {hours.map((hour) => (
-                            <HourCell key={hour.getTime()} hour={hour} dayDifference={dayDifference} />
-                        ))}
+                        {pathName.startsWith('/dashboard') ? hours.map((hour) => (
+                            <HourCellDashboard key={hour.getTime()} hour={hour} dayDifference={dayDifference} />
+                        )) : hours.map((hour) => (
+                            <HourCell key={hour.getTime()} hour={hour} dayDifference={dayDifference} />))
+                        }
 
                         {events
-                            .filter(event => isSameDay(day, event.timeMin) && (event.status === 'approved' || event.status === 'paid'))
-                            .map(event => (
-                                <EventPublic
+                            .filter(event => isSameDay(day, event.timeMin))
+                            .map(event => {
+                                if (pathName.startsWith('/dashboard'))
+                                    return (<Event
+                                        key={event.id}
+                                        event={event}
+                                        START_HOUR={START_HOUR}
+                                        ROW_HEIGHT_REM={ROW_HEIGHT_REM}
+                                    />)
+                                return (<EventPublic
                                     key={event.id}
                                     event={event}
                                     START_HOUR={START_HOUR}
                                     ROW_HEIGHT_REM={ROW_HEIGHT_REM}
-                                />
-                            ))
+                                />)
+                            })
                         }
 
                         {events

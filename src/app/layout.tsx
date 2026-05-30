@@ -47,6 +47,7 @@ export default function RootLayout({
         <html
             lang="en"
             className={`${Stickman.variable} ${Cavalier.variable} ${inter.variable}`}
+            data-scroll-behavior="smooth"
             suppressHydrationWarning
         >
 
