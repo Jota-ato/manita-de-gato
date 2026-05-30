@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Hero() {
     return (
-        <section className="py-12 px-4 md:px-8 bg-linear-to-b from-secondary to-background flex justify-center items-center">
+        <section className="px-4 md:px-8 bg-linear-to-b from-secondary to-background flex justify-center items-center min-h-screen">
             <Card className="w-[90%] max-w-6xl flex flex-col md:flex-row py-0 h-160 overflow-hidden border-none shadow-xl bg-card gap-0">
 
                 <div
