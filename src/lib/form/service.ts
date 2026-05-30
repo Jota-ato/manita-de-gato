@@ -3,7 +3,7 @@
 import { serviceSchema, Service } from '@/schemas/services';
 import { createClient } from "@/lib/supabase/server";
 import { AgendaFormData } from "@/schemas/agendaForm";
-import { AppointmentStatus } from '../supabase/schemas';
+import { AppointmentStatus, Client, ClientSchema } from '../supabase/schemas';
 
 export async function getServices(): Promise<Service[]> {
     const supabase = await createClient()
@@ -42,7 +42,7 @@ export async function createAppointment(data: createAppointmentProps) {
     const safeTimeMin = new Date(timeMin);
     const safeTimeMax = new Date(timeMax);
 
-    const client_id = await getClientId({ name, last_name, phone, secondary_phone });
+    const client_id = await getClient({ name, last_name, phone, secondary_phone });
 
     const { error } = await supabase
         .from('Appointments')
@@ -93,13 +93,16 @@ interface ClientInfo {
  * @see ClientInfo to see properties.
  * @returns <string> A uuid that identifies the client.
  */
-export async function getClientId(clientInfo: ClientInfo): Promise<string> {
-
+export async function getClient(clientInfo: ClientInfo): Promise<{
+    id: string,
+    message: string,
+    client?: Client // Idealmente usa tu tipo 'Client' aquí
+}> {
     const supabase = await createClient();
 
     const { data: clientFound, error: clientError } = await supabase
         .from('Clients')
-        .select('id, email')
+        .select('*')
         .eq('phone', clientInfo.phone)
         .maybeSingle();
 
@@ -109,24 +112,34 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
     }
 
     let clientId = clientFound?.id;
+    let client = clientFound;
 
-    if (
-        clientFound &&
-        !clientFound.email &&
-        clientInfo.email
-    ) {
-        const { error: updateError } = await supabase
-            .from('Clients')
-            .update({
-                email: clientInfo.email
-            })
-            .eq('id', clientId);
+    if (clientFound) {
+        const response = ClientSchema.safeParse(clientFound);
 
-        if (updateError) {
-            console.error("[UPDATE_CLIENT_EMAIL_ERROR]:", updateError.message);
-            throw new Error("Failed to update client email.");
+        if (!response.success) {
+            console.error("[ZOD_PARSE_EXISTING_ERROR]:", response.error);
+            return {
+                id: '',
+                message: 'Error validando los datos del cliente existente.'
+            };
+        }
+
+        if (!clientFound.email && clientInfo.email) {
+            const { error: updateError } = await supabase
+                .from('Clients')
+                .update({ email: clientInfo.email })
+                .eq('id', clientId);
+
+            if (updateError) {
+                console.error("[UPDATE_CLIENT_EMAIL_ERROR]:", updateError.message);
+                throw new Error("Failed to update client email.");
+            }
+
+            client.email = clientInfo.email;
         }
     }
+
     if (!clientId) {
         const { data: newClient, error: createError } = await supabase
             .from('Clients')
@@ -137,7 +150,7 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
                 secondary_phone: clientInfo.secondary_phone || null,
                 email: clientInfo.email || null
             })
-            .select('id')
+            .select('*')
             .single();
 
         if (createError) {
@@ -145,8 +158,23 @@ export async function getClientId(clientInfo: ClientInfo): Promise<string> {
             throw new Error("Failed to register new client.");
         }
 
-        clientId = newClient.id;
+        const response = ClientSchema.safeParse(newClient);
+
+        if (!response.success) {
+            console.error("[ZOD_PARSE_NEW_ERROR]:", response.error);
+            return {
+                id: '',
+                message: 'Error validando la creación del cliente.'
+            };
+        }
+
+        clientId = response.data.id;
+        client = response.data;
     }
 
-    return clientId as string;
+    return {
+        id: clientId,
+        message: 'Cliente procesado correctamente',
+        client: client
+    };
 }

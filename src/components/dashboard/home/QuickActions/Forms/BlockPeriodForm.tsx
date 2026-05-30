@@ -5,10 +5,26 @@ import { CreateBlockForm, CreateBlockPeriodSchema, } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from "@/components/ui/spinner";
 import RangePicker from "./RangePicker";
-import { createBlockTime } from "@/lib/dashboard/quickactions/actions";
+import { createBlockTime } from "@/lib/dashboard/quickactions/actions"; 
 import { toast } from "sonner";
+import { Appointment } from "@/lib/supabase/schemas";
+import { format } from "date-fns";
+import { updateAppointment } from "@/lib/dashboard/actions";
+import { TZDate } from "@date-fns/tz";
+import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 
-export default function BlockPeriodForm() {
+interface BlockPeriodFormProps {
+    appointment?: Appointment;
+}
+
+export default function BlockPeriodForm({ appointment }: BlockPeriodFormProps) {
+
+    const isEditing = !!appointment;
+
+    const defaultStartDate = isEditing ? new Date(appointment.timeMin) : new Date();
+    const defaultEndDate = isEditing ? new Date(appointment.timeMax) : new Date();
+    const defaultStartHour = isEditing ? format(new Date(appointment.timeMin), 'HH:mm') : '10:00';
+    const defaultEndHour = isEditing ? format(new Date(appointment.timeMax), 'HH:mm') : '20:00';
 
     const {
         handleSubmit,
@@ -18,36 +34,37 @@ export default function BlockPeriodForm() {
     } = useForm<CreateBlockForm>({
         resolver: zodResolver(CreateBlockPeriodSchema),
         defaultValues: {
-            startDate: new Date(),
-            endDate: new Date(),
-            timeMin: '10:00',
-            timeMax: '20:00'
+            startDate: defaultStartDate,
+            endDate: defaultEndDate,
+            timeMin: defaultStartHour,
+            timeMax: defaultEndHour
         }
     });
 
-
     const onValidSubmit = async (formData: CreateBlockForm) => {
-        console.log(formData);
-        const timeMin = new Date(formData.startDate);
-        const timeMax = new Date(formData.endDate);
+        const timeMin = new TZDate(formData.startDate, TIMEZONE);
+        const timeMax = new TZDate(formData.endDate, TIMEZONE);
         const [startHour, startMinutes] = formData.timeMin.split(':').map(Number)
         const [endHour, endMinutes] = formData.timeMax.split(':').map(Number)
-        timeMin.setHours(startHour, startMinutes);
-        timeMax.setHours(endHour, endMinutes)
+        timeMin.setHours(startHour, startMinutes, 0, 0);
+        timeMax.setHours(endHour, endMinutes, 0, 0);
 
-        const response = await createBlockTime({ timeMin, timeMax })
+        const payload = { timeMin, timeMax };
+        const response = isEditing
+            ? await updateAppointment(appointment.id, payload)
+            : await createBlockTime(payload);
+
         if (response.success) {
             toast.success(response.message);
-            reset();
+            if (!isEditing) reset();
         } else {
             toast.error(response.message);
         }
     }
 
-
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
-            <FieldSet>
+            <FieldSet disabled={isSubmitting}>
                 <RangePicker
                     control={control}
                     nameStartDate="startDate"
@@ -65,9 +82,9 @@ export default function BlockPeriodForm() {
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? (
-                            <span className="flex items-center gap-2"><Spinner />Bloqueando...</span>
+                            <span className="flex items-center gap-2"><Spinner />{isEditing ? 'Guardando...' : 'Bloqueando...'}</span>
                         ) : (
-                            'Bloquear horario'
+                            isEditing ? 'Guardar Cambios' : 'Bloquear periodo'
                         )}
                     </Button>
                 </div>

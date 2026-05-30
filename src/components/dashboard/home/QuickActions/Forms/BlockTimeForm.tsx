@@ -10,9 +10,22 @@ import { toast } from "sonner";
 import { createBlockTime } from "@/lib/dashboard/quickactions/actions";
 import { TZDate } from "@date-fns/tz";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
+import { format } from "date-fns";
+import { Appointment } from "@/lib/supabase/schemas";
+import { updateAppointment } from "@/lib/dashboard/actions";
 
-export default function BlockTimeForm() {
+interface BlockTimeFormProps {
+    appointment?: Appointment;
+}
+
+export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
     const [isBlockingAllDay, setIsBlockingAllDay] = useState(false);
+
+    const isEditing = !!appointment;
+
+    const defaultDate = isEditing ? new Date(appointment.timeMin) : new Date();
+    const defaultStart = isEditing ? format(new Date(appointment.timeMin), 'HH:mm') : '10:00';
+    const defaultEnd = isEditing ? format(new Date(appointment.timeMax), 'HH:mm') : '12:00';
 
     const {
         handleSubmit,
@@ -23,9 +36,9 @@ export default function BlockTimeForm() {
     } = useForm<CreateBlockTimeForm>({
         resolver: zodResolver(CreateBlockTimeSchema),
         defaultValues: {
-            date: new Date(),
-            timeMin: '10:00',
-            timeMax: '12:00'
+            date: defaultDate,
+            timeMin: defaultStart,
+            timeMax: defaultEnd
         }
     });
 
@@ -40,11 +53,16 @@ export default function BlockTimeForm() {
 
         const timeMax = new TZDate(formData.date, TIMEZONE);
         timeMax.setHours(endHours, endMinutes, 0, 0);
-        const response = await createBlockTime({ timeMin, timeMax });
+        let response;
+        if (isEditing) {
+            response = await updateAppointment(appointment.id, { timeMin, timeMax });
+        } else {
+            response = await createBlockTime({ timeMin, timeMax });
+        }
 
         if (response.success) {
             toast.success(response.message);
-            reset();
+            if (!isEditing) reset();
         } else {
             toast.error(response.message);
         }
@@ -58,16 +76,17 @@ export default function BlockTimeForm() {
         const timeMax = new TZDate(selectedDate, TIMEZONE)
         timeMax.setHours(23, 59, 59, 999);
         setIsBlockingAllDay(true);
-        console.log(selectedDate, timeMin, timeMax);
 
-        const response = await createBlockTime({
-            timeMin,
-            timeMax
-        });
+        let response;
+        if (isEditing) {
+            response = await updateAppointment(appointment.id, { timeMin, timeMax });
+        } else {
+            response = await createBlockTime({ timeMin, timeMax });
+        }
 
         if (response.success) {
             toast.success(response.message);
-            reset();
+            if (!isEditing) reset();
         } else {
             toast.error(response.message);
         }
@@ -90,20 +109,21 @@ export default function BlockTimeForm() {
                 <div className="flex flex-col md:flex-row gap-2 justify-end ">
                     <Button
                         type="submit"
-                        disabled={isAnyLoading} // 👈 Evita doble sumisión
+                        disabled={isAnyLoading}
                     >
                         {isSubmitting ? (
                             <span className="flex items-center gap-2"><Spinner />Bloqueando...</span>
-                        ) : (
-                            'Bloquear horario'
-                        )}
+                        ) : isEditing ? (
+                            'Editar bloqueo'
+                        ) : ('Bloquear horario')
+                        }
                     </Button>
 
                     <Button
-                        type="button" // 👈 Especificamos que es botón genérico para no disparar el submit por accidente
+                        type="button"
                         onClick={blockAllDay}
                         variant={'destructive'}
-                        disabled={isAnyLoading} // 👈 Evita doble sumisión
+                        disabled={isAnyLoading}
                     >
                         {isBlockingAllDay ? (
                             <span className="flex items-center gap-2"><Spinner />Cancelando día...</span>

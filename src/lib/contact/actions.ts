@@ -1,5 +1,5 @@
 'use server';
-import { getClientId } from "../form/service";
+import { getClient } from "../form/service";
 import { Client } from "../supabase/schemas";
 import { createClient } from "../supabase/server";
 
@@ -19,7 +19,7 @@ export async function createContactMessage(params: CreateContactMessageParams): 
 
     const { name, last_name, phone, secondary_phone, email, reason } = params;
 
-    const client_id = await getClientId({ name, last_name, phone, secondary_phone, email });
+    const client_id = await getClient({ name, last_name, phone, secondary_phone, email });
 
     const { error } = await supabase
         .from('Contacts')
