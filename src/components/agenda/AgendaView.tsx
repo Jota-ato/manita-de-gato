@@ -35,8 +35,12 @@ export default function AgendaView({ events, today }: AgendaViewProps) {
 
     const visibleEvents = useMemo(() => {
         return events.filter(event => {
-            const safeStartDate = new Date(event.timeMin)
-            return (safeStartDate.toISOString() >= startOfView.toISOString()) && (safeStartDate.toISOString() <= endOfView.toISOString());
+            const safeStartDate = new Date(event.timeMin);
+            const safeEndDate = new Date(event.timeMax);
+            return (
+                safeStartDate.toISOString() <= endOfView.toISOString() &&
+                safeEndDate.toISOString() >= startOfView.toISOString()
+            );
         });
     }, [events, startOfView, endOfView]);
 

@@ -9,7 +9,8 @@ import { getServices } from "@/lib/form/service";
 export default async function BentoContainer() {
 
     const today = new TZDate(new Date(), TIMEZONE);
-    const todayAppointments = await getDayAppointments(today);
+    const appointments = await getDayAppointments(today);
+    const todayAppointments = appointments.filter(apt => apt.status !== 'no_show')
     const services = await getServices();
 
     return (

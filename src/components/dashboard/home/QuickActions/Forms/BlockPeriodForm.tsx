@@ -14,7 +14,6 @@ export default function BlockPeriodForm() {
         handleSubmit,
         control,
         reset,
-        getValues,
         formState: { errors, isSubmitting }
     } = useForm<CreateBlockForm>({
         resolver: zodResolver(CreateBlockPeriodSchema),
