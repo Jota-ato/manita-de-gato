@@ -4,6 +4,7 @@ import ActionModal from "../home/QuickActions/ActionModal";
 import BlockPeriodBackGround from "./BlockPeriodBackground";
 import BlockPeriodForm from "../home/QuickActions/Forms/BlockPeriodForm";
 import BlockTimeForm from "../home/QuickActions/Forms/BlockTimeForm";
+import { es } from "date-fns/locale";
 
 interface BlockPeriodProps {
     event: Appointment
@@ -22,7 +23,7 @@ export default function BlockPeriodDashboard({ event, START_HOUR, ROW_HEIGHT_REM
     endBase.setHours(20, 0, 0, 0);
     const absoluteStart = new Date(event.timeMin);
     const absoluteEnd = new Date(event.timeMax);
-    const isPeriod = differenceInHours(absoluteStart, absoluteEnd) > 24;
+    const isPeriod = Math.abs(differenceInHours(absoluteEnd, absoluteStart)) > 24;
 
     const effectiveStart = max([absoluteStart, startBase]);
     const effectiveEnd = min([absoluteEnd, endBase]);
@@ -38,6 +39,15 @@ export default function BlockPeriodDashboard({ event, START_HOUR, ROW_HEIGHT_REM
 
     if (clampedHeight < 0.5) return null;
 
+    const startDateStr = format(absoluteStart, "d 'de' MMMM 'de' yyyy", { locale: es });
+    const endDateStr = format(absoluteEnd, "d 'de' MMMM 'de' yyyy", { locale: es });
+    const startTimeStr = format(absoluteStart, 'HH:mm');
+    const endTimeStr = format(absoluteEnd, 'HH:mm');
+
+    const dynamicDescription = isPeriod
+        ? `Editando periodo del ${startDateStr} al ${endDateStr} de ${startTimeStr}-${endTimeStr}`
+        : `Editando bloqueo del ${startDateStr} de ${startTimeStr}-${endTimeStr}`;
+
     return (
         <ActionModal
             trigger={<BlockPeriodBackGround
@@ -47,14 +57,16 @@ export default function BlockPeriodDashboard({ event, START_HOUR, ROW_HEIGHT_REM
                 effectiveStart={effectiveStart}
                 event={event}
             />}
-            title="Editar bloqueo"
-            description={`Editando bloqueo de ${format(effectiveStart, 'HH:mm')}-${format(effectiveEnd, 'HH:mm')}`}
+            title={isPeriod ? "Editar bloqueo de periodo" : "Editar bloqueo"}
+            description={dynamicDescription}
         >
             {isPeriod ?
-                <BlockPeriodForm />
+                <BlockPeriodForm
+                    appointment={event}
+                />
                 : <BlockTimeForm
                     appointment={event}
-                />    
+                />
             }
         </ActionModal>
     )
