@@ -3,13 +3,17 @@ import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 import { Button } from "@/components/ui/button";
 import { FieldGroup, FieldSet } from "@/components/ui/field";
 import { deleteService, createService, updateService } from "@/lib/dashboard/services/actions";
-import { Service, serviceSchema } from "@/schemas/services";
+import { Service, serviceSchema, serviceItemsEnum, serviceExtrasEnum } from "@/schemas/services";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 import CancelModal from "../home/QuickActions/CancelModal";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { z } from "zod";
 
 interface ServiceFormProps {
     service?: Service
@@ -29,6 +33,10 @@ const Fields: FieldsType[] = [
     { label: 'Precio mínimo', id: 'min_price', type: 'number' },
 ]
 
+const formSchema = serviceSchema.omit({ id: true });
+
+type FormValues = z.infer<typeof formSchema>;
+
 export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -40,9 +48,9 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
         handleSubmit,
         reset,
         formState: { errors, isSubmitting }
-    } = useForm<Service>(
+    } = useForm<FormValues>(
         {
-            resolver: zodResolver(serviceSchema),
+            resolver: zodResolver(formSchema),
             defaultValues: {
                 name: isEditing ? service.name : '',
                 description: isEditing ? service.description : '',
@@ -56,9 +64,9 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
         }
     );
 
-    const onValidSubmit = async (formData: Service) => {
+    const onValidSubmit = async (formData: FormValues) => {
         const response = isEditing
-            ? await updateService(formData)
+            ? await updateService({...formData, id: service.id})
             : await createService(formData);
 
         if (response.success) {
@@ -105,6 +113,75 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
                         />
                     ))}
                 </FieldGroup>
+
+                <Separator className="my-6" />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold text-sm">Elementos Incluidos</h4>
+                            <p className="text-xs text-muted-foreground">Selecciona lo que incluye el precio base.</p>
+                        </div>
+                        <Controller
+                            name="included_items"
+                            control={control}
+                            render={({ field }) => (
+                                <div className="grid grid-cols-1 gap-3">
+                                    {serviceItemsEnum.map((item) => (
+                                        <div key={item} className="flex flex-row items-start space-x-3">
+                                            <Checkbox
+                                                id={`included-${item}`}
+                                                checked={field.value?.includes(item)}
+                                                onCheckedChange={(checked) => {
+                                                    return checked
+                                                        ? field.onChange([...(field.value || []), item])
+                                                        : field.onChange(field.value?.filter((value) => value !== item));
+                                                }}
+                                            />
+                                            <Label htmlFor={`included-${item}`} className="font-normal text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
+                                                {item}
+                                            </Label>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        />
+                        {errors.included_items && <p className="text-destructive text-xs font-medium">{errors.included_items.message}</p>}
+                    </div>
+
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-semibold text-sm">Extras Disponibles</h4>
+                            <p className="text-xs text-muted-foreground">Opciones con costo adicional.</p>
+                        </div>
+                        <Controller
+                            name="available_extras"
+                            control={control}
+                            render={({ field }) => (
+                                <div className="grid grid-cols-1 gap-3">
+                                    {serviceExtrasEnum.map((extra) => (
+                                        <div key={extra} className="flex flex-row items-start space-x-3">
+                                            <Checkbox
+                                                id={`extra-${extra}`}
+                                                checked={field.value?.includes(extra)}
+                                                onCheckedChange={(checked) => {
+                                                    return checked
+                                                        ? field.onChange([...(field.value || []), extra])
+                                                        : field.onChange(field.value?.filter((value) => value !== extra));
+                                                }}
+                                            />
+                                            <Label htmlFor={`extra-${extra}`} className="font-normal text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
+                                                {extra}
+                                            </Label>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        />
+                        {errors.available_extras && <p className="text-destructive text-xs font-medium">{errors.available_extras.message}</p>}
+                    </div>
+                </div>
 
                 <div className="flex flex-col-reverse sm:flex-row gap-4 items-center justify-end mt-6">
                     {isEditing && (
