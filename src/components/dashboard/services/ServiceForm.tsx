@@ -1,7 +1,7 @@
 'use client';
 import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 import { Button } from "@/components/ui/button";
-import { FieldGroup, FieldSet } from "@/components/ui/field";
+import { Field, FieldGroup, FieldSet } from "@/components/ui/field";
 import { deleteService, createService, updateService } from "@/lib/dashboard/services/actions";
 import { Service, serviceSchema, serviceItemsEnum, serviceExtrasEnum } from "@/schemas/services";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { uploadServiceImage } from "@/lib/supabase/storage";
 
 const formSchema = serviceSchema.omit({ id: true });
 
@@ -39,7 +41,8 @@ const Fields: FieldsType[] = [
 
 export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
     const [isDeleting, setIsDeleting] = useState(false);
-
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [isUploading, setIsUploading] = useState(false);
     const isEditing = !!service;
 
     const {
@@ -65,16 +68,34 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
     );
 
     const onValidSubmit = async (formData: FormValues) => {
-        const response = isEditing
-            ? await updateService({...formData, id: service.id})
-            : await createService(formData);
+        setIsUploading(true);
+        try {
+            let finalImageUrl = formData.image_url;
 
-        if (response.success) {
-            toast.success(response.message);
-            if (!isEditing) reset();
-            if (onSuccess) onSuccess();
-        } else {
-            toast.error(response.message);
+            if (imageFile) {
+                finalImageUrl = await uploadServiceImage(imageFile, service?.image_url);
+            }
+
+            const payloadToUpdate = { ...formData, image_url: finalImageUrl };
+
+            let response;
+            if (isEditing) {
+                response = await updateService({ ...payloadToUpdate, id: service!.id } as Service);
+            } else {
+                response = await createService(payloadToUpdate);
+            }
+
+            if (response.success) {
+                toast.success(response.message);
+                if (!isEditing) reset();
+                if (onSuccess) onSuccess();
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            toast.error("Ocurrió un error al procesar la imagen.");
+        } finally {
+            setIsUploading(false);
         }
     }
 
@@ -93,7 +114,7 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
         setIsDeleting(false);
     }
 
-    const isAnyLoading = isSubmitting || isDeleting;
+    const isAnyLoading = isSubmitting || isDeleting || isUploading;
 
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
@@ -112,6 +133,22 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
                             })}
                         />
                     ))}
+                    <Field>
+                        <Label className="cursor-pointer" htmlFor="imageFile">Imagen del servicio (Opcional)</Label>
+                        <Input
+                            className="cursor-pointer"
+                            id="imageFile"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) setImageFile(file);
+                            }}
+                        />
+                        {isEditing && service?.image_url && !imageFile && (
+                            <p className="text-xs text-muted-foreground">Ya existe una imagen. Sube una nueva para reemplazarla.</p>
+                        )}
+                    </Field>
                 </FieldGroup>
 
                 <Separator className="my-6" />
