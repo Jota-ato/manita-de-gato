@@ -15,6 +15,9 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { z } from "zod";
 
+const formSchema = serviceSchema.omit({ id: true });
+
+type FormValues = z.infer<typeof formSchema>;
 interface ServiceFormProps {
     service?: Service
     onSuccess?: () => void
@@ -23,7 +26,7 @@ interface ServiceFormProps {
 interface FieldsType {
     label: string
     type: 'text' | 'email' | 'tel' | 'textarea' | 'number'
-    id: keyof Service
+    id: keyof FormValues
 }
 
 const Fields: FieldsType[] = [
@@ -33,9 +36,6 @@ const Fields: FieldsType[] = [
     { label: 'Precio mínimo', id: 'min_price', type: 'number' },
 ]
 
-const formSchema = serviceSchema.omit({ id: true });
-
-type FormValues = z.infer<typeof formSchema>;
 
 export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
     const [isDeleting, setIsDeleting] = useState(false);
