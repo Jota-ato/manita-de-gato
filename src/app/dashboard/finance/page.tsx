@@ -39,7 +39,7 @@ export default async function FinancialPage({ searchParams }: FinancialPageProps
 
     const { start: startRange, end: endRange } = getDateRange(range, TIMEZONE);
 
-    const response = await getFinancialData(startRange, endRange);
+    const response = await getFinancialData(startRange, endRange, range);
 
     if (!response.success) {
         return (
@@ -57,7 +57,7 @@ export default async function FinancialPage({ searchParams }: FinancialPageProps
 
     return (
         <section className="py-16 w-full">
-            <FinancialDashboard appointments={response.data} />
+            <FinancialDashboard data={response.data!} />
         </section>
     );
 }

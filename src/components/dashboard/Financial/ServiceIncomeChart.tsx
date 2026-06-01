@@ -1,6 +1,5 @@
 'use client';
 
-import { Appointment } from "@/lib/supabase/schemas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell } from "recharts";
 import {
@@ -12,22 +11,13 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { formatPriceMXN } from "@/lib/utils/currency";
+import { FinancialMetricsDTO } from "@/lib/dashboard/income/actions"; // Ajusta la ruta
 
-export default function ServiceIncomeChart({ appointments }: { appointments: Appointment[] }) {
+export default function ServiceIncomeChart({ data }: { data: FinancialMetricsDTO['serviceIncome'] }) {
 
-    const incomeByServiceRaw = appointments.reduce((acc, app) => {
-        const serviceName = app.service_name_snapshot;
-        acc[serviceName] = (acc[serviceName] || 0) + app.total_price;
-        return acc;
-    }, {} as Record<string, number>);
-
-    const pieChartData = Object.entries(incomeByServiceRaw)
-        .sort(([, valA], [, valB]) => valB - valA)
-        .map(([name, value], index) => ({ name, value, index }));
-
-    // ChartConfig se construye dinámicamente a partir de los servicios
+    // ChartConfig se construye dinámicamente a partir de los servicios que vienen del servidor
     const chartConfig = Object.fromEntries(
-        pieChartData.map(({ name }, index) => [
+        data.map(({ name }, index) => [
             name,
             {
                 label: name,
@@ -45,7 +35,7 @@ export default function ServiceIncomeChart({ appointments }: { appointments: App
                 <ChartContainer config={chartConfig} className="h-full w-full">
                     <PieChart>
                         <Pie
-                            data={pieChartData}
+                            data={data}
                             cx="50%"
                             cy="50%"
                             innerRadius={60}
@@ -54,7 +44,7 @@ export default function ServiceIncomeChart({ appointments }: { appointments: App
                             dataKey="value"
                             nameKey="name"
                         >
-                            {pieChartData.map(({ name }, index) => (
+                            {data.map(({ name }, index) => (
                                 <Cell
                                     key={name}
                                     fill={`var(--chart-${(index % 5) + 1})`}

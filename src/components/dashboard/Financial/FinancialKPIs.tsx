@@ -1,14 +1,10 @@
 'use client';
 
-import { Appointment } from "@/lib/supabase/schemas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, CheckSquare, TrendingUp } from "lucide-react";
+import { FinancialMetricsDTO } from "@/lib/dashboard/income/actions";
 
-export default function FinancialKPIs({ appointments }: { appointments: Appointment[] }) {
-
-    const totalIncome = appointments.reduce((sum, apt) => sum + apt.total_price, 0);
-    const totalAppointments = appointments.length;
-    const averageTicket = totalAppointments > 0 ? totalIncome / totalAppointments : 0;
+export default function FinancialKPIs({ data }: { data: FinancialMetricsDTO['kpis'] }) {
 
     const formatCurrency = (value: number) => `$${value.toFixed(2)}`;
 
@@ -17,10 +13,10 @@ export default function FinancialKPIs({ appointments }: { appointments: Appointm
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                     <CardTitle className="text-sm font-medium">Ingresos Totales</CardTitle>
-                    <DollarSign className="w-4 h-4 text-emerald-500" />
+                    <DollarSign className="w-4 h-4 text-success" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold text-emerald-600">{formatCurrency(totalIncome)}</div>
+                    <div className="text-2xl font-bold  text-success">{formatCurrency(data.totalIncome)}</div>
                     <p className="text-xs text-muted-foreground mt-1">En el periodo seleccionado</p>
                 </CardContent>
             </Card>
@@ -28,10 +24,10 @@ export default function FinancialKPIs({ appointments }: { appointments: Appointm
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                     <CardTitle className="text-sm font-medium">Citas Pagadas</CardTitle>
-                    <CheckSquare className="w-4 h-4 text-blue-500" />
+                    <CheckSquare className="w-4 h-4 text-info" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold text-blue-600">{totalAppointments}</div>
+                    <div className="text-2xl font-bold text-info">{data.totalAppointments}</div>
                     <p className="text-xs text-muted-foreground mt-1">Trabajos completados</p>
                 </CardContent>
             </Card>
@@ -42,7 +38,7 @@ export default function FinancialKPIs({ appointments }: { appointments: Appointm
                     <TrendingUp className="w-4 h-4 text-amber-500" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold text-amber-600">{formatCurrency(averageTicket)}</div>
+                    <div className="text-2xl font-bold text-amber-600">{formatCurrency(data.averageTicket)}</div>
                     <p className="text-xs text-muted-foreground mt-1">Gasto promedio por cita</p>
                 </CardContent>
             </Card>

@@ -1,9 +1,6 @@
 'use client';
 
-import { Appointment } from "@/lib/supabase/schemas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import {
     ChartConfig,
@@ -14,6 +11,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { formatPriceMXN } from "@/lib/utils/currency";
+import { FinancialMetricsDTO } from "@/lib/dashboard/income/actions";
 
 const chartConfig = {
     income: {
@@ -22,27 +20,16 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
-export default function DailyIncomeChart({ appointments }: { appointments: Appointment[] }) {
-
-    const incomeByDayRaw = appointments.reduce((acc, app) => {
-        const dateStr = format(new Date(app.timeMin), "dd MMM", { locale: es });
-        acc[dateStr] = (acc[dateStr] || 0) + app.total_price;
-        return acc;
-    }, {} as Record<string, number>);
-
-    const barChartData = Object.entries(incomeByDayRaw).map(([date, income]) => ({
-        date,
-        income,
-    }));
+export default function IncomeChart({ data }: { data: FinancialMetricsDTO['dailyIncome'] }) {
 
     return (
         <Card className="col-span-1">
             <CardHeader>
-                <CardTitle>Flujo de Ingresos Diarios</CardTitle>
+                <CardTitle>Flujo de Ingresos en el Tiempo</CardTitle>
             </CardHeader>
             <CardContent className="h-75 w-full">
                 <ChartContainer config={chartConfig} className="h-full w-full">
-                    <BarChart data={barChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
                         <XAxis dataKey="date" fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis
