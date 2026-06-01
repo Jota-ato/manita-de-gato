@@ -33,7 +33,7 @@ export default function Form({ hour, onSuccess }: FormProps) {
     const timeMax = addHours(hour, 2);
     const [services, setServices] = useState<Service[]>([])
 
-    const isDashboard = usePathname().startsWith('/');
+    const isDashboard = usePathname().startsWith('/dashboard');
 
     useEffect(() => {
         const fetchServices = async () => {

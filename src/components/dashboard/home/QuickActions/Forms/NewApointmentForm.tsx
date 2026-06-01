@@ -48,8 +48,6 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
     const defaultStartHour = isEditing ? format(new Date(appointmentData.timeMin), 'HH:mm') : '10:00';
     const defaultEndHour = isEditing ? format(new Date(appointmentData.timeMax), 'HH:mm') : '12:00';
 
-    const defaultName = isEditing ? (appointmentData.client_name_snapshot || appointmentData.client_name_snapshot || '') : '';
-    const defaultLastName = isEditing ? (appointmentData.client_last_name_snapshot || appointmentData.client_last_name_snapshot || '') : '';
 
     const {
         register,
@@ -60,8 +58,8 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
     } = useForm<AdminAppointmentForm>({
         resolver: zodResolver(AdminAppointmentSchema),
         defaultValues: {
-            name: defaultName,
-            last_name: defaultLastName,
+            name: '',
+            last_name: '',
             phone: '',
             secondary_phone: '',
             serviceId: isEditing ? String(appointmentData.service_id) : '',
