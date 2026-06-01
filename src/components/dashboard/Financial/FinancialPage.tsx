@@ -15,7 +15,7 @@ export default async function FinancialPage() {
 
     if (!response.success) {
         return (
-            <section className="p-16 max-w-4xl mx-auto">
+            <section className="p-16 max-w-4xl mx-auto min-h-screen flex items-center">
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Error al cargar finanzas</AlertTitle>
