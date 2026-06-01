@@ -1,5 +1,9 @@
+import Services from "@/components/landing/Services/Services";
+
 export default function page() {
     return (
-        <div>Servicios</div>
+        <section>
+            <Services />
+        </section>
     )
 }
