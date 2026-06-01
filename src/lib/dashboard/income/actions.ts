@@ -2,20 +2,24 @@
 
 import { Appointment, AppointmentSchema } from "@/lib/supabase/schemas";
 import { createClient } from "@/lib/supabase/server";
+import { TIMEZONE } from "@/lib/supabase/utils/helpers";
+import { TZDate } from "@date-fns/tz";
 
 export async function getFinancialData(
-    startDate: Date,
-    endDate: Date
+    startDate: TZDate,
+    endDate: TZDate
 ): Promise<{ success: boolean; data: Appointment[]; message: string }> {
     try {
         const supabase = await createClient();
+        const safeStartDate = new TZDate(startDate, TIMEZONE)
+        const safeEndDate = new TZDate(endDate, TIMEZONE)
 
         const { data, error } = await supabase
             .from('Appointments')
             .select('*')
             .eq('status', 'paid')
-            .gte('timeMin', startDate.toISOString())
-            .lte('timeMin', endDate.toISOString());
+            .gte('timeMin', safeStartDate.toISOString())
+            .lte('timeMin', safeEndDate.toISOString());
 
         if (error) {
             console.error('[FINANCE_FETCH_ERROR]:', error.message);
