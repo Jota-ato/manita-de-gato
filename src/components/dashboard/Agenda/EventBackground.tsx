@@ -1,8 +1,7 @@
 import { Appointment, AppointmentStatus } from "@/lib/supabase/schemas";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import React, { forwardRef } from "react"; // 👈 1. Importamos forwardRef
-// ... tus otros imports ...
+import React, { forwardRef } from "react"; 
 
 const statusColorMap: Record<Exclude<AppointmentStatus, 'no_show'>, string> = {
     'approved': 'bg-success text-success-foreground hover:bg-success/80',
@@ -11,7 +10,6 @@ const statusColorMap: Record<Exclude<AppointmentStatus, 'no_show'>, string> = {
     'paid': 'bg-info text-info-foreground hover:bg-info/80',
 };
 
-// 2. Extendemos las propiedades del div para aceptar onClick, etc.
 interface BackGroundProps extends React.HTMLAttributes<HTMLDivElement> {
     event: Appointment
     topOffset: number
@@ -20,13 +18,12 @@ interface BackGroundProps extends React.HTMLAttributes<HTMLDivElement> {
     endDate: string
 }
 
-// 3. Envolvemos el componente en forwardRef
 const EventBackGround = forwardRef<HTMLDivElement, BackGroundProps>(
     ({ event, topOffset, height, startDate, endDate, className, ...props }, ref) => {
         return (
             <div
-                ref={ref} // 👈 4. CRÍTICO: Pasamos la referencia a Radix
-                {...props} // 👈 5. CRÍTICO: Pasamos el onClick y los aria-attributes de Radix
+                ref={ref}
+                {...props}
                 className={cn(
                     "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md overflow-hidden cursor-pointer text-warning-foreground bg-warning",
                     event.status !== 'no_show' ? statusColorMap[event.status] : 'bg-muted text-muted-foreground',
@@ -49,7 +46,6 @@ const EventBackGround = forwardRef<HTMLDivElement, BackGroundProps>(
     }
 )
 
-// 6. Buena práctica en React cuando usas forwardRef
 EventBackGround.displayName = "BackGround";
 
 export default EventBackGround;

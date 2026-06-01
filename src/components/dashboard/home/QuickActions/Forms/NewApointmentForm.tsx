@@ -15,10 +15,12 @@ import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { Appointment } from "@/lib/supabase/schemas";
-import { updateAppointment } from "@/lib/dashboard/actions";
+import { deleteAppointment, updateAppointment, UpdateAppointmentPayload } from "@/lib/dashboard/actions";
 import { format } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TZDate } from "@date-fns/tz";
+import AppointmentDialogSelect from "../../DailyAppointments/appointment-dialog/fields/AppointmentDialogSelect";
+import AppointmentDialogInput from "../../DailyAppointments/appointment-dialog/fields/AppointmentDialogInput";
 
 interface NewApointmentFormProps {
     services: Service[]
@@ -39,6 +41,7 @@ const Fields: FieldsType[] = [
 
 export default function NewApointmentForm({ services, appointment }: NewApointmentFormProps) {
 
+    const [isDeletingAppointment, setIsDeletingAppointment] = useState(false);
     const isEditing = !!appointment
     const appointmentData = appointment as Appointment;
     const defaultDate = isEditing ? new Date(appointmentData.timeMin) : new Date();
@@ -94,8 +97,10 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
         };
 
         fetchFullClient();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEditing, appointmentData]);
+
+    const isAnythingLoading = isDeletingAppointment || isSubmitting
 
     const onValidSubmit = async (formData: AdminAppointmentForm) => {
         const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);
@@ -107,42 +112,64 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
         const timeMax = new TZDate(formData.date, TIMEZONE);
         timeMax.setHours(endHours, endMinutes, 0, 0);
 
-        const payload = {
-            name: formData.name,
-            last_name: formData.last_name,
-            phone: formData.phone,
-            secondary_phone: formData.secondary_phone,
-            serviceId: formData.serviceId,
-            timeMin,
-            timeMax
-        };
 
-        // 4. Bifurcación correcta de la lógica
         if (isEditing) {
+
+            const payload: UpdateAppointmentPayload = {
+                timeMin,
+                timeMax,
+                service_id: +formData.serviceId,
+            }
+
             const response = await updateAppointment(appointment.id, payload);
 
             if (response.success) {
                 toast.success(response.message);
-                // Nota: Usualmente no hacemos reset() en edición para que la UI no se quede en blanco,
-                // a menos que quieras cerrar el modal automáticamente.
             } else {
                 toast.error(response.message);
             }
         } else {
+
+            const payload = {
+                name: formData.name,
+                last_name: formData.last_name,
+                phone: formData.phone,
+                secondary_phone: formData.secondary_phone,
+                serviceId: formData.serviceId,
+                timeMin,
+                timeMax
+            };
             const response = await createAppointment(payload);
 
             if (response.success) {
                 toast.success(response.message);
-                reset(); // Reseteamos al crear para dejar el formulario limpio
+                reset();
             } else {
                 toast.error(response.message);
             }
         }
     }
 
+    const deleteAppointmentAction = async () => {
+        setIsDeletingAppointment(true);
+
+        if (isEditing) {
+            const response = await deleteAppointment(appointment.id);
+
+            if (response.success) {
+                toast.success(response.message);
+                if (!isEditing) reset();
+            } else {
+                toast.error(response.message);
+            }
+
+            setIsDeletingAppointment(false);
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
-            <FieldSet disabled={isSubmitting}>
+            <FieldSet disabled={isAnythingLoading}>
                 <DatePickerTime
                     control={control}
                     nameDate="date"
@@ -168,10 +195,27 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
                         error={errors.serviceId?.message}
                         services={services}
                     />
+                    {isEditing && (
+                        <div className="grid grid-cols-2 gap-4 justify-between">
+                            <AppointmentDialogSelect apt={appointment} />
+                            <Button
+                                disabled={isAnythingLoading}
+                                onClick={deleteAppointmentAction}
+                                variant={'destructive'}
+                            >
+                                {isDeletingAppointment ? (
+                                    <span className="flex items-center gap-2"><Spinner />Eliminando Cita</span>
+                                ) : (
+                                    'Eliminar cita'
+                                )}
+                            </Button>
+                            <AppointmentDialogInput apt={appointment}/>
+                        </div>
+                    )}
                 </FieldGroup>
                 <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isAnythingLoading}
                 >
                     {isSubmitting ? (
                         <span className="flex items-center gap-2">

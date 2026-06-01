@@ -8,6 +8,7 @@ import BlockPeriod from "./AgendaBody/BlockPeriod";
 import { usePathname } from "next/navigation";
 import HourCellDashboard from "../dashboard/Agenda/HourCellDashboard";
 import Event from "../dashboard/Agenda/EventDashboard";
+import BlockPeriodDashboard from "../dashboard/Agenda/BlockPeriodDashboard";
 
 
 interface AgendaBodyProps {
@@ -73,15 +74,30 @@ export default function AgendaBody({ weekDays, hours, events }: AgendaBodyProps)
 
                                 return eventStart <= currentDayEnd && eventEnd >= currentDayStart;
                             })
-                            .map(event => (
-                                <BlockPeriod
-                                    currentColumnDate={day}
-                                    key={event.id}
-                                    event={event}
-                                    START_HOUR={START_HOUR}
-                                    ROW_HEIGHT_REM={ROW_HEIGHT_REM}
-                                />
-                            ))
+                            .map(event => {
+
+                                if (pathName.startsWith('/dashboard'))
+                                    return (
+                                        <BlockPeriodDashboard
+                                            currentColumnDate={day}
+                                            key={event.id}
+                                            event={event}
+                                            START_HOUR={START_HOUR}
+                                            ROW_HEIGHT_REM={ROW_HEIGHT_REM}
+                                        />
+                                    )
+
+                                return (
+                                    <BlockPeriod
+                                        currentColumnDate={day}
+                                        key={event.id}
+                                        event={event}
+                                        START_HOUR={START_HOUR}
+                                        ROW_HEIGHT_REM={ROW_HEIGHT_REM}
+                                    />
+                                )
+
+                            })
                         }
                     </div>
                 );

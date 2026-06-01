@@ -35,7 +35,7 @@ export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
     }
 
     return (
-        <Field>
+        <Field className="col-span-2">
             <FieldLabel
                 htmlFor="price"
             >
@@ -52,12 +52,13 @@ export default function AppointmentDialogInput({ apt }: { apt: Appointment }) {
             />
             <Button
                 onClick={() => handleUpdatePrice(price)}
+                variant={'secondary'}
                 className={cn(
                     isPending ? 'bg-secondary text-muted-foreground cursor-not-allowed' : ''
                 )}
                 disabled={isPending}
             >
-                {isPending ? <span className="flex items-center gap-2"><Spinner />Actualizando</span>: 'Actualizar'}
+                {isPending ? <span className="flex items-center gap-2"><Spinner />Actualizando</span>: 'Actualizar coste'}
             </Button>
         </Field>
     )

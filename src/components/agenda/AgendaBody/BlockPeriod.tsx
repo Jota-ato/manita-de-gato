@@ -9,13 +9,6 @@ interface BlockPeriodProps {
     currentColumnDate: Date
 }
 
-interface BlockPeriodProps {
-    event: Appointment
-    START_HOUR: number
-    ROW_HEIGHT_REM: number
-    currentColumnDate: Date
-}
-
 export default function BlockPeriod({ event, START_HOUR, ROW_HEIGHT_REM, currentColumnDate }: BlockPeriodProps) {
 
     const startBase = new Date(currentColumnDate);
@@ -45,7 +38,7 @@ export default function BlockPeriod({ event, START_HOUR, ROW_HEIGHT_REM, current
         <div
             key={event.id}
             className={cn(
-                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md overflow-hidden cursor-pointer text-muted-foreground bg-muted"
+                "absolute inset-x-1 z-10 rounded-lg p-2 shadow-md overflow-hidden text-muted-foreground bg-muted"
             )}
             style={{
                 top: `${clampedTop}rem`,

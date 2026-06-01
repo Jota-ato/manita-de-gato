@@ -12,7 +12,8 @@ import { TZDate } from "@date-fns/tz";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
 import { format } from "date-fns";
 import { Appointment } from "@/lib/supabase/schemas";
-import { updateAppointment } from "@/lib/dashboard/actions";
+import { deleteAppointment, updateAppointment } from "@/lib/dashboard/actions";
+import { cn } from "@/lib/utils";
 
 interface BlockTimeFormProps {
     appointment?: Appointment;
@@ -20,6 +21,7 @@ interface BlockTimeFormProps {
 
 export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
     const [isBlockingAllDay, setIsBlockingAllDay] = useState(false);
+    const [isDeletingBlock, setIsDeletingBlock] = useState(false);
 
     const isEditing = !!appointment;
 
@@ -42,7 +44,7 @@ export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
         }
     });
 
-    const isAnyLoading = isSubmitting || isBlockingAllDay;
+    const isAnyLoading = isSubmitting || isBlockingAllDay || isDeletingBlock;
 
     const onValidSubmit = async (formData: CreateBlockTimeForm) => {
         const [startHours, startMinutes] = formData.timeMin.split(':').map(Number);
@@ -94,6 +96,23 @@ export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
         setIsBlockingAllDay(false);
     }
 
+    const deleteBlock = async () => {
+        setIsDeletingBlock(true);
+
+        if (isEditing) {
+            const response = await deleteAppointment(appointment.id);
+
+            if (response.success) {
+                toast.success(response.message);
+                if (!isEditing) reset();
+            } else {
+                toast.error(response.message);
+            }
+
+            setIsDeletingBlock(false);
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
             <FieldSet disabled={isAnyLoading}>
@@ -106,8 +125,13 @@ export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
                     startError={errors.timeMin?.message}
                     endError={errors.timeMax?.message}
                 />
-                <div className="flex flex-col md:flex-row gap-2 justify-end ">
+                <div className={
+                    cn(
+                        "grid grid-cols-1 gap-2 md:grid-cols-2",
+                    )
+                }>
                     <Button
+                        className={cn(isEditing && 'col-span-2')}
                         type="submit"
                         disabled={isAnyLoading}
                     >
@@ -131,6 +155,19 @@ export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
                             'Bloquear todo el día'
                         )}
                     </Button>
+                    {isEditing && (
+                        <Button
+                            disabled={isAnyLoading}
+                            onClick={deleteBlock}
+                            variant={'destructive'}
+                        >
+                            {isBlockingAllDay ? (
+                                <span className="flex items-center gap-2"><Spinner />Eliminando bloqueo</span>
+                            ) : (
+                                'Eliminar bloqueo'
+                            )}
+                        </Button>
+                    )}
                 </div>
             </FieldSet>
         </form>

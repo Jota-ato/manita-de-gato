@@ -7,6 +7,8 @@ import { formatAppointmentDates, TIMEZONE } from "../supabase/utils/helpers";
 import { revalidatePath } from "next/cache";
 import { CalendarEventDetails } from "../calendar/types";
 import { checkGoogleEventExists, createAppointmentInGoogle, deleteGoogleCalendarEvent } from "../calendar/service";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 export type ActionResponse = {
     success: boolean;
@@ -14,7 +16,7 @@ export type ActionResponse = {
     data?: unknown;
 };
 
-type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
+export type UpdateAppointmentPayload = Partial<Omit<Appointment, 'id' | 'created_at'>>;
 
 async function getValidAppointment(appointmentId: string) {
     const supabase = await createClient();
@@ -139,6 +141,47 @@ export async function updateAppointment(
                 ? error.message
                 : 'Ocurrió un error inesperado al procesar la solicitud.'
         };
+    }
+}
+
+export async function deleteAppointment(
+    appointmentId: string
+): Promise<{
+    success: boolean,
+    message: string
+}> {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+        .from('Appointments')
+        .delete({
+            count: 'exact',
+        })
+        .eq('id', appointmentId);
+    console.log(data)
+
+    if (error) { 
+        console.error('Error deleting appointment', error.message);
+        return {
+            success: false,
+            message: 'Error eliminando cita'
+        }
+    }
+
+    const result = AppointmentSchema.safeParse(data);
+
+    if (result.error) { 
+        return {
+            success: true,
+            message: 'Cita eliminada correctamente'
+        }
+    }
+
+    const isAppointment = result.data.status !== 'no_show';
+
+    return {
+        success: true,
+        message: isAppointment ? `Borraste el bloqueo de ${format(result.data?.timeMin, 'EE, dd MMMM yyyy', {locale: es})}` : 'tipo desconocido'
     }
 }
 
