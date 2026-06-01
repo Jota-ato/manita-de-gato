@@ -2,7 +2,7 @@
 import FieldWLabel from "@/components/agenda/AgendaBody/Form/FieldWLabel";
 import { Button } from "@/components/ui/button";
 import { FieldGroup, FieldSet } from "@/components/ui/field";
-import { deleteService, createService, updateService } from "@/lib/dashboard/services/actions"; // 👈 Asegúrate de importar create y update
+import { deleteService, createService, updateService } from "@/lib/dashboard/services/actions";
 import { Service, serviceSchema } from "@/schemas/services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,7 @@ import { useState } from "react";
 
 interface ServiceFormProps {
     service?: Service
-    onSuccess?: () => void // Opcional, por si lo abres en un modal y quieres cerrarlo al terminar
+    onSuccess?: () => void
 }
 
 interface FieldsType {
@@ -98,8 +98,10 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
                             label={field.label}
                             type={field.type}
                             textarea={field.type === 'textarea'}
-                            error={errors[field.id]?.message as string}
-                            {...register(field.id)}
+                            error={errors[field.id]?.message}
+                            {...register(field.id, {
+                                valueAsNumber: field.type === 'number'
+                            })}
                         />
                     ))}
                 </FieldGroup>

@@ -17,34 +17,18 @@ type FieldWLabelProps =
 
 export default function FieldWLabel(props: FieldWLabelProps) {
 
-    const { label, error, className } = props;
+    const { label, error, className, textarea, ...restProps } = props;
 
     return (
         <Field className={className}>
-            <FieldLabel htmlFor={props.id}>
+            <FieldLabel htmlFor={restProps.id}>
                 {label}
             </FieldLabel>
 
-            {props.textarea ? (
-                (() => {
-                    const {  ...textareaProps } = props;
-
-                    return (
-                        <Textarea
-                            {...textareaProps}
-                        />
-                    );
-                })()
+            {textarea ? (
+                <Textarea {...(restProps as TextareaHTMLAttributes<HTMLTextAreaElement>)} />
             ) : (
-                (() => {
-                    const { ...inputProps } = props;
-
-                    return (
-                        <Input
-                            {...inputProps}
-                        />
-                    );
-                })()
+                <Input {...(restProps as InputHTMLAttributes<HTMLInputElement>)} />
             )}
 
             {error && (
