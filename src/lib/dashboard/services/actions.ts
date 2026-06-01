@@ -1,9 +1,9 @@
 'use server'
 import { createClient } from "@/lib/supabase/server";
-import { Service, serviceExtrasEnum, serviceSchema } from "@/schemas/services";
+import { Service, serviceSchema } from "@/schemas/services";
 import { revalidatePath } from "next/cache";
 
-export async function createService(data: Service) {
+export async function createService(data: Omit<Service, 'id'>) {
     const supabase = await createClient();
 
     const { error } = await supabase
@@ -19,13 +19,13 @@ export async function createService(data: Service) {
     return { success: true, message: "Servicio creado exitosamente." };
 }
 
-export async function updateService(id: string | number, data: Service) {
+export async function updateService(data: Service) {
     const supabase = await createClient();
 
     const { error } = await supabase
         .from('Services')
         .update(data)
-        .eq('id', id);
+        .eq('id', data.id);
 
     if (error) {
         console.error("[UPDATE_SERVICE_ERROR]:", error.message);
@@ -36,13 +36,20 @@ export async function updateService(id: string | number, data: Service) {
     return { success: true, message: "Servicio actualizado exitosamente." };
 }
 
-export async function deleteService(id: string | number) {
+export async function deleteService
+    (id: string | number):
+    Promise<
+        {
+            success: boolean,
+            message: string
+        }
+    > {
     const supabase = await createClient();
 
     const { data, error } = await supabase
         .from('Services')
         .update({
-            'is_disabled': true
+            'isDisabled': true
         })
         .eq('id', id)
         .select()
@@ -56,9 +63,9 @@ export async function deleteService(id: string | number) {
 
     revalidatePath('/dashboard/servicios');
     const response = serviceSchema.safeParse(data);
-    if (response.error) { 
+    if (response.error) {
         return {
-            succes: true,
+            success: true,
             message: 'Servicio eliminado correctamente.'
         }
     }

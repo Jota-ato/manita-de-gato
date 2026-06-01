@@ -29,7 +29,8 @@ export const serviceSchema = z.object({
     image_url: z.string().optional().nullable().describe('image url'),
     what_is: z.string().describe('Detial description of the process'),
     available_extras: z.array(z.enum(serviceExtrasEnum)),
-    included_items: z.array(z.enum(serviceItemsEnum))
+    included_items: z.array(z.enum(serviceItemsEnum)),
+    isDisabled: z.boolean()
 });
 
 /**

@@ -20,6 +20,10 @@ import { TZDate } from "@date-fns/tz";
 import CancelModal from "./CancelModal";
 import BlockTimeForm from "./Forms/BlockTimeForm";
 import BlockPeriodForm from "./Forms/BlockPeriodForm";
+import { cancellAllAppointmentsDay } from "@/lib/dashboard/quickactions/actions";
+import { toast } from "sonner";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface QuickActionsProps {
     todayAppointments: Appointment[]
@@ -59,6 +63,13 @@ export default function QuickActions({ services, today }: QuickActionsProps) {
         },
     ];
 
+    const handleClick = async () => {
+        const response = await cancellAllAppointmentsDay(today);
+
+        if (response.success) toast.success(response.message)
+        if (!response.success) toast.error(response.message)
+    }
+
     return (
         <Card className="h-full flex flex-col border-border shadow-sm">
             <CardHeader className="pb-4">
@@ -84,7 +95,11 @@ export default function QuickActions({ services, today }: QuickActionsProps) {
                 <Separator />
 
                 <CancelModal
-                    today={today}
+                    action={handleClick}
+                    triggerLabel="Cancelar todo hoy"
+                    cardTitle="¿Cancelar todas las citas de hoy?"
+                    cardDescription={`Cancelarias todas las citas del ${format(today, "eeee, d 'de' MMMM 'de' yyyy", { locale: es })}`}
+                    cardButtonLabel="Cancelar todas las citas"
                 />
             </CardContent>
         </Card>

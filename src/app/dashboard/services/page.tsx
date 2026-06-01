@@ -1,9 +1,9 @@
-import Services from "@/components/landing/Services/Services";
+import ServicePage from "@/components/dashboard/services/ServicePage";
 
 export default function page() {
     return (
-        <section>
-            <Services />
+        <section className="flex min-h-screen items-center justify-center py-12">
+            <ServicePage />
         </section>
     )
 }

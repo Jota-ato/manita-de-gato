@@ -10,7 +10,8 @@ export async function getServices(): Promise<Service[]> {
 
     const { data, error } = await supabase
         .from('Services')
-        .select("*");
+        .select("*")
+        .neq('isDisabled', true);
 
     if (error) {
         console.error('Error while fetching services');
