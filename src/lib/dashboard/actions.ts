@@ -151,38 +151,49 @@ export async function deleteAppointment(
     message: string
 }> {
     const supabase = await createClient();
-
     const { data, error } = await supabase
         .from('Appointments')
-        .delete({
-            count: 'exact',
-        })
-        .eq('id', appointmentId);
-    console.log(data)
+        .delete()
+        .eq('id', appointmentId)
+        .select() 
+        .single();
 
     if (error) {
-        console.error('Error deleting appointment', error.message);
+        console.error('[DELETE_APPOINTMENT_ERROR]:', error.message);
         return {
             success: false,
-            message: 'Error eliminando cita'
+            message: 'Error en la base de datos al intentar eliminar el registro.'
         }
     }
 
-    const result = AppointmentSchema.safeParse(data);
     revalidatePath('/dashboard');
 
-    if (result.error) {
+    const result = AppointmentSchema.safeParse(data);
+
+    if (!result.success) {
         return {
             success: true,
-            message: 'Cita eliminada correctamente'
+            message: 'Registro eliminado correctamente del calendario.'
         }
     }
 
-    const isAppointment = result.data.status !== 'no_show';
+    const deletedRecord = result.data;
+    const isBlock = deletedRecord.status === 'no_show';
 
-    return {
-        success: true,
-        message: isAppointment ? `Borraste el bloqueo de ${format(result.data?.timeMin, 'EE, dd MMMM yyyy', { locale: es })}` : 'tipo desconocido'
+    const deletedDateObj = new Date(deletedRecord.timeMin);
+    const dateFormatted = format(deletedDateObj, "eeee, d 'de' MMMM", { locale: es });
+
+    if (isBlock) {
+        return {
+            success: true,
+            message: `El bloqueo del ${dateFormatted} ha sido eliminado.`
+        }
+    } else {
+        const clientName = deletedRecord.client_name_snapshot || 'cliente';
+        return {
+            success: true,
+            message: `Cita de ${clientName} el ${dateFormatted} cancelada con éxito.`
+        }
     }
 }
 
