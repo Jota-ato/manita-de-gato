@@ -92,6 +92,7 @@ export default function ServiceForm({ service, onSuccess }: ServiceFormProps) {
             } else {
                 toast.error(response.message);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             toast.error("Ocurrió un error al procesar la imagen.");
         } finally {
