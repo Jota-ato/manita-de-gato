@@ -150,6 +150,16 @@ export async function deleteAppointment(
     success: boolean,
     message: string
 }> {
+    const calendarResponse = await deleteEventInCalendar(appointmentId);
+
+    if (!calendarResponse.success) {
+        console.error('[CALENDAR_DELETE_ERROR]:', calendarResponse.message);
+        return {
+            success: false,
+            message: `Fallo al sincronizar con Google Calendar. Cancelando borrado: ${calendarResponse.message}`
+        };
+    }
+
     const supabase = await createClient();
     const { data, error } = await supabase
         .from('Appointments')
