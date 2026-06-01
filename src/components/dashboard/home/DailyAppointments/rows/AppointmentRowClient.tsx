@@ -19,9 +19,10 @@ interface AppointmentRowClientProps {
     apt: Appointment;
     client: Client | 'Cliente';
     services: Service[];
+    showDate?: boolean
 }
 
-export default function AppointmentRowClient({ apt, client, services }: AppointmentRowClientProps) {
+export default function AppointmentRowClient({ apt, client, services, showDate }: AppointmentRowClientProps) {
     const [open, setOpen] = useState(false);
 
     const serviceName = services.find(s => s.id === apt.service_id)?.name ?? 'Servicio sin nombre';
@@ -33,7 +34,7 @@ export default function AppointmentRowClient({ apt, client, services }: Appointm
                 onClick={() => setOpen(true)}
                 className="flex items-center md:gap-4 gap-2 px-4 py-4 hover:bg-muted/50 transition-colors cursor-pointer border-y-border border-b first-of-type:border-t"
             >
-                <TimeLine apt={apt} />
+                <TimeLine showDate={showDate} apt={apt} />
                 <Separator orientation="vertical" />
                 <AppointmentDetails serviceName={serviceName} clientName={clientName} />
                 <StatusBadge status={apt.status} />

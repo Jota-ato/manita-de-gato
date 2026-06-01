@@ -6,9 +6,10 @@ import DailyAppointmentRow from "../rows/DailyAppointmentRow";
 
 interface DailyAppointmentsTableProps {
     appointments: Appointment[]
+    showDate?: boolean
 }
 
-export default async function AppointmentsTable({ appointments }: DailyAppointmentsTableProps) {
+export default async function AppointmentsTable({ appointments, showDate }: DailyAppointmentsTableProps) {
 
     const services = await getServices();
 
@@ -20,6 +21,7 @@ export default async function AppointmentsTable({ appointments }: DailyAppointme
                 <ul>
                     {appointments.map((apt) => (
                         <DailyAppointmentRow
+                            showDate={showDate}
                             key={apt.id}
                             apt={apt}
                             services={services}
