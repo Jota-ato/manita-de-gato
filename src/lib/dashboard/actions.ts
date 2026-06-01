@@ -160,7 +160,7 @@ export async function deleteAppointment(
         .eq('id', appointmentId);
     console.log(data)
 
-    if (error) { 
+    if (error) {
         console.error('Error deleting appointment', error.message);
         return {
             success: false,
@@ -169,8 +169,9 @@ export async function deleteAppointment(
     }
 
     const result = AppointmentSchema.safeParse(data);
+    revalidatePath('/dashboard');
 
-    if (result.error) { 
+    if (result.error) {
         return {
             success: true,
             message: 'Cita eliminada correctamente'
@@ -181,7 +182,7 @@ export async function deleteAppointment(
 
     return {
         success: true,
-        message: isAppointment ? `Borraste el bloqueo de ${format(result.data?.timeMin, 'EE, dd MMMM yyyy', {locale: es})}` : 'tipo desconocido'
+        message: isAppointment ? `Borraste el bloqueo de ${format(result.data?.timeMin, 'EE, dd MMMM yyyy', { locale: es })}` : 'tipo desconocido'
     }
 }
 

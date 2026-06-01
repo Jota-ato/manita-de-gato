@@ -199,6 +199,7 @@ export default function NewApointmentForm({ services, appointment }: NewApointme
                         <div className="grid grid-cols-2 gap-4 justify-between">
                             <AppointmentDialogSelect apt={appointment} />
                             <Button
+                                type="button"
                                 disabled={isAnythingLoading}
                                 onClick={deleteAppointmentAction}
                                 variant={'destructive'}

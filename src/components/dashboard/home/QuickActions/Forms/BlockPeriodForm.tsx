@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FieldSet } from "@/components/ui/field";
 import { useForm } from "react-hook-form";
@@ -5,19 +6,21 @@ import { CreateBlockForm, CreateBlockPeriodSchema, } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from "@/components/ui/spinner";
 import RangePicker from "./RangePicker";
-import { createBlockTime } from "@/lib/dashboard/quickactions/actions"; 
+import { createBlockTime } from "@/lib/dashboard/quickactions/actions";
 import { toast } from "sonner";
 import { Appointment } from "@/lib/supabase/schemas";
 import { format } from "date-fns";
-import { updateAppointment } from "@/lib/dashboard/actions";
+import { updateAppointment, deleteAppointment } from "@/lib/dashboard/actions";
 import { TZDate } from "@date-fns/tz";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
+import { cn } from "@/lib/utils";
 
 interface BlockPeriodFormProps {
     appointment?: Appointment;
 }
 
 export default function BlockPeriodForm({ appointment }: BlockPeriodFormProps) {
+    const [isDeletingBlock, setIsDeletingBlock] = useState(false);
 
     const isEditing = !!appointment;
 
@@ -41,6 +44,8 @@ export default function BlockPeriodForm({ appointment }: BlockPeriodFormProps) {
         }
     });
 
+    const isAnyLoading = isSubmitting || isDeletingBlock;
+
     const onValidSubmit = async (formData: CreateBlockForm) => {
         const timeMin = new TZDate(formData.startDate, TIMEZONE);
         const timeMax = new TZDate(formData.endDate, TIMEZONE);
@@ -62,9 +67,24 @@ export default function BlockPeriodForm({ appointment }: BlockPeriodFormProps) {
         }
     }
 
+    const deleteBlock = async () => {
+        if (!isEditing) return;
+        setIsDeletingBlock(true);
+
+        const response = await deleteAppointment(appointment.id);
+
+        if (response.success) {
+            toast.success(response.message);
+        } else {
+            toast.error(response.message);
+        }
+
+        setIsDeletingBlock(false);
+    }
+
     return (
         <form onSubmit={handleSubmit(onValidSubmit)}>
-            <FieldSet disabled={isSubmitting}>
+            <FieldSet disabled={isAnyLoading}>
                 <RangePicker
                     control={control}
                     nameStartDate="startDate"
@@ -76,10 +96,11 @@ export default function BlockPeriodForm({ appointment }: BlockPeriodFormProps) {
                     startTimeError={errors.timeMin?.message}
                     endTimeError={errors.timeMax?.message}
                 />
-                <div className="flex flex-col md:flex-row gap-2 justify-end ">
+
+                <div className={cn("grid gap-2", isEditing ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1")}>
                     <Button
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isAnyLoading}
                     >
                         {isSubmitting ? (
                             <span className="flex items-center gap-2"><Spinner />{isEditing ? 'Guardando...' : 'Bloqueando...'}</span>
@@ -87,6 +108,21 @@ export default function BlockPeriodForm({ appointment }: BlockPeriodFormProps) {
                             isEditing ? 'Guardar Cambios' : 'Bloquear periodo'
                         )}
                     </Button>
+
+                    {isEditing && (
+                        <Button
+                            type="button"
+                            disabled={isAnyLoading}
+                            onClick={deleteBlock}
+                            variant={'destructive'}
+                        >
+                            {isDeletingBlock ? (
+                                <span className="flex items-center gap-2"><Spinner />Eliminando...</span>
+                            ) : (
+                                'Eliminar periodo'
+                            )}
+                        </Button>
+                    )}
                 </div>
             </FieldSet>
         </form>

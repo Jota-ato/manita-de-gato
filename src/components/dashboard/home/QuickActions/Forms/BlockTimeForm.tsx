@@ -157,6 +157,7 @@ export default function BlockTimeForm({ appointment }: BlockTimeFormProps) {
                     </Button>
                     {isEditing && (
                         <Button
+                            type="button"
                             disabled={isAnyLoading}
                             onClick={deleteBlock}
                             variant={'destructive'}
