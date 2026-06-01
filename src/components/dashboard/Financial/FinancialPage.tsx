@@ -1,6 +1,6 @@
 import { getFinancialData } from "@/lib/dashboard/income/actions";
 import { TIMEZONE } from "@/lib/supabase/utils/helpers";
-import { addYears, subYears } from "date-fns";
+import { endOfYear, startOfYear } from "date-fns";
 import { TZDate } from "react-day-picker";
 import FinancialDashboard from "./FinancialDashboard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -8,8 +8,8 @@ import { AlertCircle } from "lucide-react";
 
 export default async function FinancialPage() {
 
-    const startRange = subYears(new TZDate(new Date(), TIMEZONE), 1);
-    const endRange = addYears(new TZDate(startRange, TIMEZONE), 2);
+    const startRange = startOfYear(new TZDate(new Date(), TIMEZONE));
+    const endRange = endOfYear(new TZDate(startRange, TIMEZONE));
 
     const response = await getFinancialData(startRange, endRange);
 

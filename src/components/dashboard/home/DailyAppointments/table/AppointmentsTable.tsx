@@ -5,20 +5,20 @@ import { getServices } from "@/lib/form/service";
 import DailyAppointmentRow from "../rows/DailyAppointmentRow";
 
 interface DailyAppointmentsTableProps {
-    todayAppointments: Appointment[]
+    appointments: Appointment[]
 }
 
-export default async function DailyAppointmentsTable({ todayAppointments }: DailyAppointmentsTableProps) {
+export default async function AppointmentsTable({ appointments }: DailyAppointmentsTableProps) {
 
     const services = await getServices();
 
     return (
         <CardContent className="p-0 max-h-60 overflow-y-scroll">
-            {todayAppointments.length === 0 ? (
+            {appointments.length === 0 ? (
                 <NoDailyAppointments />
             ) : (
                 <ul>
-                    {todayAppointments.map((apt) => (
+                    {appointments.map((apt) => (
                         <DailyAppointmentRow
                             key={apt.id}
                             apt={apt}

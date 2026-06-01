@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import DailyAppointmentsHeader from "./DailyAppointmentsHeader";
-import DailyAppointmentsTable from "./table/DailyAppointmentsTable";
+import AppointmentsTable from "./table/AppointmentsTable";
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 const TIMEZONE = "America/Mexico_City";
@@ -28,8 +28,8 @@ export default async function DailyAppointments({ today, todayAppointments }: Da
                 capitalizedDate={capitalizedDate}
                 appointmentNumber={todayAppointments.length}
             />
-            <DailyAppointmentsTable
-                todayAppointments={todayAppointments}
+            <AppointmentsTable
+                appointments={todayAppointments}
             />
         </Card>
     )

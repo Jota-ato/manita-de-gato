@@ -4,7 +4,23 @@ import { Appointment } from "@/lib/supabase/schemas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart";
+import { formatPriceMXN } from "@/lib/utils/currency";
+
+const chartConfig = {
+    income: {
+        label: "Ingresos",
+        color: "var(--chart-1)",
+    },
+} satisfies ChartConfig;
 
 export default function DailyIncomeChart({ appointments }: { appointments: Appointment[] }) {
 
@@ -17,9 +33,7 @@ export default function DailyIncomeChart({ appointments }: { appointments: Appoi
     const barChartData = Object.entries(incomeByDayRaw).map(([date, income]) => ({
         date,
         income,
-        fill: 'var(--chart-1)'
     }));
-
 
     return (
         <Card className="col-span-1">
@@ -27,17 +41,40 @@ export default function DailyIncomeChart({ appointments }: { appointments: Appoi
                 <CardTitle>Flujo de Ingresos Diarios</CardTitle>
             </CardHeader>
             <CardContent className="h-75 w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                <ChartContainer config={chartConfig} className="h-full w-full">
                     <BarChart data={barChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
                         <XAxis dataKey="date" fontSize={12} tickLine={false} axisLine={false} />
-                        <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}`} />
-                        <Tooltip
-                            cursor={{ fill: 'transparent' }}
+                        <YAxis
+                            fontSize={12}
+                            tickLine={false}
+                            axisLine={false}
+                            tickFormatter={(val) => `$${val}`}
                         />
-                        <Bar dataKey="income" radius={[4, 4, 0, 0]} />
+                        <ChartTooltip
+                            content={
+                                <ChartTooltipContent
+                                    formatter={(value, name) => (
+                                        <>
+                                            <div
+                                                className="h-2.5 w-2.5 shrink-0 rounded-xs"
+                                                style={{ backgroundColor: chartConfig[name as keyof typeof chartConfig]?.color }}
+                                            />
+                                            <span className="text-muted-foreground">
+                                                {chartConfig[name as keyof typeof chartConfig]?.label ?? name}
+                                            </span>
+                                            <span className="font-mono font-medium tabular-nums text-foreground ml-auto">
+                                                {formatPriceMXN(Number(value))}
+                                            </span>
+                                        </>
+                                    )}
+                                />
+                            }
+                        />
+                        <ChartLegend content={<ChartLegendContent />} />
+                        <Bar dataKey="income" fill="var(--color-income)" radius={[4, 4, 0, 0]} />
                     </BarChart>
-                </ResponsiveContainer>
+                </ChartContainer>
             </CardContent>
         </Card>
     );

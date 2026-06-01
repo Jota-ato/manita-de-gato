@@ -3,6 +3,8 @@ import SidebarItem from "../SidebarItem";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import { Calendar, CircleDollarSign, Home, LucideProps, Sparkles } from "lucide-react";
 import SidebarTrigger from "../SidebarTrigger";
+import { BsRecord } from "react-icons/bs";
+import { MdHistory } from "react-icons/md";
 
 interface DashboardSidebarLinksProps {
     isExpanded: boolean
@@ -19,7 +21,8 @@ const navItems = [
     { title: "Inicio", url: "/dashboard", icon: Home },
     { title: "Agenda", url: "/dashboard/agenda", icon: Calendar },
     { title: "Finanzas", url: "/dashboard/finance", icon: CircleDollarSign },
-    { title: "Servicios", url: "/dashboard/services", icon: Sparkles }
+    { title: "Servicios", url: "/dashboard/services", icon: Sparkles },
+    { title: "Historial", url: "/dashboard/record", icon: MdHistory  },
 ];
 
 export default function DashboardSidebarLinks({ isExpanded, toggleSidebar }: DashboardSidebarLinksProps) {

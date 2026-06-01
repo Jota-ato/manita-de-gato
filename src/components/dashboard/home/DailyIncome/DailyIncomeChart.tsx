@@ -49,7 +49,7 @@ export default function DailyIncomeChart({ today, expected, paid }: DailyIncomeC
                 <YAxis
                     tickLine={false}
                     axisLine={false}
-                    
+
                     tickFormatter={(value) => formatPriceMXN(value)}
                 />
                 <XAxis
@@ -58,7 +58,7 @@ export default function DailyIncomeChart({ today, expected, paid }: DailyIncomeC
                     tickMargin={10}
                     axisLine={false}
                 />
-                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartTooltip content={<ChartTooltipContent formatter={(value) => formatPriceMXN(Number(value))} />} />
                 <ChartLegend content={<ChartLegendContent />} />
 
                 <Bar dataKey="expected" fill="var(--color-expected)" radius={4} />

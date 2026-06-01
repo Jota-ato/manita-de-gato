@@ -2,15 +2,16 @@
 
 import { Appointment } from "@/lib/supabase/schemas";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
-
-const CHART_COLORS = [
-    'var(--chart-1)',
-    'var(--chart-2)',
-    'var(--chart-3)',
-    'var(--chart-4)',
-    'var(--chart-5)'
-];
+import { PieChart, Pie, Cell } from "recharts";
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart";
+import { formatPriceMXN } from "@/lib/utils/currency";
 
 export default function ServiceIncomeChart({ appointments }: { appointments: Appointment[] }) {
 
@@ -22,12 +23,18 @@ export default function ServiceIncomeChart({ appointments }: { appointments: App
 
     const pieChartData = Object.entries(incomeByServiceRaw)
         .sort(([, valA], [, valB]) => valB - valA)
-        .map(([name, value], index) => ({
-            name,
-            value,
-            fill: CHART_COLORS[index % CHART_COLORS.length]
-        }));
+        .map(([name, value], index) => ({ name, value, index }));
 
+    // ChartConfig se construye dinámicamente a partir de los servicios
+    const chartConfig = Object.fromEntries(
+        pieChartData.map(({ name }, index) => [
+            name,
+            {
+                label: name,
+                color: `var(--chart-${(index % 5) + 1})`,
+            },
+        ])
+    ) satisfies ChartConfig;
 
     return (
         <Card className="col-span-1">
@@ -35,7 +42,7 @@ export default function ServiceIncomeChart({ appointments }: { appointments: App
                 <CardTitle>Ingresos por Servicio</CardTitle>
             </CardHeader>
             <CardContent className="h-75 w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                <ChartContainer config={chartConfig} className="h-full w-full">
                     <PieChart>
                         <Pie
                             data={pieChartData}
@@ -45,11 +52,39 @@ export default function ServiceIncomeChart({ appointments }: { appointments: App
                             outerRadius={90}
                             paddingAngle={5}
                             dataKey="value"
+                            nameKey="name"
+                        >
+                            {pieChartData.map(({ name }, index) => (
+                                <Cell
+                                    key={name}
+                                    fill={`var(--chart-${(index % 5) + 1})`}
+                                />
+                            ))}
+                        </Pie>
+                        <ChartTooltip
+                            content={
+                                <ChartTooltipContent
+                                    nameKey="name"
+                                    formatter={(value, name) => (
+                                        <>
+                                            <div
+                                                className="h-2.5 w-2.5 shrink-0 rounded-xs"
+                                                style={{ backgroundColor: chartConfig[name as string]?.color }}
+                                            />
+                                            <span className="text-muted-foreground">
+                                                {chartConfig[name as string]?.label ?? name}
+                                            </span>
+                                            <span className="font-mono font-medium tabular-nums text-foreground ml-auto">
+                                                {formatPriceMXN(Number(value))}
+                                            </span>
+                                        </>
+                                    )}
+                                />
+                            }
                         />
-                        <Tooltip />
-                        <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                        <ChartLegend content={<ChartLegendContent nameKey="name" />} />
                     </PieChart>
-                </ResponsiveContainer>
+                </ChartContainer>
             </CardContent>
         </Card>
     );
