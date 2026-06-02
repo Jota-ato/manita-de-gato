@@ -42,7 +42,10 @@ export default function AppointmentRowClient({ apt, client, services, showDate }
 
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
-                    <AppointmentDialogHeader />
+                    <AppointmentDialogHeader
+                        appointment={apt}
+                        services={services}
+                    />
                     <Separator />
                     <AppointmentInfoDialog
                         apt={apt}

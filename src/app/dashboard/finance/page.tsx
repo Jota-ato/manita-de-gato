@@ -56,7 +56,7 @@ export default async function FinancialPage({ searchParams }: FinancialPageProps
     }
 
     return (
-        <section className="py-16 w-full">
+        <section className="p-8 md:p-12 min-h-screen flex items-center justify-center">
             <FinancialDashboard data={response.data!} />
         </section>
     );
