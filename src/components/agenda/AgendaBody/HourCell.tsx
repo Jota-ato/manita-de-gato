@@ -20,7 +20,7 @@ export default function HourCell({ hour, dayDifference }: HourCellProps) {
 
     const [open, setOpen] = useState(false);
     const startHour = format(hour, 'HH:mm');
-    const endHour = format(addHours(hour, 2), 'HH:mm');
+    const endHour = format(addHours(hour, 2.5), 'HH:mm');
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

@@ -50,7 +50,7 @@ export default function AgendaView({ events, today }: AgendaViewProps) {
     const prevPeriod = () => setViewDate(prev => subDays(prev, daysToShow));
 
     const hours = Array.from({ length: 5 }).map((_, i) =>
-        addHours(startOfDay(startOfView), 10 + (2 * i))
+        addHours(startOfDay(startOfView), 10 + (2.5 * i))
     );
 
     return (
