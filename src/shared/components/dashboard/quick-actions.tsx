@@ -31,19 +31,19 @@ export function QuickActions({
 
     const quickActions: quickActionsType[] = [
         {
-            title: 'Create new appointment manually',
+            title: 'Crear una nueva cita manualmnente',
             description: '',
-            trigger: <QuickActionsButton label="New manual appointment" Icon={Plus} />,
+            trigger: <QuickActionsButton label="Crear cita manualmente" Icon={Plus} />,
             children: <NewAppointmentManuallyForm services={services} />
         },
         {
-            title: 'Block day / time',
+            title: 'Bloquear día / hora',
             description: '',
             trigger: <QuickActionsButton variant="outline" label="Block day / time" Icon={CalendarOff} />,
             children: <BlockTimeForm />
         },
         {
-            title: 'Block period',
+            title: 'Bloquear periodo',
             description: '',
             trigger: <QuickActionsButton variant="outline" label="Block period" Icon={CalendarRange} />,
             children: <BlockPeriodForm />
@@ -84,10 +84,10 @@ export function QuickActions({
                 <AlertDialogCustom
                     fullWith
                     action={cancelAllDay}
-                    actionLabel="Cancell all day"
-                    dialogTitle="Are you sure you want to cancel?"
-                    triggerLabel="Cancell all day"
-                    dialogDescription="If you regret it you'll need to change every state manually"
+                    actionLabel="Cancelar todo el día"
+                    dialogTitle="¿Estás seguro de que quieres cancelar?"
+                    triggerLabel="Cancelar todo el día"
+                    dialogDescription="Si te arrepientes, tendrás que cambiar cada estado manualmente."
                     showText
                     triggerIcon={CalendarX}
                 />
