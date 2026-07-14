@@ -1,0 +1,1 @@
+ALTER TABLE "business_controls" ADD COLUMN "banner_image" varchar(130);

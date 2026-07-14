@@ -1,0 +1,1 @@
+ALTER TYPE "public"."roles" ADD VALUE IF NOT EXISTS 'owner';--> statement-breakpoint

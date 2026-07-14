@@ -1,0 +1,95 @@
+import { Customer, NewCustomer } from "@/db/schema";
+import { customersRepository, ICustomersRepository } from "./customers-repository";
+import { AppError } from "@/shared/lib/errors";
+import { TZDate } from "@date-fns/tz"
+import { adminAppointmentsRepository, IAdminAppointmentsRepository } from "@/features/appointments/admin/services/admin-appointments-repository";
+import { CustomerInput } from "../schemas/customer-schemas";
+
+/**
+ * Application-layer service responsible for customer business logic.
+ *
+ * Enforces uniqueness constraints and delegates all persistence operations
+ * to the injected {@link ICustomersRepository}.
+ *
+ * @example
+ * const customer = await customersService.getClientByPhone('525512345678');
+ */
+export class CustomersService {
+    /**
+     * @param customersRepository - Data access layer for customer records.
+     */
+    constructor(
+        private customersRepository: ICustomersRepository,
+        private adminAppointmentsRepository: IAdminAppointmentsRepository
+    ) { }
+
+    /**
+     * Retrieves a customer by their phone number.
+     *
+     * @param phone - The phone number to look up.
+     * @returns A promise that resolves to the matching `Customer` record,
+     *          or `undefined` if no customer is found.
+     */
+    async getClientByPhone(phone: string, full: boolean = false) {
+        return await this.customersRepository.getByPhone(phone, full)
+    }
+
+    async getClientById(id: string, full: boolean = false) {
+        return await this.customersRepository.getById(id, full)
+    }
+
+    /**
+     * Creates a new customer after verifying that no existing customer
+     * is registered with the same phone number.
+     *
+     * @param data - The new customer data, conforming to `NewCustomer`.
+     * @throws {Error} If a customer with the same phone number already exists.
+     * @returns A promise that resolves to the newly created `Customer` record.
+     */
+    async createCustomer(data: NewCustomer) {
+        const client = await this.getClientByPhone(data.phone)
+        if (client) throw new AppError(`Client already exists, name: ${client.name} ${client.lastName}`)
+
+        return await this.customersRepository.insert(data)
+    }
+
+    async getCustomers(page: number, limit: number) {
+        return await this.customersRepository.getAll(page, limit)
+    }
+
+    async getCustomerAmount() {
+        return await this.customersRepository.getCount()
+    }
+
+    async getCustomersByTimeRange(startRange: TZDate, endRange: TZDate) {
+        return await this.customersRepository.getCountByTimeRange(startRange, endRange)
+    }
+
+    async getCustomerAppointments(
+        customerId: string,
+        page: number,
+        limit: number,
+        dateFilter?: string
+    ) {
+        return await this.adminAppointmentsRepository.getByClient(customerId, page, limit, dateFilter)
+    }
+
+    async updateCustomer(data: NewCustomer, id: string) {
+        const dbCustomer = await this.getClientById(id)
+        if (!dbCustomer) throw new AppError(`Customer with id ${id} not found`, "CUSTOMER_NOT_FOUND")
+
+        const payload: NewCustomer = {
+            name: data.name,
+            lastName: data.lastName,
+            phone: data.phone,
+            email: data.email || null
+        }
+
+        return await this.customersRepository.edit(payload, dbCustomer.id)
+    }
+}
+
+export const customersService = new CustomersService(
+    customersRepository,
+    adminAppointmentsRepository
+)

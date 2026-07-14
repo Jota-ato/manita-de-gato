@@ -1,0 +1,71 @@
+import { format, isSameDay } from "date-fns";
+import { Pagination } from "./pagination";
+import { cn, capitalizeFirstLetter } from "@/shared/lib/utils";
+import Image from "next/image";
+import { Heading } from "@/shared/components/typography/heading";
+
+export function AgendaHeader({
+    weekDays,
+    today,
+    onNext,
+    onPrev,
+    bannerImage
+}: {
+    weekDays: Date[];
+    today: Date
+    onNext: () => void;
+    onPrev: () => void;
+    bannerImage?: string | null
+}) {
+
+    const startOfWeekMonth = capitalizeFirstLetter(format(weekDays[0], "MMMM"));
+    const endOfWeekMonth = capitalizeFirstLetter(format(weekDays[weekDays.length - 1], "MMMM"));
+
+    const period =
+        startOfWeekMonth === endOfWeekMonth ?
+            startOfWeekMonth
+            : `${startOfWeekMonth} - ${endOfWeekMonth}`
+
+    return (
+        <header
+            className="bg-secondary shadow-md transition-all"
+        >
+            <div className="text-center font-bold h-40 relative">
+                <Image 
+                    src={bannerImage!}
+                    alt="Banner"
+                    className="w-full h-full object-cover"
+                    width={1200}
+                    height={200}
+                />
+                <div className="absolute bg-black/60 w-full h-full top-0 flex items-center justify-center">
+                    <Heading className="text-accent dark:text-accent-foreground">{period}</Heading>
+                </div>
+            </div>
+            <div
+                className="grid sticky top-0 z-20"
+                style={{ gridTemplateColumns: `5rem repeat(${weekDays.length}, 1fr)` }}
+            >
+                <Pagination
+                    onNext={onNext}
+                    onPrev={onPrev}
+                />
+
+                {weekDays.map(day => {
+                    const isToday = isSameDay(today, day);
+                    return (<div
+                        key={day.toISOString()}
+                        className={cn("py-4 border-r border-accent-foreground last:border-r-0 flex items-center justify-center flex-col animate-in fade-in duration-300", isToday ? 'bg-primary' : 'bg-secondary text-muted-foreground')}
+                    >
+                        <p className="text-sm font-bold uppercase tracking-widest">
+                            {format(day, 'EEE')}
+                        </p>
+                        <p className="text-md md:text-2xl font-black">
+                            {format(day, 'd')}
+                        </p>
+                    </div>)
+                })}
+            </div>
+        </header>
+    )
+}

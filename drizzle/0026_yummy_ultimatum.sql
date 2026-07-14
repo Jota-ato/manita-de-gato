@@ -1,0 +1,1 @@
+DROP TABLE "business_controls" CASCADE;
