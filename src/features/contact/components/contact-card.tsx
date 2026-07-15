@@ -12,10 +12,10 @@ export function ContactCard() {
         <Card className="max-w-2xl mx-auto">
             <CardHeader>
                 <CardTitle>
-                    Please fill out the form below
+                    Por favor llena los campos a continuación 
                 </CardTitle>
                 <CardDescription>
-                    We will get back to you as soon as possible
+                    Te contactaremos lo antes posible
                 </CardDescription>
             </CardHeader>
             <CardContent>

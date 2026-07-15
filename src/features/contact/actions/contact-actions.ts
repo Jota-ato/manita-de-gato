@@ -10,13 +10,13 @@ const contactEmail = process.env.CONTACT_EMAIL;
 export const sendContactFormAction = customerAction(async (data: ContactInput) => {
     const zodResponse = contactSchema.safeParse(data);
     if (!zodResponse.success) {
-        throw new AppError("Invalid form data");
+        throw new AppError("Información de contacto inválida");
     }
 
     const response = await resend.emails.send({
         from: "contact-form@mail.julio-zavala.me",
         to: contactEmail!,
-        subject: "New contact form submission",
+        subject: "Nuevo mensaje de contacto",
         html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -82,8 +82,7 @@ export const sendContactFormAction = customerAction(async (data: ContactInput) =
 
     if (response.error) {
         console.error("Failed to send email:", response.error);
-        throw new AppError("Failed to send email");
+        throw new AppError("Error al enviar el email");
     }
-    console.error("Email sent successfully:", response.data);
-    return "Email sent successfully";
+    return "Email enviado correctamente";
 })

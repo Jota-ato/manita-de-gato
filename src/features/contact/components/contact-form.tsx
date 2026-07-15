@@ -31,7 +31,7 @@ export function ContactForm() {
                         <FieldLabel
                             htmlFor="name"
                         >
-                            Name
+                            Nombre
                         </FieldLabel>
                         <Input
                             type="text"
@@ -48,7 +48,7 @@ export function ContactForm() {
                         <FieldLabel
                             htmlFor="lastName"
                         >
-                            Last Name
+                            Apellido
                         </FieldLabel>
                         <Input
                             type="text"
@@ -82,7 +82,7 @@ export function ContactForm() {
                         <FieldLabel
                             htmlFor="message"
                         >
-                            How can we help you?
+                            ¿Cómo podemos ayudarte?
                         </FieldLabel>
                         <Textarea
                             id="message"
@@ -97,8 +97,8 @@ export function ContactForm() {
                 </FieldGroup>
                 <FormSubmit
                     isSubmitting={isSubmitting}
-                    label="Send"
-                    submittingLabel="Sending..."
+                    label="Enviar"
+                    submittingLabel="Enviando..."
                 />
             </FieldSet>
         </form>
