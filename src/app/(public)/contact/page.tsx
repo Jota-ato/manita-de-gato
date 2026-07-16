@@ -3,12 +3,12 @@ import { Heading } from "@/shared/components/typography/heading"
 import { Separator } from "@/shared/components/ui/separator"
 
 
-const title = "Contact us"
+const title = "Contáctanos"
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
     title: generateMetadataTitle(title),
-    description: "Contact us for any inquiries, questions, or feedback. We are here to assist you and provide the information you need.",
+    description: "Contáctanos para cualquier consulta, pregunta o comentario. Estamos aquí para ayudarte y proporcionarte la información que necesitas.",
 }
 
 export default function ContactPage() {
