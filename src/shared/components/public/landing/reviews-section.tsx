@@ -16,20 +16,20 @@ const reviewsData = [
     {
         nombre: "Mariana R.",
         inicial: "M",
-        servicio: "Acrylic Nails",
-        texto: "I loved the service. The facilities are super clean, the attention is top-notch, and my acrylic nails turned out identical to the photo I brought. It has definitely become my favorite place."
+        servicio: "Uñas Acrílicas",
+        texto: "Me encantó el servicio. El personal es muy amable y profesional. Mis uñas se ven increíbles y duraron mucho tiempo sin romperse. Definitivamente volveré."
     },
     {
         nombre: "Valeria G.",
         inicial: "V",
         servicio: "Manicure & Gel Polish",
-        texto: "Excellent service from the girls. The gel polish stays intact for over three weeks without chipping at all. They also offer you a delicious little coffee during your appointment."
+        texto: "El servicio es excelente. El gel polish dura más de tres semanas sin descascararse y te ofrecen un delicioso cafecito durante tu cita."
     },
     {
         nombre: "Laura M.",
         inicial: "L",
         servicio: "Spa Pedicure",
-        texto: "The Spa Pedicure is wonderful. They work with great patience and the products they use smell amazing. A 10/10 space to pamper yourself."
+        texto: "El Spa Pedicure es maravilloso. Trabajan con paciencia y los productos que usan huelen increíble. Un espacio 10/10 para consentirte."
     }
 ];
 
@@ -45,13 +45,13 @@ export function ReviewsSection() {
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                     >
-                        <Heading level={2} className="text-3xl font-bold mb-4">What our clients say</Heading>
+                        <Heading level={2} className="text-3xl font-bold mb-4">Lo que nuestros clientes dicen</Heading>
                         <div className="flex justify-center items-center gap-1 mb-3">
                             {[...Array(5)].map((_, i) => (
                                 <Star key={i} className="h-6 w-6 fill-primary text-primary" />
                             ))}
                         </div>
-                        <p className="text-muted-foreground font-medium">Rated 5 stars for our care and quality.</p>
+                        <p className="text-muted-foreground font-medium">+5 estrellas por nuestro cuidado y calidad.</p>
                     </motion.header>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
