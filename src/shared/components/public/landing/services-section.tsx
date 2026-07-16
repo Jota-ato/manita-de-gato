@@ -8,6 +8,7 @@ import { Button } from "../../ui/button"
 import { Separator } from "../../ui/separator"
 import { useBookingStore } from "@/features/appointments/public/store/booking-store"
 import { redirect } from "next/dist/client/components/navigation"
+import { differenceInYears } from "date-fns"
 
 export function ServicesSection({
     services
@@ -16,13 +17,15 @@ export function ServicesSection({
 }) {
 
     const { setStep, setSelectedService } = useBookingStore()
-
+    const yearsOfExperience = differenceInYears(new Date(), new Date("2013-01-01"))
     return (
+
         <AnimatePresence>
-            <section className="space-y-4 py-8" id="services">
+        <section className="space-y-4 py-8" id="services">
+
                 <ScrollAnimateItem>
-                    <Heading className="text-left" level={2}>Our services</Heading>
-                    <p className="text-muted-foreground">Certified technician with over 10 years of experience.</p>
+                    <Heading className="text-left" level={2}>Nuestros servicios</Heading>
+                    <p className="text-muted-foreground">Técnica certificada con más de {yearsOfExperience} años de experiencia.</p>
                 </ScrollAnimateItem>
                 <Separator />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -42,7 +45,7 @@ export function ServicesSection({
                                             redirect("/booking")
                                         }}
                                     >
-                                        Book now
+                                        Agendar
                                     </Button>
                                 }
                             />
