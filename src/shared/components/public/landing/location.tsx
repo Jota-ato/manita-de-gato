@@ -7,9 +7,9 @@ export function Location() {
         <section id="location" className="py-20 px-6 relative overflow-hidden">
             <div className="max-w-6xl mx-auto text-center flex flex-col items-center relative z-10">
                 <Heading level={2} className="mb-6">
-                    Ready to pamper yourself?</Heading>
+                    ¿Lista para consentirte?</Heading>
                 <p className="text-pink-50 mb-10 text-lg md:text-xl max-w-2xl">
-                    Our agenda fills up quickly. Secure your spot today and let us transform your hands.
+                    Nuestra agenda se llena rápidamente. Asegura tu lugar hoy y déjanos transformar tus manos.
                 </p>
 
                 <div className="flex items-center gap-3 mb-10 w-[90%] h-120">
@@ -26,7 +26,7 @@ export function Location() {
                     <Link
                         href={"/booking"}
                     >
-                        Book now
+                        Agendar
                     </Link>
                 </Button>
             </div>
