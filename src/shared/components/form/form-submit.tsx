@@ -6,9 +6,9 @@ export function FormSubmit({
     isSubmitting,
     isEditting = false,
     label,
-    editingLabel = "Edit",
+    editingLabel = "Editar",
     submittingLabel,
-    editingSubmittingLabel = "Saving...",
+    editingSubmittingLabel = "Guardando...",
     className
 }: {
     isSubmitting: boolean;

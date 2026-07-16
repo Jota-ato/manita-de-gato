@@ -29,7 +29,7 @@ export function DatePickerRange<T extends FieldValues>({
   setValue,
   startTimeName,
   endTimeName,
-  label = "Select Blocking Period",
+  label = "Seleccionar período bloqueado",
 }: DatePickerRangeProps<T>) {
   const [open, setOpen] = React.useState(false)
 
@@ -66,7 +66,7 @@ export function DatePickerRange<T extends FieldValues>({
     setValue(name, newDate as any, { shouldValidate: true, shouldDirty: true });
   }
 
-  let displayValue = "Select calendar dates";
+  let displayValue = "Seleccionar fechas del calendario";
   if (startTime) {
     const isSameDay = endTime && startTime.toDateString() === endTime.toDateString();
 
@@ -106,7 +106,7 @@ export function DatePickerRange<T extends FieldValues>({
 
       <div className="grid grid-cols-2 gap-4 w-full">
         <Field>
-          <FieldLabel htmlFor="startTime">Starts at</FieldLabel>
+          <FieldLabel htmlFor="startTime">Inicia a las</FieldLabel>
           <Input
             type="time"
             id="startTime"
@@ -118,7 +118,7 @@ export function DatePickerRange<T extends FieldValues>({
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="endTime">Ends at</FieldLabel>
+          <FieldLabel htmlFor="endTime">Termina a las</FieldLabel>
           <Input
             type="time"
             id="endTime"
