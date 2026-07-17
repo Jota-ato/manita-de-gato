@@ -34,7 +34,10 @@ export function BusinessControlsForm({
     })
 
     const updateControls = async (data: BusinessControlsInput) => {
-        showResponse(await updateBusinessControlsAction(data, controls.id))
+        showResponse(await updateBusinessControlsAction({
+            ...data,
+            startHour: formatTime(new TZDate(data.startHour, TIMEZONE))
+        }, controls.id))
     }
 
     const image = watch("bannerImage")
