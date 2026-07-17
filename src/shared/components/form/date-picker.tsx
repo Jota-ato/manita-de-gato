@@ -56,11 +56,11 @@ export function DatePickerTime<T extends FieldValues>({
   return (
     <FieldGroup className="mx-auto flex-col">
       <Field>
-        <FieldLabel htmlFor="appointmentDate">Date</FieldLabel>
+        <FieldLabel htmlFor="appointmentDate">Fecha</FieldLabel>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-full justify-between font-normal">
-              {startTime ? format(startTime, "PPP") : "Select date"}
+              {startTime ? format(startTime, "PPP") : "Seleccionar fecha"}
               <ChevronDownIcon className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
@@ -77,7 +77,7 @@ export function DatePickerTime<T extends FieldValues>({
 
       <div className="flex items-center gap-4">
         <Field>
-          <FieldLabel htmlFor="startTime">Start time</FieldLabel>
+          <FieldLabel htmlFor="startTime">Hora de inicio</FieldLabel>
           <Input
             type="time"
             step="60"
@@ -88,7 +88,7 @@ export function DatePickerTime<T extends FieldValues>({
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="endTime">End time</FieldLabel>
+          <FieldLabel htmlFor="endTime">Hora de fin</FieldLabel>
           <Input
             type="time"
             step="60"
