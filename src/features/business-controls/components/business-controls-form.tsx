@@ -34,9 +34,13 @@ export function BusinessControlsForm({
     })
 
     const updateControls = async (data: BusinessControlsInput) => {
+        const startHour = new TZDate(new Date(), TIMEZONE)
+        const [hours, minutes] = data.startHour.split(":")
+        startHour.setHours(+hours)
+        startHour.setMinutes(+minutes)
         showResponse(await updateBusinessControlsAction({
             ...data,
-            startHour: formatTime(new TZDate(data.startHour, TIMEZONE))
+            startHour: formatTime(startHour)
         }, controls.id))
     }
 
