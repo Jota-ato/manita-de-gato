@@ -26,7 +26,7 @@ export function HeroRightColumn() {
                             <div className="p-2 w-fit bg-primary/10 text-primary rounded-lg">
                                 <Star className="w-8 h-8" />
                             </div>
-                            Top Rated Salon
+                            Salón mejor calificado
                         </CardTitle>
                         <CardDescription>
                             <p className="text-xs sm:text-sm">4.8/5 basado en reseñas de Google</p>

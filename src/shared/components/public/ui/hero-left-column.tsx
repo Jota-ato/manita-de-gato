@@ -39,8 +39,8 @@ export function HeroLeftColumn() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 1.4 }}
                     >
-                        Exclusive designs, professional care, and a moment of total relaxation just for you.
-                        Specialists in acrylic nails, gel polish, and hand spa treatments.
+                        Diseños exclusivos, cuidado profesional y un momento de total relajación solo para ti.
+                        Especialistas en uñas acrílicas, esmalte en gel y tratamientos de spa para manos.
                     </motion.p>
                 </motion.div>
 
@@ -58,7 +58,7 @@ export function HeroLeftColumn() {
                             <Link
                                 href={'/booking'}
                             >
-                                Book now <ArrowRight className="ml-2 h-5 w-5" />
+                                Reserva ahora <ArrowRight className="ml-2 h-5 w-5" />
                             </Link>
                         </Button>
                     </motion.button>
@@ -74,7 +74,7 @@ export function HeroLeftColumn() {
                             asChild
                         >
                             <Link href="#services">
-                                Our services
+                                Nuestros servicios
                             </Link>
                         </Button>
                     </motion.button>
