@@ -3,7 +3,7 @@ export function FooterCopyright() {
 
     return (
         <div className="border-t border-muted mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-foreground font-light">
-            <p>© {currentYear} All rights reserved</p>
+            <p>© {currentYear} Todos los derechos reservados</p>
         </div>
     )
 }

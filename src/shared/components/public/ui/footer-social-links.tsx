@@ -29,7 +29,7 @@ export function FooterSocialLinks() {
     return (
         <div className="space-y-4">
             <Heading level={4} className="text-left text-2xl font-bold text-accent-foreground">
-                More about us
+                Más sobre nosotros
             </Heading>
             <div className="space-y-4">
                 {socialMediaLinks.map(socialMediaLink => (

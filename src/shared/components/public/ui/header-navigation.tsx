@@ -20,39 +20,39 @@ import { usePathname } from "next/navigation"
 const links = [
     {
         href: "/",
-        label: "Home",
+        label: "Inicio",
         icon: Home
     },
     {
         href: "/booking",
-        label: "Book",
+        label: "Agenda",
         icon: Calendar
     },
     {
         href: "/about-us",
-        label: "About Us",
+        label: "Sobre nosotros",
         icon: User
     },
     {
         href: "/contact",
-        label: "Contact us",
+        label: "Contacto",
         icon: Mail
     }
 ]
 const themes = [
     {
         value: "light",
-        label: "Light",
+        label: "Claro",
         icon: Sun
     },
     {
         value: "dark",
-        label: "Dark",
+        label: "Oscuro",
         icon: Moon
     },
     {
         value: "system",
-        label: "System",
+        label: "Sistema",
         icon: Computer
     }
 ]
@@ -83,7 +83,7 @@ function MobileHeaderNavigation() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40 mr-4 rounded-md">
                 <DropdownMenuGroup>
-                    <DropdownMenuLabel>Navigation</DropdownMenuLabel>
+                    <DropdownMenuLabel>Navegación</DropdownMenuLabel>
                     {links.map((link) => (
                         <DropdownMenuItem
                             key={link.href}
@@ -103,7 +103,7 @@ function MobileHeaderNavigation() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuLabel>Theme</DropdownMenuLabel>
+                    <DropdownMenuLabel>Tema</DropdownMenuLabel>
                     {themes.map((theme) => (
                         <DropdownMenuItem
                             className={cn("cursor-pointer", currentTheme === theme.value ? "text-info" : "")}
