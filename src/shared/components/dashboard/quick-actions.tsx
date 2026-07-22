@@ -1,5 +1,4 @@
 "use client"
-import { Service } from "@/db/schema";
 import { cancellAllDayAction } from "@/features/appointments/admin/actions/admin-appointment-actions";
 import { BlockPeriodForm } from "@/features/appointments/admin/components/block-period-form";
 import { BlockTimeForm } from "@/features/appointments/admin/components/block-time-form";
@@ -51,7 +50,7 @@ export function QuickActions({
     ];
 
     const cancelAllDay = async () => {
-        const success = showResponse(await cancellAllDayAction(today))
+        showResponse(await cancellAllDayAction(today))
     }
 
     return (
