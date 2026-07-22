@@ -4,23 +4,23 @@ import { Heart, Sparkles, ShieldCheck, GraduationCap } from "lucide-react";
 
 const values = [
     {
-        title: "Quality",
-        description: "We use only the best products on the market to guarantee lasting results.",
+        title: "Calidad",
+        description: "Usamos únicamente los mejores productos del mercado para garantizar resultados duraderos.",
         icon: ShieldCheck,
     },
     {
-        title: "Professionalism",
-        description: "Our team is in constant training to master the latest trends.",
+        title: "Profesionalismo",
+        description: "Nuestro equipo se capacita constantemente para dominar las últimas tendencias.",
         icon: GraduationCap,
     },
     {
-        title: "Care",
-        description: "We prioritize the health of your nails and your well-being in every session.",
+        title: "Cuidado",
+        description: "Priorizamos la salud de tus uñas y tu bienestar en cada sesión.",
         icon: Heart,
     },
     {
-        title: "Creativity",
-        description: "We transform your ideas into unique and personalized designs.",
+        title: "Creatividad",
+        description: "Transformamos tus ideas en diseños únicos y personalizados.",
         icon: Sparkles,
     },
 ];
@@ -32,7 +32,7 @@ export function Values() {
 
                 <div className="text-center mb-16">
                     <h3 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">
-                        My Values
+                        Mis valores
                     </h3>
                     <Separator className="max-w-16 py-0.5 rounded-xl bg-primary mx-auto" />
                 </div>
@@ -40,19 +40,19 @@ export function Values() {
                     <Card className="col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-2 bg-muted/40 border-primary/10 flex flex-col justify-between">
                         <CardHeader>
                             <CardTitle className="text-2xl font-bold text-primary">
-                                About Me
+                            Sobre mí
                             </CardTitle>
                             <CardDescription className="font-semibold uppercase tracking-wider text-muted-foreground/80">
-                                The mind behind the art
+                            La mente detrás del arte
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="text-muted-foreground text-sm sm:text-base leading-relaxed flex flex-col gap-4 pt-2">
                             <p>
-                                Hi! I love that you want to experience Manita de Gato.
-                                I'm <span className="font-semibold text-secondary-foreground">Sarii Estrada</span>, certified Organic Nails technician with 12 years of experience, nail art specialist, trained in industrial design and passionate about art.
+                                ¡Hola! Me encanta que quieras vivir la experiencia Manita de Gato.
+                                Soy <span className="font-semibold text-secondary-foreground">Sarii Estrada</span>, técnica certificada en uñas orgánicas con 12 años de experiencia, especialista en arte de uñas, formada en diseño industrial y apasionada por el arte.
                             </p>
                             <p className="bg-background/60 p-3 rounded-lg border border-border text-xs sm:text-sm font-medium italic text-muted-foreground">
-                                ✨ To give you the super quality service you deserve. My schedule is very exclusive, spots fly, I recommend booking your appointment as soon as possible!
+                                ✨ Para ofrecerte el servicio de súper calidad que te mereces. Mi agenda es muy exclusiva, los cupos vuelan; ¡recomiendo reservar tu cita lo antes posible!
                             </p>
                         </CardContent>
                     </Card>
