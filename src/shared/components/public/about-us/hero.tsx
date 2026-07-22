@@ -32,10 +32,10 @@ export function Hero() {
                 >
                     <div className="space-y-2">
                         <p className="text-primary font-bold text-sm uppercase tracking-[0.2em] italic">
-                            Our Story
+                            Nuestra historia
                         </p>
                         <h2 className="text-foreground font-black text-3xl md:text-4xl lg:text-5xl leading-tight">
-                            Where beauty finds its <span className="text-primary">refuge</span>
+                            Dónde la belleza <span className="text-primary">surge</span>
                         </h2>
                     </div>
 
