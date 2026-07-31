@@ -177,7 +177,7 @@ export function UpdateAppointmentForm({
                             </div>
 
                             <Field className="mt-2">
-                                <FieldLabel>Precio adicional</FieldLabel>
+                                <FieldLabel>Precio adicional manual</FieldLabel>
                                 <Input
                                     id="extraPrice"
                                     type="number"
@@ -199,11 +199,11 @@ export function UpdateAppointmentForm({
                     actionLabel="Eliminar"
                     triggerLabel="Eliminar cita"
                     dialogDescription="Esta acción no se puede deshacer"
-                    dialogTitle={`Eliminar la cita de ${appointment.customer.name}?`}
+                    dialogTitle={`¿Eliminar la cita de ${appointment.customer.name}?`}
                     action={deleteAppointment}
                 />
                 <Button className="w-full sm:w-auto" type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? <><Spinner />Guardando...</> : 'Actualizar cita'}
+                    {isSubmitting ? <><Spinner />Actualizando...</> : 'Actualizar cita'}
                 </Button>
             </div>
         </form>
