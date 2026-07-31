@@ -48,7 +48,7 @@ export function Booking({
         1: "Selecciona un servicio",
         2: "Selecciona un horario",
         3: "¿Cómo podemos contactarte?",
-        4: "¿Te gustaría algunos extras?"
+        4: "¿Te gustarían algunos extras?"
     }
 
     return (
