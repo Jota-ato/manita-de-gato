@@ -45,10 +45,10 @@ export function Booking({
     }, [step])
 
     const titles: Record<number, string> = {
-        1: "Select a service",
-        2: "Select a time slot",
-        3: "How can we contact you?",
-        4: "Would you like some extras?"
+        1: "Selecciona un servicio",
+        2: "Selecciona un horario",
+        3: "¿Cómo podemos contactarte?",
+        4: "¿Te gustaría algunos extras?"
     }
 
     return (
@@ -91,7 +91,7 @@ export function Booking({
                                     transition={{ duration: 0.5, ease: "easeOut" }}
                                     className="text-center text-lg mb-4"
                                 >
-                                    Great! Now select a time slot for your appointment.
+                                    ¡Genial! Ahora selecciona un horario para tu cita.
                                 </motion.p>
                             ) : (
                                 <motion.div
@@ -130,9 +130,9 @@ export function Booking({
                     >
                         {!selectedService ? (
                             <p className="text-center text-lg mb-4">
-                                Please select a service first.
+                                Por favor selecciona un servicio primero.
                                 <Button className="mt-4 w-full" variant={"outline"} onClick={() => setStep(1)}>
-                                    Go to step 1
+                                    Ir al paso 1
                                 </Button>
                             </p>
                         ) : (

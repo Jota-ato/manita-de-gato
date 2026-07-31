@@ -53,7 +53,7 @@ export function CustomerForm() {
             className="mx-auto max-w-xl">
             <FieldSet>
                 <FieldSwitch
-                    label="Is your first time booking with us?"
+                    label="¿Es tu primera vez reservando con nosotros?"
                     name="isFirstTime"
                     control={control}
                 />
@@ -61,12 +61,12 @@ export function CustomerForm() {
                     {isFirstTime ? (
                         <>
                             <Field>
-                                <FieldLabel htmlFor="name">Name</FieldLabel>
+                                <FieldLabel htmlFor="name">Nombre</FieldLabel>
                                 <Input
                                     id="name"
                                     {...register("name")}
                                     type="text"
-                                    placeholder="Enter your name"
+                                    placeholder="Ingresa tu nombre"
                                 />
                                 {("name" in errors && errors.name) && (
                                     <FieldError>
@@ -75,12 +75,12 @@ export function CustomerForm() {
                                 )}
                             </Field>
                             <Field>
-                                <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+                                <FieldLabel htmlFor="lastName">Apellido</FieldLabel>
                                 <Input
                                     id="lastName"
                                     {...register("lastName")}
                                     type="text"
-                                    placeholder="Enter your last name"
+                                    placeholder="Ingresa tu apellido"
                                 />
                                 {("lastName" in errors && errors.lastName) && (
                                     <FieldError>
@@ -113,12 +113,12 @@ export function CustomerForm() {
                                 </div>
                             </Field>
                             <Field>
-                                <FieldLabel htmlFor="email">Email (Optional)</FieldLabel>
+                                <FieldLabel htmlFor="email">Correo electrónico (Opcional)</FieldLabel>
                                 <Input
                                     id="email"
                                     {...register("email")}
                                     type="text"
-                                    placeholder="Enter your email"
+                                    placeholder="Ingresa tu correo electrónico"
                                 />
                                 {("email" in errors && errors.email) && (
                                     <FieldError>
@@ -129,7 +129,7 @@ export function CustomerForm() {
                         </>
                     ) : (
                         <Field>
-                            <FieldLabel htmlFor="phone">Phone</FieldLabel>
+                            <FieldLabel htmlFor="phone">Teléfono</FieldLabel>
                             <div className="flex gap-2">
                                 <Input
                                     id="countryCode"
@@ -156,8 +156,8 @@ export function CustomerForm() {
                 </FieldGroup>
                 <FormSubmit
                     isSubmitting={isSubmitting}
-                    label="Check"
-                    submittingLabel="Checking..."
+                    label="Verificar"
+                    submittingLabel="Verificando..."
                 />
             </FieldSet>
         </form>

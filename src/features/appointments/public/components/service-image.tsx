@@ -33,7 +33,7 @@ export function ServiceImage({
         >
             <Image
                 src={service.data.image!}
-                alt={`Image of ${service.data.name}`}
+                alt={`Imagen de ${service.data.name}`}
                 fill
                 className="object-cover transition-transform duration-500 ease-out"
                 style={{ transform: isOpen ? "scale(1.05)" : "scale(1)" }}
@@ -84,7 +84,7 @@ export function ServiceImage({
                                 {included.length > 0 && (
                                     <div>
                                         <p className="text-[10px] uppercase tracking-widest text-muted dark:text-muted-foreground mb-1">
-                                            Included
+                                            Incluido
                                         </p>
                                         <ul className="space-y-0.5">
                                             {included.map(e => (
@@ -100,7 +100,7 @@ export function ServiceImage({
                                 {optional.length > 0 && (
                                     <div>
                                         <p className="text-[10px] uppercase tracking-widest text-muted dark:text-muted-foreground mb-1">
-                                            Add-ons
+                                            Complementos
                                         </p>
                                         <ul className="space-y-0.5">
                                             {optional.map(e => (

@@ -31,7 +31,7 @@ export function ExtrasSelection({ service }: { service: ServiceWithExtras }) {
             </div>
             <div className="flex justify-end items-center gap-2">
                 <Button onClick={() => setOpenConfirmationDialog(true)}>
-                    Continue <ChevronRight className="h-4 w-4" />
+                    Continuar <ChevronRight className="h-4 w-4" />
                 </Button>
             </div>
         </section>

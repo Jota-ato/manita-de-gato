@@ -32,7 +32,7 @@ export function ServiceSelection({
                   className="w-full"
                   variant={'outline'}
                 >
-                  Select
+                  Seleccionar
                 </Button>}
                 service={service}
               />
@@ -41,7 +41,7 @@ export function ServiceSelection({
         ))
         : (
           <p className="text-center text-muted-foreground">
-            No services available.
+            No hay servicios disponibles.
           </p>
         )
       }

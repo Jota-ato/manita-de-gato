@@ -12,10 +12,10 @@ import { format } from "date-fns"
 export const getUserAction = customerAction(async (phone: string) => {
     const customer = await customersService.getClientByPhone(phone)
 
-    if (!customer) throw new AppError(`Customer with phone ${phone} not found`)
+    if (!customer) throw new AppError(`Cliente con teléfono ${phone} no encontrado`)
 
     return {
-        message: `Customer found: ${customer.name} ${customer.lastName}`,
+        message: `Cliente encontrado: ${customer.name} ${customer.lastName}`,
         data: customer
     }
 })
@@ -23,8 +23,8 @@ export const getUserAction = customerAction(async (phone: string) => {
 export const registerUserAction = customerAction(async (user: UserInput) => {
     const zodResponse = userSchema.safeParse(user)
 
-    if (!zodResponse.success) throw new AppError("Invalid user data")
-    if (!("name" in zodResponse.data) || !zodResponse.data.name) throw new AppError("Name is required")
+    if (!zodResponse.success) throw new AppError("Datos de usuario inválidos")
+    if (!("name" in zodResponse.data) || !zodResponse.data.name) throw new AppError("El nombre es obligatorio")
 
     const phone = `+${zodResponse.data.countryCode}${zodResponse.data.phone}`
     const customer = await customersService.createCustomer({
@@ -33,7 +33,7 @@ export const registerUserAction = customerAction(async (user: UserInput) => {
         phone: phone
     })
     return {
-        message: `Customer registered: ${customer.name} ${customer.lastName}`,
+        message: `Cliente registrado: ${customer.name} ${customer.lastName}`,
         data: customer
     }
 })
@@ -41,7 +41,7 @@ export const registerUserAction = customerAction(async (user: UserInput) => {
 export const createAppointmentAction = customerAction(async (data: NewPublicAppointment) => {
     const response = await publicAppointmentsService.createAppointment(data)
     return {
-        message: `Appointment for ${format(response.appointment.startTime, "MMM dd, yyyy HH:mm")} - ${format(response.appointment.endTime, "HH:mm")} created successfully`,
+        message: `Cita para ${format(response.appointment.startTime, "MMM dd, yyyy HH:mm")} - ${format(response.appointment.endTime, "HH:mm")} creada con éxito`,
         data: response
     }
 })

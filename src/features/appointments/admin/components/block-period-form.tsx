@@ -63,7 +63,7 @@ export function BlockPeriodForm({
                         control={control}
                         startTimeName="startTime"
                         endTimeName="endTime"
-                        label="Custom Blocking Period"
+                        label="Período de bloqueo personalizado"
                         setValue={setValue}
                     />
                 </FieldGroup>
@@ -101,7 +101,7 @@ export function BlockPeriodForm({
                         variant="destructive"
                         type="button"
                     >
-                        Delete
+                        Eliminar
                     </Button>
                 )}
             </FieldSet>

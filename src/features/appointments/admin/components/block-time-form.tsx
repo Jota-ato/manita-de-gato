@@ -92,7 +92,7 @@ export function BlockTimeForm({
                         variant="destructive"
                         type="button"
                     >
-                        Delete
+                        Eliminar
                     </Button>
                 )}
             </FieldSet>
