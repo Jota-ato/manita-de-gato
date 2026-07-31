@@ -20,9 +20,9 @@ export function RecordCard({
         <Card>
             <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <CardTitle>Appointment History</CardTitle>
+                    <CardTitle>Historial de citas</CardTitle>
                     <CardDescription>
-                        Showing page {currentPage} of {totalPages || 1}
+                        Mostrando página {currentPage} de {totalPages || 1}
                     </CardDescription>
                 </div>
                 <DateFilter />

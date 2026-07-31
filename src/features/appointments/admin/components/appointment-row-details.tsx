@@ -26,7 +26,7 @@ export function AppointmentRowDetails({
                         <>
                             <Ban className="size-3.5 text-amber-600 shrink-0" />
                             <span className="text-sm font-semibold tracking-tight text-amber-700 dark:text-amber-500">
-                                Schedule Blocked
+                                Horario bloqueado
                             </span>
                         </>
                     ) : (
@@ -43,19 +43,19 @@ export function AppointmentRowDetails({
                             <>
                                 <CalendarDays className="size-3.5 text-muted-foreground shrink-0" />
                                 <p className="text-xs text-muted-foreground font-medium">
-                                    Period: <span className="text-foreground font-semibold">{startFormatted}</span> to <span className="text-foreground font-semibold">{endFormatted}</span>
+                                    Período: <span className="text-foreground font-semibold">{startFormatted}</span> a <span className="text-foreground font-semibold">{endFormatted}</span>
                                 </p>
                             </>
                         ) : (
                             <p className="text-xs text-muted-foreground">
-                                Single-day availability restriction.
+                                Restricción de disponibilidad de un solo día.
                             </p>
                         )
                     ) : (
                         <>
                             <Sparkles className="size-3.5 text-muted-foreground shrink-0" />
                             <p className="text-xs text-muted-foreground">
-                                Service <span className="text-accent-foreground">{appointment.service.name}</span>
+                                Servicio <span className="text-accent-foreground">{appointment.service.name}</span>
                             </p>
                         </>
                     )}

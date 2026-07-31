@@ -52,8 +52,8 @@ export function BlockPeriodForm({
         showResponse(response);
     }
 
-    const submitLabel = isEditing ? 'Update Block' : 'Create Block'
-    const submitLoadingLabel = isEditing ? 'Updating...' : 'Creating...'
+    const submitLabel = isEditing ? 'Actualizar bloqueo' : 'Crear bloqueo'
+    const submitLoadingLabel = isEditing ? 'Actualizando...' : 'Creando...'
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

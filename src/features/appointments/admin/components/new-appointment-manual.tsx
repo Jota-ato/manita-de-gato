@@ -97,7 +97,7 @@ export function NewAppointmentManuallyForm({
             <Tabs defaultValue="general">
                 <TabsList>
                     <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="service">Service</TabsTrigger>
+                    <TabsTrigger value="service">Servicio</TabsTrigger>
                 </TabsList>
                 <TabsContent value="general">
                     <FieldSet>
@@ -105,8 +105,8 @@ export function NewAppointmentManuallyForm({
                             <FieldSwitch
                                 control={control}
                                 name="isRegisterClient"
-                                label="Is the client registered?"
-                                description="If the client has made an appointment or you manually created one for them, this is true."
+                                label="¿El cliente está registrado?"
+                                description="Marca esto si el cliente ya tiene una cita o la creaste manualmente para él."
                             />
 
                             <FieldGroup>
@@ -116,8 +116,8 @@ export function NewAppointmentManuallyForm({
                             <FieldSeparator />
 
                             <Field>
-                                <FieldLabel htmlFor="clientPhone">Client phone</FieldLabel>
-                                <FieldDescription>With national number (e.g., +52 for Mexico)</FieldDescription>
+                                <FieldLabel htmlFor="clientPhone">Teléfono del cliente</FieldLabel>
+                                <FieldDescription>Con código de país (ej. +52 para México)</FieldDescription>
                                 <div className="flex gap-2">
                                     <Input
                                         className="w-20"
@@ -140,7 +140,7 @@ export function NewAppointmentManuallyForm({
                             {(!isRegisterCLient) && (
                                 <>
                                     <Field>
-                                        <FieldLabel htmlFor="clientName">Client Name</FieldLabel>
+                                        <FieldLabel htmlFor="clientName">Nombre del cliente</FieldLabel>
                                         <Input
                                             id="clientName"
                                             {...register('name')}
@@ -150,7 +150,7 @@ export function NewAppointmentManuallyForm({
                                         )}
                                     </Field>
                                     <Field>
-                                        <FieldLabel htmlFor="clientLastName">Client Last Name</FieldLabel>
+                                        <FieldLabel htmlFor="clientLastName">Apellido del cliente</FieldLabel>
                                         <Input
                                             id="clientLastName"
                                             {...register('lastName')}
@@ -172,8 +172,8 @@ export function NewAppointmentManuallyForm({
                                 control={control}
                                 name="serviceId"
                                 options={services.map((s) => ({ value: s.data.id, label: s.data.name }))}
-                                groupLabel="Services"
-                                placeholder="Select service"
+                                groupLabel="Servicios"
+                                placeholder="Selecciona un servicio"
                             />
                             {errors.serviceId && (
                                 <FieldError>{errors.serviceId.message}</FieldError>
@@ -181,7 +181,7 @@ export function NewAppointmentManuallyForm({
                             <FieldSeparator />
                             <Field>
                                 <FieldLabel htmlFor="extrasId">Extras</FieldLabel>
-                                <FieldDescription>Select the extras you want to include in this appointment</FieldDescription>
+                                <FieldDescription>Selecciona los extras para esta cita</FieldDescription>
                                 {
                                     availableExtras.length ?
                                         availableExtras.map(extra => (
@@ -193,22 +193,22 @@ export function NewAppointmentManuallyForm({
                                                 label={extra.extra.name}
                                             />
                                         ))
-                                        : <p className="p-4 text-muted-foreground text-sm">No extras available</p>
+                                        : <p className="p-4 text-muted-foreground text-sm">No hay extras disponibles</p>
                                 }
                             </Field>
                             <FieldSeparator />
                             <div className="flex items-center justify-between gap-2">
                                 <p className="flex flex-col justify-center text-sm">
-                                    Service Price
+                                    Precio del servicio
                                     <span className="font-bold text-base">{formatMXN(+servicePrice)}</span>
                                 </p>
                                 <p className="flex flex-col justify-center text-sm">
-                                    Extras Price
+                                    Precio de extras
                                     <span className="font-bold text-base">{formatMXN(+extrasPrice)}</span>
                                 </p>
                             </div>
                             <Field className="flex-1">
-                                <FieldLabel htmlFor="adittionalPrice">Adittional price</FieldLabel>
+                                <FieldLabel htmlFor="adittionalPrice">Precio adicional</FieldLabel>
                                 <Input
                                     id="adittionalPrice"
                                     type="number"
@@ -229,7 +229,7 @@ export function NewAppointmentManuallyForm({
                 className="w-full mt-4"
                 disabled={isSubmitting}
             >
-                {isSubmitting ? <><Spinner />Creating...</> : 'Create'}
+                {isSubmitting ? <><Spinner />Creando...</> : 'Crear'}
             </Button>
         </form>
     )

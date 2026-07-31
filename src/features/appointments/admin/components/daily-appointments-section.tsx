@@ -13,7 +13,7 @@ export function DailyAppointmentsSection({
         <Card className="md:col-span-3">
             <CardHeader>
                 <CardTitle>
-                    Daily Appointments
+                    Citas del día
                 </CardTitle>
                 <CardDescription>
                     {formatDailyDate(new Date())}
