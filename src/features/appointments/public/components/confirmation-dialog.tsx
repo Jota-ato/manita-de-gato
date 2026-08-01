@@ -76,9 +76,9 @@ export function ConfirmationDialog() {
         <Dialog open={openConfirmationDialog} onOpenChange={setOpenConfirmationDialog}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Confirm your booking</DialogTitle>
+                    <DialogTitle>Confirma tu cita</DialogTitle>
                     <DialogDescription>
-                        Review the details before finishing.
+                        Revisa los detalles antes de finalizar.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -160,7 +160,7 @@ export function ConfirmationDialog() {
                                             className="flex items-center justify-between text-sm"
                                         >
                                             <span className="text-foreground">{se.extra.name}</span>
-                                            <span className="text-muted-foreground">Included</span>
+                                            <span className="text-muted-foreground">Incluido</span>
                                         </div>
                                     ))}
                                     {selectedExtras.map((extra) => (
@@ -193,7 +193,7 @@ export function ConfirmationDialog() {
                 <DialogFooter className="gap-2">
                     <DialogClose asChild>
                         <Button variant="outline" className="w-full sm:w-auto">
-                            Go back
+                            Regresar
                         </Button>
                     </DialogClose>
                     <Button
@@ -201,7 +201,7 @@ export function ConfirmationDialog() {
                         onClick={createAppointment}
                         disabled={isLoading}
                     >
-                        {isLoading ? <span className="flex items-center gap-2"><Spinner />Finishing...</span> : "Finish"}
+                        {isLoading ? <span className="flex items-center gap-2"><Spinner />Finalizando...</span> : "Finalizar"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

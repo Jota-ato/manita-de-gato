@@ -65,7 +65,7 @@ class AppointmentsService {
         const appointments = await this.appointmentsRepository.getByRange(startRange, endRange, exludeId)
 
         if (appointments.filter(apt => (apt.status === "CONFIRMED" || apt.status === "COMPLETED" || apt.status === "PAID")
-        ).length) throw new AppError('There is already an appointment  in this range')
+        ).length) throw new AppError('Ya existe una cita dentro de este horario')
     }
 
     async getAppointmentsHistory(page: number = 1, dateFilter?: string) {

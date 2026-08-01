@@ -10,7 +10,7 @@ const validateTimeRange = (data: { startTime: Date; endTime: Date }) => {
 }
 
 const timeRangeError = {
-    message: "Start hour must be less than the end hour",
+    message: "La hora de inicio debe ser anterior a la hora de fin",
     path: ["endTime"],
 };
 
@@ -21,7 +21,7 @@ const baseAppointmentSchema = z.object({
     endTime: z.date(),
     adittionalPrice: z.number(),
     clientCountryCode: z.string(),
-    clientPhone: z.string().min(10, { message: 'Phone must be at least 10 digits' }),
+    clientPhone: z.string().min(10, { message: 'El número de teléfono debe tener al menos 10 dígitos' }),
 })
 
 export const updateAppointmentSchema = baseAppointmentSchema
@@ -58,8 +58,8 @@ export const blockTimeSchema = baseAppointmentSchema.pick({
 )
 
 export const blockPeriodSchema = z.object({
-    startTime: z.date({ error: "Start time is required" }),
-    endTime: z.date({ error: "End time is required" })
+    startTime: z.date({ error: "La hora de inicio es requerida" }),
+    endTime: z.date({ error: "La hora de fin es requerida" })
 }).refine(
     validateTimeRange, timeRangeError
 )

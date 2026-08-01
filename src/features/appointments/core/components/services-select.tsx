@@ -19,7 +19,7 @@ export function CustomSelect<T extends FieldValues>({
   control,
   name,
   options,
-  placeholder = "Select an option",
+  placeholder = "Selecciona una opción",
   groupLabel,
 }: GenericSelectProps<T>) {
   return (

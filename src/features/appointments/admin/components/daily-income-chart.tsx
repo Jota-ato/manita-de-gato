@@ -15,11 +15,11 @@ import { formatMXN } from "@/shared/lib/currency";
 
 const chartConfig = {
     expected: {
-        label: "Expected",
+        label: "Esperado",
         color: "var(--chart-2)",
     },
     paid: {
-        label: "Collected", // "Paid" o "Collected" son excelentes opciones para ingresos cobrados
+        label: "Recaudado",
         color: "var(--chart-3)",
     },
 } satisfies ChartConfig;

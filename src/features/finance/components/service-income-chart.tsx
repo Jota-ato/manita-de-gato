@@ -29,7 +29,7 @@ export function ServiceIncomeChart({ data }: { data: FinancialMetricsDTO['servic
     return (
         <Card className="col-span-1">
             <CardHeader>
-                <CardTitle>Revenue by Service</CardTitle>
+                <CardTitle>Ingresos por servicio</CardTitle>
             </CardHeader>
             <CardContent className="h-75 w-full">
                 <ChartContainer config={chartConfig} className="h-full w-full">

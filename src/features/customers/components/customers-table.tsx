@@ -28,20 +28,20 @@ export function CustomersTable({
         <Card>
             <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                    Customers
+                    Clientes
                     <ActionModal
-                        title="New client"
-                        description="Create a new client"
+                        title="Nuevo cliente"
+                        description="Crear un nuevo cliente"
                         trigger= {
                             <Button>
-                                New customer
+                                Nuevo cliente
                             </Button>
                         }
                     >
                         <CustomerForm />
                     </ActionModal>
                 </CardTitle>
-                <CardDescription>List of all customers</CardDescription>
+                <CardDescription>Lista de todos los clientes</CardDescription>
             </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
                 <div className="min-w-2xl">
@@ -51,7 +51,7 @@ export function CustomersTable({
                             <CustomerRow key={customer.id} customer={customer} />
                         ))
                     ) : (
-                        <p className="p-4 text-muted-foreground text-sm">No customers yet.</p>
+                        <p className="p-4 text-muted-foreground text-sm">Aún no hay clientes.</p>
                     )}
                 </div>
             </CardContent>

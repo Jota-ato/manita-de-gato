@@ -19,7 +19,7 @@ export function EditDialog({
 
     if (!activeUser) return null
     const isSameUser = activeUser.id === currentUser.id
-    const title = isSameUser ? "Editing your own account" : `Editing ${activeUser.name}`
+    const title = isSameUser ? "Editando tu cuenta" : `Editando ${activeUser.name}`
 
     return (
         <Dialog open={editDialogOpen} onOpenChange={() => {

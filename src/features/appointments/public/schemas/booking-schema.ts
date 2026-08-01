@@ -1,11 +1,11 @@
 import { z } from "zod"
 
 export const baseUserSchema = z.object({
-    countryCode: z.string().min(1, "Country code is required").max(5, "Country code must be at most 5 characters"),
-    phone: z.string().min(10, "Phone number must be at least 10 digits").max(15, "Phone number must be at most 15 digits"),
-    name: z.string().min(1, "Name is required").max(100, "Name must be at most 100 characters"),
-    lastName: z.string().min(1, "Last name is required").max(100, "Last name must be at most 100 characters"),
-    email: z.email({ message: "Invalid email address" }).optional()
+    countryCode: z.string().min(1, "El código de país es obligatorio").max(5, "El código de país debe tener como máximo 5 caracteres"),
+    phone: z.string().min(10, "El número de teléfono debe tener al menos 10 dígitos").max(15, "El número de teléfono debe tener como máximo 15 dígitos"),
+    name: z.string().min(1, "El nombre es obligatorio").max(100, "El nombre debe tener como máximo 100 caracteres"),
+    lastName: z.string().min(1, "El apellido es obligatorio").max(100, "El apellido debe tener como máximo 100 caracteres"),
+    email: z.email({ message: "Correo electrónico inválido" }).optional()
 })
 
 export const registerUserSchema = baseUserSchema.pick({

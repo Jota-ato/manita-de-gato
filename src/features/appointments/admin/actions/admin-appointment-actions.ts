@@ -13,10 +13,10 @@ import { adminAppointmentsService } from "../services/admin-appointments-service
  */
 export const updateAppointmentAction = employeeAction(async (input: UpdateApointmentInput, appointmentId: string) => {
     const zodResponse = updateAppointmentSchema.safeParse(input);
-    if (zodResponse.error) throw new Error("Invalid form attributes.");
+    if (zodResponse.error) throw new Error("Atributos del formulario inválidos.");
 
     await adminAppointmentsService.updateAppointment(zodResponse.data, appointmentId);
-    return 'Appointment updated successfully';
+    return 'Cita actualizada con éxito';
 });
 
 /**
@@ -29,8 +29,8 @@ export const deleteAppointmentAction = employeeAction(async (id: string, isBlock
     await adminAppointmentsService.deleteAppointment(id);
 
     return !isBlock ?
-        'Appointment deleted successfully'
-        : 'Block deleted successfully'
+        'Cita eliminada con éxito'
+        : 'Bloqueo eliminado con éxito'
 });
 
 /**
@@ -42,11 +42,11 @@ export const deleteAppointmentAction = employeeAction(async (id: string, isBlock
  */
 export const createManualAppointmentAction = employeeAction(async (input: NewAppointmentManuallyInput) => {
     const zodResponse = newAppointmentManuallySchema.safeParse(input);
-    if (zodResponse.error) throw new Error("Invalid form attributes.");
+    if (zodResponse.error) throw new Error("Atributos del formulario inválidos.");
 
     await adminAppointmentsService.createManualAppointment(zodResponse.data);
 
-    return 'Appointment created successfully';
+    return 'Cita creada con éxito';
 });
 
 /**
@@ -58,7 +58,7 @@ export const createManualAppointmentAction = employeeAction(async (input: NewApp
 export const cancellAllDayAction = employeeAction(async (day: Date) => {
     await adminAppointmentsService.cancellAllDayAppointments(day);
 
-    return 'All appointments cancelled successfully';
+    return 'Todas las citas canceladas con éxito';
 });
 
 /**
@@ -70,18 +70,18 @@ export const cancellAllDayAction = employeeAction(async (day: Date) => {
  */
 export const createBlockAction = employeeAction(async (input: BlockTimeInput) => {
     const zodResponse = blockTimeSchema.safeParse(input);
-    if (zodResponse.error) throw new Error("Invalid form attributes.");
+    if (zodResponse.error) throw new Error("Atributos del formulario inválidos.");
 
     await adminAppointmentsService.createBlockTime(zodResponse.data);
 
-    return 'Block successfully applied';
+    return 'Bloqueo aplicado con éxito';
 });
 
 export const updateBlockAction = employeeAction(async (input: BlockTimeInput, blockId: string) => {
     const zodResponse = blockTimeSchema.safeParse(input);
-    if (zodResponse.error) throw new Error("Invalid form attributes.");
+    if (zodResponse.error) throw new Error("Atributos del formulario inválidos.");
 
     await adminAppointmentsService.updateBlock(zodResponse.data, blockId);
 
-    return 'Block successfully updated';
+    return 'Bloqueo actualizado con éxito';
 });

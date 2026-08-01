@@ -101,7 +101,7 @@ export function NewAgendaAppointmentForm({
             <Tabs defaultValue="general">
                 <TabsList className="w-full">
                     <TabsTrigger className="flex-1" value="general">General</TabsTrigger>
-                    <TabsTrigger className="flex-1" value="service">Service & Extras</TabsTrigger>
+                    <TabsTrigger className="flex-1" value="service">Servicio y extras</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="general">
@@ -110,13 +110,13 @@ export function NewAgendaAppointmentForm({
                             <FieldSwitch
                                 control={control}
                                 name="isRegisterClient"
-                                label="Is the client registered?"
-                                description="If the client has made an appointment or you manually created one for them, this is true."
+                                label="¿El cliente está registrado?"
+                                description="Marca esto si el cliente ya tiene una cita o la creaste manualmente para él."
                             />
 
                             <Field>
-                                <FieldLabel htmlFor="clientPhone">Client phone</FieldLabel>
-                                <FieldDescription>With national number (e.g., +52 for Mexico)</FieldDescription>
+                                <FieldLabel htmlFor="clientPhone">Teléfono del cliente</FieldLabel>
+                                <FieldDescription>Con código de país (ej. +52 para México)</FieldDescription>
                                 <div className="flex gap-2">
                                     <Input
                                         className="w-20"
@@ -138,12 +138,12 @@ export function NewAgendaAppointmentForm({
                             {!isRegisterCLient && (
                                 <>
                                     <Field>
-                                        <FieldLabel htmlFor="clientName">Client Name</FieldLabel>
+                                        <FieldLabel htmlFor="clientName">Nombre del cliente</FieldLabel>
                                         <Input id="clientName" {...register('name')} />
                                         {clientErrors.name && <FieldError>{clientErrors.name.message}</FieldError>}
                                     </Field>
                                     <Field>
-                                        <FieldLabel htmlFor="clientLastName">Client Last Name</FieldLabel>
+                                        <FieldLabel htmlFor="clientLastName">Apellido del cliente</FieldLabel>
                                         <Input id="clientLastName" {...register('lastName')} />
                                         {clientErrors.lastName && <FieldError>{clientErrors.lastName.message}</FieldError>}
                                     </Field>
@@ -160,8 +160,8 @@ export function NewAgendaAppointmentForm({
                                 control={control}
                                 name="serviceId"
                                 options={services.map((s) => ({ value: s.data.id, label: s.data.name }))}
-                                groupLabel="Services"
-                                placeholder="Select service"
+                                groupLabel="Servicios"
+                                placeholder="Selecciona un servicio"
                             />
                             {errors.serviceId && <FieldError>{errors.serviceId.message}</FieldError>}
 
@@ -169,7 +169,7 @@ export function NewAgendaAppointmentForm({
 
                             <Field>
                                 <FieldLabel htmlFor="extrasId">Extras</FieldLabel>
-                                <FieldDescription>Select the extras you want to include in this appointment</FieldDescription>
+                                <FieldDescription>Selecciona los extras para esta cita</FieldDescription>
                                 {availableExtras.length ? (
                                     availableExtras.map(extra => (
                                         <ArraySwitchController
@@ -181,7 +181,7 @@ export function NewAgendaAppointmentForm({
                                         />
                                     ))
                                 ) : (
-                                    <p className="p-4 text-muted-foreground text-sm">No extras available for this service</p>
+                                    <p className="p-4 text-muted-foreground text-sm">No hay extras disponibles para este servicio</p>
                                 )}
                             </Field>
 
@@ -189,17 +189,17 @@ export function NewAgendaAppointmentForm({
 
                             <div className="flex items-center justify-between gap-2">
                                 <p className="flex flex-col justify-center text-sm">
-                                    Service Price
+                                    Precio del servicio
                                     <span className="font-bold text-base">{formatMXN(+servicePrice)}</span>
                                 </p>
                                 <p className="flex flex-col justify-center text-sm">
-                                    Extras Price
+                                    Precio de extras
                                     <span className="font-bold text-base">{formatMXN(+extrasPrice)}</span>
                                 </p>
                             </div>
 
                             <Field className="flex-1 mt-2">
-                                <FieldLabel htmlFor="adittionalPrice">Manual Additional Price (Optional)</FieldLabel>
+                                <FieldLabel htmlFor="adittionalPrice">Precio adicional manual (opcional)</FieldLabel>
                                 <Input
                                     id="adittionalPrice"
                                     type="number"
@@ -219,7 +219,7 @@ export function NewAgendaAppointmentForm({
                 className="w-full mt-6"
                 disabled={isSubmitting}
             >
-                {isSubmitting ? <><Spinner />Creating...</> : 'Create Appointment'}
+                {isSubmitting ? <><Spinner />Creando...</> : 'Crear cita'}
             </Button>
         </form>
     )

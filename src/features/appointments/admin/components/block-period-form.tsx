@@ -52,8 +52,8 @@ export function BlockPeriodForm({
         showResponse(response);
     }
 
-    const submitLabel = isEditing ? 'Update Block' : 'Create Block'
-    const submitLoadingLabel = isEditing ? 'Updating...' : 'Creating...'
+    const submitLabel = isEditing ? 'Actualizar bloqueo' : 'Crear bloqueo'
+    const submitLoadingLabel = isEditing ? 'Actualizando...' : 'Creando...'
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -63,7 +63,7 @@ export function BlockPeriodForm({
                         control={control}
                         startTimeName="startTime"
                         endTimeName="endTime"
-                        label="Custom Blocking Period"
+                        label="Período de bloqueo personalizado"
                         setValue={setValue}
                     />
                 </FieldGroup>
@@ -101,7 +101,7 @@ export function BlockPeriodForm({
                         variant="destructive"
                         type="button"
                     >
-                        Delete
+                        Eliminar
                     </Button>
                 )}
             </FieldSet>

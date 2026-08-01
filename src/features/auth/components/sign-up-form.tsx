@@ -36,7 +36,7 @@ export function SignUpForm() {
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="name">
-                            Name
+                            Nombre
                         </FieldLabel>
                         <Input 
                         id="name" 
@@ -49,7 +49,7 @@ export function SignUpForm() {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="email">
-                            Email
+                            Correo electrónico
                         </FieldLabel>
                         <Input 
                         id="email" 
@@ -62,7 +62,7 @@ export function SignUpForm() {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="password">
-                            Password
+                            Contraseña
                         </FieldLabel>
                         <Input 
                         id="password" 
@@ -75,7 +75,7 @@ export function SignUpForm() {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="confirmPassword">
-                            Confirm Password
+                            Confirmar contraseña
                         </FieldLabel>
                         <Input 
                         id="confirmPassword" 
@@ -89,8 +89,8 @@ export function SignUpForm() {
                 </FieldGroup>
                 <FormSubmit 
                     isSubmitting={isSubmitting}
-                    label="Sign up"
-                    submittingLabel="Signing up..."
+                    label="Registrarse"
+                    submittingLabel="Registrando..."
                 />
             </FieldSet>
         </form>

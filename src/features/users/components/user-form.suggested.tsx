@@ -1,3 +1,4 @@
+// SUGGESTED TRANSLATION: No changes required — original labels are already Spanish.
 "use client"
 
 import { roles, User } from "@/db/schema"

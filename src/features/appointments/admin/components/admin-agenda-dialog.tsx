@@ -32,10 +32,10 @@ export function AdminAgendaDialog({
             setActiveCreateAppointmentTime(undefined)
         }}>
             <DialogContent className="overflow-auto max-h-9/10">
-                <DialogTitle>Create appointment</DialogTitle>
+                <DialogTitle>Crear cita</DialogTitle>
                 <DialogDescription className="flex flex-col">
-                    <span>Day: {format(startTime, 'MM/dd/yyyy')}</span>
-                    Select time {formatTime(startTime)} - {formatTime(endTime)}
+                    <span>Día: {format(startTime, 'MM/dd/yyyy')}</span>
+                    Selecciona hora {formatTime(startTime)} - {formatTime(endTime)}
                 </DialogDescription>
                 <Separator />
                 {/** TODO: Create appointment */}

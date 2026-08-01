@@ -26,9 +26,9 @@ export function HourSlotConfirmationDialog() {
         }}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>You selected {format(startTime, "EE dd MMMM yyyy")}</DialogTitle>
+                    <DialogTitle>Seleccionaste {format(startTime, "EE dd MMMM yyyy")}</DialogTitle>
                     <DialogDescription>
-                        From {format(startTime, "HH:mm")} to {format(endTime, "HH:mm")}
+                        De {format(startTime, "HH:mm")} a {format(endTime, "HH:mm")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -38,7 +38,7 @@ export function HourSlotConfirmationDialog() {
                         <Button
                             variant={"destructive"}
                         >
-                            Cancel
+                            Cancelar
                         </Button>
                     </DialogClose>
                     <Button
@@ -51,7 +51,7 @@ export function HourSlotConfirmationDialog() {
                             setStep(3)
                         }}
                     >
-                        Confirm
+                        Confirmar
                     </Button>
                 </DialogFooter>
             </DialogContent>

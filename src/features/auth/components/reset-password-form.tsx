@@ -39,7 +39,7 @@ export function ResetPasswordForm({
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="password">
-                            Password
+                            Contraseña
                         </FieldLabel>
                         <Input
                             id="password"
@@ -52,7 +52,7 @@ export function ResetPasswordForm({
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="confirmPassword">
-                            Confirm Password
+                            Confirmar contraseña
                         </FieldLabel>
                         <Input
                             id="confirmPassword"
@@ -66,8 +66,8 @@ export function ResetPasswordForm({
                 </FieldGroup>
                 <FormSubmit
                     isSubmitting={isSubmitting}
-                    label="Reset Password"
-                    submittingLabel="Resetting password..."
+                    label="Restablecer contraseña"
+                    submittingLabel="Restableciendo contraseña..."
                 />
             </FieldSet>
         </form>

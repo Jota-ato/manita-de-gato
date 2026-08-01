@@ -19,8 +19,8 @@ export default function GoogleAuthButton({
     const [isLoading, setIsLoading] = useState(false)
 
     const label = mode === "signin"
-        ? "Sign in with Google"
-        : "Sign up with Google"
+        ? "Iniciar sesión con Google"
+        : "Registrarse con Google"
 
     const handleGoogleAuth = async () => {
         setIsLoading(true)
@@ -30,7 +30,7 @@ export default function GoogleAuthButton({
                 callbackURL: "/dashboard"
             })
         } catch {
-            toast.error("Failed to connect with Google. Please try again.")
+            toast.error("No se pudo conectar con Google. Intenta de nuevo.")
             setIsLoading(false)
         }
     }
@@ -67,7 +67,7 @@ export default function GoogleAuthButton({
             ) : (
                 <GoogleLogo />
             )}
-            <span>{isLoading ? "Conecting..." : label}</span>
+            <span>{isLoading ? "Conectando..." : label}</span>
         </Button>
     )
 }

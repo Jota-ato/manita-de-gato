@@ -19,13 +19,13 @@ class AppointmentExtrasService {
         )
 
         if (!extras.every((e): e is Extra => e !== undefined))
-            throw new AppError("Extras not found")
+            throw new AppError("No se encontraron extras")
 
 
         const dbAppoinment = await this.adminAppointmentsRepository.getById(appoinmentId)
 
         if (!dbAppoinment)
-            throw new AppError("Appointment not found")
+            throw new AppError("Cita no encontrada")
 
         const data: NewAppointmentExtra[] = extras.map((extra) => ({
             appointmentId: dbAppoinment.id,

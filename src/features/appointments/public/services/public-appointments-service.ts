@@ -28,11 +28,11 @@ class PublicAppointmentsService {
             )
         ])
 
-        if (!customer) throw new AppError("Customer not found")
-        if (!service) throw new AppError("Service not found")
+        if (!customer) throw new AppError("Cliente no encontrado")
+        if (!service) throw new AppError("Servicio no encontrado")
         const extras = resolvedExtras.filter((extra): extra is Extra => extra !== undefined)
         if (extras.length !== data.extras.length) {
-            throw new AppError("Extras not found")
+            throw new AppError("Extras no encontrados")
         }
 
         const safeStartTime = new Date(data.startTime)

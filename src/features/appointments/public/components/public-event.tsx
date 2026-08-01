@@ -28,7 +28,7 @@ export function PublicEvent({
             height={height}
             startTime={format(start, 'HH:mm')}
             endTime={format(end, 'HH:mm')}
-            label={"Picked"}
+            label={"Reservado"}
             description={""}
             eventStatus={"COMPLETED"}
         />

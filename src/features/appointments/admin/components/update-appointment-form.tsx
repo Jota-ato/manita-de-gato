@@ -102,7 +102,7 @@ export function UpdateAppointmentForm({
             <Tabs className="w-full" defaultValue="general">
                 <TabsList>
                     <TabsTrigger className="flex-1" value="general">General</TabsTrigger>
-                    <TabsTrigger className="flex-1" value="service">Service & Extras</TabsTrigger>
+                    <TabsTrigger className="flex-1" value="service">Servicio y extras</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="general">
@@ -122,8 +122,8 @@ export function UpdateAppointmentForm({
                             <CustomSelect
                                 control={control}
                                 name="status"
-                                groupLabel="Status"
-                                placeholder="Select status"
+                                groupLabel="Estado"
+                                placeholder="Selecciona estado"
                                 options={appointmentStatusEnum.enumValues.map(s => ({ value: s, label: translatedStatusMap[s] }))}
                             />
                             {errors.status && <FieldError>{errors.status.message}</FieldError>}
@@ -138,8 +138,8 @@ export function UpdateAppointmentForm({
                                 control={control}
                                 name="serviceId"
                                 options={services.map((s) => ({ value: s.data.id, label: s.data.name }))}
-                                groupLabel="Services"
-                                placeholder="Select service"
+                                groupLabel="Servicios"
+                                placeholder="Selecciona un servicio"
                             />
                             {errors.serviceId && <FieldError>{errors.serviceId.message}</FieldError>}
 
@@ -147,7 +147,7 @@ export function UpdateAppointmentForm({
 
                             <Field>
                                 <FieldLabel htmlFor="extrasId">Extras</FieldLabel>
-                                <FieldDescription>Update the extras included in this appointment</FieldDescription>
+                                <FieldDescription>Actualiza los extras de esta cita</FieldDescription>
                                 {availableExtras.length ? (
                                     availableExtras.map(extra => (
                                         <ArraySwitchController
@@ -159,7 +159,7 @@ export function UpdateAppointmentForm({
                                         />
                                     ))
                                 ) : (
-                                    <p className="p-4 text-muted-foreground text-sm">No extras available</p>
+                                    <p className="p-4 text-muted-foreground text-sm">No hay extras disponibles</p>
                                 )}
                             </Field>
 
@@ -167,17 +167,17 @@ export function UpdateAppointmentForm({
 
                             <div className="flex items-center justify-between gap-2">
                                 <p className="flex flex-col justify-center text-sm">
-                                    Service Price
+                                    Precio del servicio
                                     <span className="font-bold text-base">{formatMXN(+servicePrice)}</span>
                                 </p>
                                 <p className="flex flex-col justify-center text-sm">
-                                    Extras Price
+                                    Precio de extras
                                     <span className="font-bold text-base">{formatMXN(+extrasPrice)}</span>
                                 </p>
                             </div>
 
                             <Field className="mt-2">
-                                <FieldLabel>Manual Additional Price</FieldLabel>
+                                <FieldLabel>Precio adicional manual</FieldLabel>
                                 <Input
                                     id="extraPrice"
                                     type="number"
@@ -196,14 +196,14 @@ export function UpdateAppointmentForm({
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-end mt-6">
                 <AlertDialogCustom
                     fullWith={isMobile}
-                    actionLabel="Delete"
-                    triggerLabel="Delete Appointment"
-                    dialogDescription="This action cannot be undone"
-                    dialogTitle={`Delete ${appointment.customer.name}'s appointment?`}
+                    actionLabel="Eliminar"
+                    triggerLabel="Eliminar cita"
+                    dialogDescription="Esta acción no se puede deshacer"
+                    dialogTitle={`¿Eliminar la cita de ${appointment.customer.name}?`}
                     action={deleteAppointment}
                 />
                 <Button className="w-full sm:w-auto" type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? <><Spinner />Updating...</> : 'Update Appointment'}
+                    {isSubmitting ? <><Spinner />Actualizando...</> : 'Actualizar cita'}
                 </Button>
             </div>
         </form>

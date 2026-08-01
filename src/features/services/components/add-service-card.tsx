@@ -22,16 +22,16 @@ export function AddServiceCard({
 
                     <div className="space-y-1 text-center whitespace-normal">
                         <p className="text-base font-semibold text-foreground">
-                            Add new service
+                            Agregar nuevo servicio
                         </p>
                         <p className="text-sm font-normal text-muted-foreground">
-                            Configure the price and details of the service.
+                            Configura el precio y los detalles del servicio.
                         </p>
                     </div>
                 </Button>
             }
-            title="Create new service"
-            description="Fill in the data below to add a new extra to your catalog."
+            title="Crear nuevo servicio"
+            description="Completa los datos abajo para agregar un nuevo servicio a tu catálogo."
         >
             <ServiceForm
                 extras={extras}

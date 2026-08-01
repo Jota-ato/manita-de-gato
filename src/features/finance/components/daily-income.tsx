@@ -18,7 +18,7 @@ export function DailyIncome({
         <Card className="md:col-span-2">
             <CardHeader>
                 <CardTitle>
-                    Daily incomes
+                    Ingresos diarios
                 </CardTitle>
                 <CardDescription>
                     <p className="text-muted-foreground">{formatMXN(paid)}/<span className="text-accent-foreground">{formatMXN(expected)}</span></p>

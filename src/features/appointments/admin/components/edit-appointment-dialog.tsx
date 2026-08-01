@@ -21,8 +21,8 @@ export function EditAppointmentDialog({
     if (!activeAppointment) return <></>
 
     const description = activeAppointment.status === "BLOCKED" ?
-        "Editing block" :
-        `Editing ${activeAppointment.customer.name}'s appointment`
+        "Editando bloqueo" :
+        `Editando la cita de ${activeAppointment.customer.name}`
 
     const isPeriod = !isSameDay(activeAppointment.startTime, activeAppointment.endTime)
 
@@ -34,7 +34,7 @@ export function EditAppointmentDialog({
             <DialogContent className="max-h-9/10 overflow-auto">
                 <DialogHeader>
                     <DialogTitle>
-                        Editing
+                        Editar
                     </DialogTitle>
                     <DialogDescription>
                         {description}

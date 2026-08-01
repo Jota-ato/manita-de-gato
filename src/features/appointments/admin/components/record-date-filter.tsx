@@ -39,7 +39,7 @@ export function DateFilter() {
         <div className="flex flex-col sm:flex-row md:items-center gap-3">
             <Field className="flex flex-row items-center space-y-0">
                 <FieldLabel htmlFor="date-filter" className="whitespace-nowrap sm:-mr-6">
-                    Search from date:
+                    Buscar desde fecha:
                 </FieldLabel>
                 <Input
                     id="date-filter"
@@ -53,7 +53,7 @@ export function DateFilter() {
             <Button
                 onClick={removeFilter}
             >
-                Clear date filter
+                Borrar filtro de fecha
             </Button>
         </div>
     );
