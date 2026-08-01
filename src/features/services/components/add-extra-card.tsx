@@ -19,16 +19,16 @@ export function AddExtraCard({
 
                     <div className="space-y-1 text-center whitespace-normal">
                         <p className="text-base font-semibold text-foreground">
-                            Add new extra
+                            Agregar nuevo extra
                         </p>
                         <p className="text-xs sm:text-sm font-normal text-muted-foreground">
-                            Configure the price and details of the extra.
+                            Configura el precio y los detalles del extra.
                         </p>
                     </div>
                 </Button>
             }
-            title="Create new extra"
-            description="Fill in the data below to add a new extra to your catalog."
+            title="Crear nuevo extra"
+            description="Completa los datos abajo para agregar un nuevo extra a tu catálogo."
         >
             <ExtraForm />
         </ActionModal>

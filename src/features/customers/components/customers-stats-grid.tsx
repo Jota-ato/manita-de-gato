@@ -24,24 +24,24 @@ export function CustomersStatsGrid({
     return (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <StatCard
-                label="Total clients"
+                label="Clientes totales"
                 value={totalCustomers.toLocaleString()}
-                description="All registered clients"
+                description="Todos los clientes registrados"
                 icon={Users}
                 variant="default"
             />
             <StatCard
-                label="New this month"
+                label="Nuevos este mes"
                 value={newCustomersThisMonth.toLocaleString()}
-                description="Joined in the current billing period"
+                description="Se unieron en el periodo actual"
                 icon={TrendingUp}
                 variant="success"
             />
             <StatCard
-                label="No-show rate"
+                label="Tasa de inasistencias"
                 value={noShowDisplay}
                 className="sm:col-span-2 lg:col-span-1"
-                description="Missed appointments this month"
+                description="Citas no atendidas este mes"
                 icon={CalendarX}
                 variant={noShowVariant}
             />

@@ -15,7 +15,7 @@ import { formatMXN } from "@/shared/lib/currency";
 
 const chartConfig = {
     income: {
-        label: "Revenue",
+        label: "Ingresos",
         color: "var(--chart-1)",
     },
 } satisfies ChartConfig;
@@ -25,7 +25,7 @@ export function IncomeChart({ data }: { data: FinancialMetricsDTO['dailyIncome']
     return (
         <Card className="col-span-1">
             <CardHeader>
-                <CardTitle>Revenue Flow Over Time</CardTitle>
+                <CardTitle>Evolución de ingresos</CardTitle>
             </CardHeader>
             <CardContent className="h-75 w-full">
                 <ChartContainer config={chartConfig} className="h-full w-full">

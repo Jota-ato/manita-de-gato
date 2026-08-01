@@ -28,7 +28,7 @@ export function ForgotPasswordForm() {
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="email">
-                            Email
+                            Correo electrónico
                         </FieldLabel>
                         <Input 
                             id="email"
@@ -40,8 +40,8 @@ export function ForgotPasswordForm() {
                 </FieldGroup>
                 <FormSubmit 
                     isSubmitting={isSubmitting}
-                    label="Send Link"
-                    submittingLabel="Sending..."
+                    label="Enviar enlace"
+                    submittingLabel="Enviando..."
                 />
             </FieldSet>
         </form>

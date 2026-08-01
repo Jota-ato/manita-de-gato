@@ -1,3 +1,4 @@
+// SUGGESTED TRANSLATION: No changes required — original labels are already Spanish.
 import { User } from "@/db/schema";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/shared/components/ui/alert-dialog";
 

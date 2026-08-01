@@ -39,7 +39,7 @@ export function SignInForm() {
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="email">
-                            Email
+                            Correo electrónico
                         </FieldLabel>
                         <Input 
                         id="email" 
@@ -52,7 +52,7 @@ export function SignInForm() {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="password">
-                            Password
+                            Contraseña
                         </FieldLabel>
                         <Input 
                         id="password" 
@@ -66,8 +66,8 @@ export function SignInForm() {
                 </FieldGroup>
                 <FormSubmit 
                     isSubmitting={isSubmitting}
-                    label="Sign in"
-                    submittingLabel="Signing in..."
+                    label="Iniciar sesión"
+                    submittingLabel="Iniciando sesión..."
                 />
             </FieldSet>
         </form>

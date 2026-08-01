@@ -1,4 +1,4 @@
-const COLUMNS = ["Name", "Phone", "Appointments", "THIS MONTH ACTIVITY"]
+const COLUMNS = ["Nombre", "Teléfono", "Citas", "ACTIVIDAD ESTE MES"]
 
 export function CustomerTableHeader() {
     return (

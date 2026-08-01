@@ -18,8 +18,8 @@ export function ServiceDialog({
         <Dialog open={open} onOpenChange={toggleOpen}>
             <DialogContent className="max-h-[90vh] overflow-auto">
                 <DialogHeader>
-                    <DialogTitle>Editing {activeService.data.name}</DialogTitle>
-                    <DialogDescription>Edit details of the service</DialogDescription>
+                    <DialogTitle>Editando {activeService.data.name}</DialogTitle>
+                    <DialogDescription>Editar los detalles del servicio</DialogDescription>
                 </DialogHeader>
                 <ServiceForm
                     extras={extras}
