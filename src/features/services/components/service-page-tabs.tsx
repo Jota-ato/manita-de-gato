@@ -44,7 +44,7 @@ export function ServicePageTabs({
                                 />
                             ))
                         : (
-                            <Heading level={2} className="sm:col-span-2 md:col-span-3 my-4">No active services</Heading>
+                            <Heading level={2} className="sm:col-span-2 md:col-span-3 my-4">sin servicios activos</Heading>
                         )
                     }
                     <AddServiceCard
@@ -65,7 +65,7 @@ export function ServicePageTabs({
                                 />
                             ))
                         : (
-                            <Heading level={2} className="sm:col-span-2 md:col-span-3 my-4">No unactive services</Heading>
+                            <Heading level={2} className="sm:col-span-2 md:col-span-3 my-4">sin servicios inactivos</Heading>
                         )
                     }
                 </div>
@@ -77,7 +77,7 @@ export function ServicePageTabs({
                         activeExtras.map(extra => (
                             <ExtraCard key={extra.id} extra={extra} />
                         ))
-                        : <Heading level={2} className="sm:col-span-3 md:col-span-4 my-4">No extras</Heading>
+                        : <Heading level={2} className="sm:col-span-3 md:col-span-4 my-4">sin extras activos</Heading>
                     }
                 </div>
             </TabsContent>
@@ -87,7 +87,7 @@ export function ServicePageTabs({
                         unactiveExtras.map(extra => (
                             <ExtraCard key={extra.id} extra={extra} />
                         ))
-                        : <Heading level={2} className="sm:col-span-3 md:col-span-4 my-4">No unactive extras</Heading>
+                        : <Heading level={2} className="sm:col-span-3 md:col-span-4 my-4">sin extras inactivos</Heading>
                     }
                 </div>
             </TabsContent>

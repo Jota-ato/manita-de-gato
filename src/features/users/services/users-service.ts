@@ -21,11 +21,11 @@ class UsersService {
         const user = await this.usersRepository.getById(id)
         const currentUser = await this.usersRepository.getById(currentUserId)
         if (!user) {
-            throw new AppError('User not found')
+            throw new AppError('Usuario no encontrado')
         }
 
         if (!currentUser) {
-            throw new AppError('Current user not found')
+            throw new AppError('Usuario actual no encontrado')
         }
 
         const isOwner = AuthPolicies.isOwner(currentUser)
@@ -34,12 +34,12 @@ class UsersService {
         if (user.role === "owner") {
             const owners = await this.usersRepository.getByRole("owner")
             if (owners.length === 1) {
-                throw new AppError('There must be at least one owner in the system')
+                throw new AppError('Debe haber al menos un owner en el sistema')
             }
         }
 
         if (!isOwner && user.role === "admin" && !isSameUser) {
-            throw new AppError('Only owner can delete admin users')
+            throw new AppError('Solo el owner puede eliminar usuarios admin')
         }
 
         await this.usersRepository.delete(id)
@@ -51,7 +51,7 @@ class UsersService {
         currentUserId: string) {
         const currentUser = await this.usersRepository.getById(currentUserId)
         if (!currentUser) {
-            throw new AppError('Current user not found')
+            throw new AppError('Usuario actual no encontrado')
         }
 
         const isOwner = AuthPolicies.isOwner(currentUser)
@@ -59,19 +59,19 @@ class UsersService {
 
         const user = await this.usersRepository.getById(id)
         if (!user) {
-            throw new AppError('User not found')
+            throw new AppError('Usuario no encontrado')
         }
 
         if (data.role === "owner" && !isOwner) {
-            throw new AppError('Only owner can assign owner role')
+            throw new AppError('Solo el owner puede asignar el rol owner')
         }
 
         if (user.role === "admin" && !isAdmin && user.id !== currentUser.id) {
-            throw new AppError('Only owner users can update other admin users')
+            throw new AppError('Solo los owner pueden actualizar a otros admin')
         }
 
         if (user.role === "owner" && user.id !== currentUser.id) {
-            throw new AppError('Only owners can edit themselves')
+            throw new AppError('Solo los owner pueden editarse a sí mismos')
         }
 
         await this.usersRepository.update(data, user.id)

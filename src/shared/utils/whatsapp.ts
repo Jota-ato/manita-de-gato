@@ -11,14 +11,14 @@ export const buildWhatsappMessage = (payload: {
     const timeRange = `${format(payload.startTime, "HH:mm")} - ${format(payload.endTime, "HH:mm")}`;
 
     return [
-        `Hi! I'd like to confirm a new booking 👋`,
+        `¡Hola! Me gustaría confirmar una nueva cita 👋`,
         ``,
-        `*Service:* ${payload.serviceName}`,
-        `*Date:* ${date}`,
-        `*Time:* ${timeRange}`,
-        `*Name:* ${payload.customer.name} ${payload.customer.lastName}`,
+        `*Servicio:* ${payload.serviceName}`,
+        `*Fecha:* ${date}`,
+        `*Hora:* ${timeRange}`,
+        `*Nombre:* ${payload.customer.name} ${payload.customer.lastName}`,
         ``,
-        `Looking forward to it! 😊`,
+        `¡Quedo atento/a! 😊`,
     ].join("\n");
 };
 

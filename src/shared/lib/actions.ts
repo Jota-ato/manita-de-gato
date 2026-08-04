@@ -14,7 +14,7 @@ export type ActionResponse = Promise<NonPromiseActionResponse>;
 
 type InferActionData<R> = R extends string ? string : R;
 
-function getSuccessMessage(result: unknown, fallback = "Operation successful."): string {
+function getSuccessMessage(result: unknown, fallback = "Operación exitosa."): string {
     if (typeof result === "string") {
         return result;
     }
@@ -37,7 +37,7 @@ export function OwnerAction<T extends any[], R>(
             if (!isOwner) {
                 return {
                     success: false,
-                    message: "You do not have authorization to perform this action."
+                    message: "No tienes autorización para realizar esta acción."
                 };
             }
 
@@ -63,7 +63,7 @@ export function OwnerAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
@@ -80,7 +80,7 @@ export function adminAction<T extends any[], R>(
             if (!isAdmin) {
                 return {
                     success: false,
-                    message: "You do not have authorization to perform this action."
+                    message: "No tienes autorización para realizar esta acción."
                 };
             }
 
@@ -106,7 +106,7 @@ export function adminAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
@@ -123,7 +123,7 @@ export function employeeAction<T extends any[], R>(
             if (!isEmployee) {
                 return {
                     success: false,
-                    message: "You do not have authorization to perform this action."
+                    message: "No tienes autorización para realizar esta acción."
                 };
             }
 
@@ -149,7 +149,7 @@ export function employeeAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
@@ -166,7 +166,7 @@ export function customerAction<T extends any[], R>(
 
             if (!success) return {
                 success: false,
-                message: `Too many requests, please try again in ${getMinutesDiffFromNow(reset)} minutes.`,
+                message: `Demasiadas solicitudes, por favor inténtalo de nuevo en ${getMinutesDiffFromNow(reset)} minutos.`,
                 data: undefined
             }
 
@@ -186,7 +186,7 @@ export function customerAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
