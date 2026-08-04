@@ -37,12 +37,12 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
                     >
                         <Heading className="text-left text-lg md:text-xl font-bold flex items-center gap-2">Manita de gato <PawPrint className="fill-primary stroke-primary" /></Heading>
                     </Link>
-                    <span className="text-sm text-muted-foreground">Admin dashboard</span>
+                    <span className="text-sm text-muted-foreground">Panel de administración</span>
                 </>)}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarNavGroup
-                    label="Navigation"
+                    label="Navegación"
                     isCollapsed={isCollapse}
                     items={navigation}
                     pathName={pathname}
