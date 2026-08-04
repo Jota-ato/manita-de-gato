@@ -63,7 +63,7 @@ export function OwnerAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
@@ -106,7 +106,7 @@ export function adminAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
@@ -149,7 +149,7 @@ export function employeeAction<T extends any[], R>(
             console.error('[SERVER_ACTION_ERROR]:', error);
             return {
                 success: false,
-                message: "An unexpected internal error occurred. Please try again later."
+                message: "Ocurrió un error interno inesperado. Por favor, inténtalo de nuevo más tarde."
             };
         }
     };
