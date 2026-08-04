@@ -2,13 +2,13 @@ import { AppointmentStatus } from "@/db/schema";
 import { format, isValid } from "date-fns"
 
 export const translatedStatusMap: Record<AppointmentStatus, string> = {
-    PENDING: 'pending',
-    CONFIRMED: 'confirmed',
-    COMPLETED: 'completed',
-    PAID: 'paid',
-    CANCELLED: 'cancelled',
-    "NO_SHOW": "no show",
-    "BLOCKED": "blocked"
+    PENDING: 'pendiente',
+    CONFIRMED: 'confirmado',
+    COMPLETED: 'completado',
+    PAID: 'pagado',
+    CANCELLED: 'cancelado',
+    "NO_SHOW": "no asistió",
+    "BLOCKED": "bloqueado"
 }
 
 export const TIMEZONE = "America/Mexico_City";
@@ -20,7 +20,7 @@ export const formatTime = (time: Date | string) => {
         : time;
 
     if (!isValid(date)) {
-        console.error("Invalid date:", time);
+        console.error("Fecha inválida:", time);
         return "";
     }
 

@@ -47,7 +47,7 @@ export function AlertDialogCustom({
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
                     <AlertDialogAction variant={buttonVariant ? buttonVariant : "destructive"} onClick={action}>
                         {actionLabel}
                     </AlertDialogAction>
