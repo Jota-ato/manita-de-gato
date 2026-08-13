@@ -10,7 +10,7 @@ export function CustomerPageHeader({ title, description }: ClientsPageHeaderProp
     return (
         <div className="space-y-2">
             <div className="flex flex-col gap-1">
-                <Heading>{title}</Heading>
+                <Heading className="text-left">{title}</Heading>
                 {description && (
                     <p className="text-sm text-muted-foreground">{description}</p>
                 )}

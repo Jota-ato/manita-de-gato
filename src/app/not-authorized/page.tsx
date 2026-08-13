@@ -1,5 +1,11 @@
 import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 import { ArrowLeft, LogIn, ShieldAlert, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -7,9 +13,9 @@ import Link from "next/link";
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: generateMetadataTitle("Not authorized"),
-  description: "You are not authorized to view this page.",
-}
+  title: generateMetadataTitle("No autorizado"),
+  description: "No estas autorizado para ver esta página.",
+};
 
 export default function NotAuthorized() {
   return (
@@ -23,14 +29,15 @@ export default function NotAuthorized() {
           </div>
           <div className="space-y-2">
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">
-              Restricted access
+              Acceso restringido
             </p>
             <CardTitle className="text-3xl font-black tracking-tight md:text-4xl">
-              You do not have permission to view this area.
+              No tienes permiso para ver esta área.
             </CardTitle>
             <CardDescription className="mx-auto max-w-xl text-base leading-7">
-              This section is reserved for authorized users. If you believe this is an
-              error, sign in again or return to the public area of the app.
+              Esta sección está reservada para usuarios autorizados. Si crees
+              que esto es un error, inicia sesión de nuevo o regresa al área
+              pública de la aplicación.
             </CardDescription>
           </div>
         </CardHeader>
@@ -42,8 +49,10 @@ export default function NotAuthorized() {
                 <LogIn className="size-5" />
               </div>
               <div>
-                <p className="font-medium text-foreground">Sign in</p>
-                <p className="text-sm text-muted-foreground">Use the correct account.</p>
+                <p className="font-medium text-foreground">Inicia sesión</p>
+                <p className="text-sm text-muted-foreground">
+                  Usa la cuenta correcta para acceder.
+                </p>
               </div>
             </div>
 
@@ -52,8 +61,12 @@ export default function NotAuthorized() {
                 <ShieldAlert className="size-5" />
               </div>
               <div>
-                <p className="font-medium text-foreground">Access check</p>
-                <p className="text-sm text-muted-foreground">Permissions are enforced.</p>
+                <p className="font-medium text-foreground">
+                  Verificación de acceso
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Los permisos están siendo aplicados.
+                </p>
               </div>
             </div>
 
@@ -62,8 +75,10 @@ export default function NotAuthorized() {
                 <Sparkles className="size-5" />
               </div>
               <div>
-                <p className="font-medium text-foreground">Public pages</p>
-                <p className="text-sm text-muted-foreground">Keep browsing the site.</p>
+                <p className="font-medium text-foreground">Páginas públicas</p>
+                <p className="text-sm text-muted-foreground">
+                  Sigue navegando por el sitio.
+                </p>
               </div>
             </div>
           </div>
@@ -71,17 +86,26 @@ export default function NotAuthorized() {
           <Separator />
 
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button size="lg" className="rounded-full px-6 shadow-lg shadow-primary/20" asChild>
+            <Button
+              size="lg"
+              className="rounded-full px-6 shadow-lg shadow-primary/20"
+              asChild
+            >
               <Link href="/auth/sign-in">
                 <LogIn className="size-4" />
-                Sign in
+                Iniciar sesión
               </Link>
             </Button>
 
-            <Button size="lg" variant="outline" className="rounded-full px-6" asChild>
+            <Button
+              size="lg"
+              variant="outline"
+              className="rounded-full px-6"
+              asChild
+            >
               <Link href="/">
                 <ArrowLeft className="size-4" />
-                Go back home
+                Regresar a inicio
               </Link>
             </Button>
           </div>

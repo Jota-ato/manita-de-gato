@@ -6,8 +6,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: generateMetadataTitle("Page not found"),
-    description: "The page you are looking for does not exist. The link may be broken, moved, or the address may have been typed incorrectly.",
+    title: generateMetadataTitle("Página no encontrada"),
+    description: "La página que buscas no existe. El enlace puede estar roto, haber sido movido o la dirección puede haber sido escrita incorrectamente.",
 }
 
 export default function NotFound() {
@@ -22,14 +22,14 @@ export default function NotFound() {
                     </div>
                     <div className="space-y-2">
                         <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">
-                            Page not found
+                            Página no encontrada
                         </p>
                         <CardTitle className="text-3xl font-black tracking-tight md:text-4xl">
-                            The page you are looking for does not exist.
+                            La página que buscas no existe.
                         </CardTitle>
                         <CardDescription className="mx-auto max-w-xl text-base leading-7">
-                            The link may be broken, moved, or the address may have been typed incorrectly.
-                            Use the actions below to continue browsing.
+                            El enlace puede estar roto, haber sido movido o la dirección puede haber sido escrita incorrectamente.
+                            Utiliza las acciones a continuación para seguir navegando.
                         </CardDescription>
                     </div>
                 </CardHeader>
@@ -37,16 +37,16 @@ export default function NotFound() {
                 <CardContent className="space-y-6">
                     <div className="grid gap-3 rounded-3xl border border-border/70 bg-secondary/40 p-4 sm:grid-cols-3">
                         <div className="rounded-2xl bg-background/70 p-4">
-                            <p className="font-medium text-foreground">Check the URL</p>
-                            <p className="mt-1 text-sm text-muted-foreground">A small typo can lead here.</p>
+                            <p className="font-medium text-foreground">Comprueba la URL</p>
+                            <p className="mt-1 text-sm text-muted-foreground">Un pequeño error tipográfico puede llevarte aquí.</p>
                         </div>
                         <div className="rounded-2xl bg-background/70 p-4">
-                            <p className="font-medium text-foreground">Return home</p>
-                            <p className="mt-1 text-sm text-muted-foreground">Go back to the public site.</p>
+                            <p className="font-medium text-foreground">Volver al inicio</p>
+                            <p className="mt-1 text-sm text-muted-foreground">Regresa al sitio público.</p>
                         </div>
                         <div className="rounded-2xl bg-background/70 p-4">
-                            <p className="font-medium text-foreground">Sign in</p>
-                            <p className="mt-1 text-sm text-muted-foreground">Access protected areas from login.</p>
+                            <p className="font-medium text-foreground">Iniciar sesión</p>
+                            <p className="mt-1 text-sm text-muted-foreground">Accede a áreas protegidas iniciando sesión.</p>
                         </div>
                     </div>
 
@@ -54,14 +54,14 @@ export default function NotFound() {
                         <Button size="lg" className="rounded-full px-6 shadow-lg shadow-primary/20" asChild>
                             <Link href="/">
                                 <Home className="size-4" />
-                                Go home
+                                Ir al inicio
                             </Link>
                         </Button>
 
                         <Button size="lg" variant="outline" className="rounded-full px-6" asChild>
                             <Link href="/auth/sign-in">
                                 <ArrowLeft className="size-4" />
-                                Sign in
+                                Iniciar sesión
                             </Link>
                         </Button>
                     </div>
