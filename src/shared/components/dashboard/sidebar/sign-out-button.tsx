@@ -16,11 +16,11 @@ export function SignOutButton({
         await signOut({
             fetchOptions: {
                 onSuccess: () => {
-                    toast.success("Session closed successfully");
+                    toast.success("Sesión cerrada correctamente");
                     router.push("/auth/sign-in");
                 },
                 onError: () => {
-                    toast.error("Something went wrong while closing the session. Please try again.");
+                    toast.error("Algo salió mal al cerrar la sesión. Inténtalo de nuevo.");
                 },
             },
         });
@@ -31,10 +31,10 @@ export function SignOutButton({
             <AlertDialogCustom
                 triggerIcon={LogOut}
                 action={handleSignOut}
-                actionLabel="Sign out"
-                dialogTitle="Are you sure you want to sign out?"
-                triggerLabel="Sign out"
-                dialogDescription="You will need to sign in again to access your dashboard."
+                actionLabel="Cerrar sesión"
+                dialogTitle="¿Seguro que quieres cerrar sesión?"
+                triggerLabel="Cerrar sesión"
+                dialogDescription="Tendrás que iniciar sesión nuevamente para acceder a tu panel."
                 srOnlyDescription
                 showText={isCollapse}
             />

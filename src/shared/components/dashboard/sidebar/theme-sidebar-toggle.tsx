@@ -29,9 +29,9 @@ export function ThemeToggleSideBar({
     }, []);
 
     const themes = [
-        { value: 'light', label: 'Light', icon: Sun },
-        { value: 'dark', label: 'Dark', icon: Moon },
-        { value: 'system', label: 'System', icon: Monitor },
+        { value: 'light', label: 'Claro', icon: Sun },
+        { value: 'dark', label: 'Oscuro', icon: Moon },
+        { value: 'system', label: 'Sistema', icon: Monitor },
     ]
 
     if (!mounted) {
@@ -49,7 +49,7 @@ export function ThemeToggleSideBar({
                     <CollapsibleTrigger className="flex items-center gap-2">
                         <Palette className="size-4 md:size-5 shrink-0" />
                         {!isCollapsed && (<>
-                            Theme
+                            Tema
                             <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                         </>)}
                     </CollapsibleTrigger>
