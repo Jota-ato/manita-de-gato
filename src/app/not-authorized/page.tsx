@@ -61,7 +61,9 @@ export default function NotAuthorized() {
                 <ShieldAlert className="size-5" />
               </div>
               <div>
-                <p className="font-medium text-foreground">Verificación de acceso</p>
+                <p className="font-medium text-foreground">
+                  Verificación de acceso
+                </p>
                 <p className="text-sm text-muted-foreground">
                   Los permisos están siendo aplicados.
                 </p>

@@ -38,13 +38,13 @@ export function QuickActions({
         {
             title: 'Bloquear día / hora',
             description: '',
-            trigger: <QuickActionsButton variant="outline" label="Block day / time" Icon={CalendarOff} />,
+            trigger: <QuickActionsButton variant="outline" label="Bloquear día / hora" Icon={CalendarOff} />,
             children: <BlockTimeForm />
         },
         {
             title: 'Bloquear periodo',
             description: '',
-            trigger: <QuickActionsButton variant="outline" label="Block period" Icon={CalendarRange} />,
+            trigger: <QuickActionsButton variant="outline" label="Bloquear periodo" Icon={CalendarRange} />,
             children: <BlockPeriodForm />
         },
     ];
@@ -57,10 +57,10 @@ export function QuickActions({
         <Card className="h-full">
             <CardHeader>
                 <CardTitle>
-                    Quick actions
+                    Acciones rápidas
                 </CardTitle>
                 <CardDescription>
-                    Create, cancel, create block time
+                    Crear, cancelr, crear bloqueos de tiempo.
                 </CardDescription>
                 <Separator />
             </CardHeader>
