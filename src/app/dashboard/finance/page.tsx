@@ -1,16 +1,26 @@
 import { FinanceDashboard } from "@/features/finance/components/finance-dashboard";
-import { financeService } from "@/features/finance/services/finance-service"
-import { TimeRange } from "@/features/finance/types/finance.type"
-import { TIMEZONE } from "@/shared/lib/date"
-import { TZDate } from "@date-fns/tz"
-import { endOfDay, endOfMonth, endOfWeek, endOfYear, startOfDay, startOfMonth, startOfWeek, startOfYear } from "date-fns";
+import { financeService } from "@/features/finance/services/finance-service";
+import { TimeRange } from "@/features/finance/types/finance.type";
+import { TIMEZONE } from "@/shared/lib/date";
+import { TZDate } from "@date-fns/tz";
+import {
+  endOfDay,
+  endOfMonth,
+  endOfWeek,
+  endOfYear,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+} from "date-fns";
 
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-    title: generateMetadataTitle("Finance"),
-    description: "View and manage your financial records, including income, expenses, and reports. This page provides a comprehensive overview of your financial status and performance.",
-}
+  title: generateMetadataTitle("Finanzas"),
+  description:
+    "Ver y gestionar sus registros financieros, incluyendo ingresos, gastos y reportes. Esta página proporciona una visión general completa de su estado y desempeño financiero.",
+};
 
 function getDateRange(range: TimeRange, timezone: string) {
   const now = new TZDate(new Date(), timezone);
@@ -19,7 +29,10 @@ function getDateRange(range: TimeRange, timezone: string) {
     case "day":
       return { start: startOfDay(now), end: endOfDay(now) };
     case "week":
-      return { start: startOfWeek(now, { weekStartsOn: 1 }), end: endOfWeek(now, { weekStartsOn: 1 }) };
+      return {
+        start: startOfWeek(now, { weekStartsOn: 1 }),
+        end: endOfWeek(now, { weekStartsOn: 1 }),
+      };
     case "year":
       return { start: startOfYear(now), end: endOfYear(now) };
     case "month":
@@ -29,20 +42,22 @@ function getDateRange(range: TimeRange, timezone: string) {
 }
 
 export default async function FinancePage({
-  searchParams
+  searchParams,
 }: {
-  searchParams: Promise<{ range?: TimeRange }>
+  searchParams: Promise<{ range?: TimeRange }>;
 }) {
-  const { range = 'month' } = await searchParams
+  const { range = "month" } = await searchParams;
   const { start: startRange, end: endRange } = getDateRange(range, TIMEZONE);
 
-  const data = await financeService.getFinancialData(startRange, endRange, range)
+  const data = await financeService.getFinancialData(
+    startRange,
+    endRange,
+    range,
+  );
 
   return (
     <section className="h-full w-full flex flex-col items-center justify-center py-8 md:p-12">
-      <FinanceDashboard
-        data={data}
-      />
+      <FinanceDashboard data={data} />
     </section>
-  )
+  );
 }
