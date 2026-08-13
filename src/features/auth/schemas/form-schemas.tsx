@@ -1,9 +1,9 @@
 import { z } from "zod"
 
 const baseSchema = z.object({
-    name: z.string().min(2, { error: "Name must be at least 2 characters long." }),
-    email: z.email({ error: "Please enter a valid email address." }),
-    password: z.string().min(8, { error: "Password must be at least 8 characters long." }),
+    name: z.string().min(2, { error: "El nombre debe tener al menos 2 caracteres." }),
+    email: z.email({ error: "Por favor, introduce una dirección de correo electrónico válida." }),
+    password: z.string().min(8, { error: "La contraseña debe tener al menos 8 caracteres." }),
 })
 
 export const signInSchema = baseSchema.pick({
@@ -19,9 +19,9 @@ export const signUpSchema = baseSchema.pick({
     password: true,
 })
     .extend({
-        confirmPassword: z.string().min(8, { error: "Confirm Password must be at least 8 characters long." }),
+        confirmPassword: z.string().min(8, { error: "La contraseña de confirmación debe tener al menos 8 caracteres." }),
     }).refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords do not match.",
+        message: "Las contraseñas no coinciden.",
         path: ["confirmPassword"]
     })
 
@@ -33,9 +33,9 @@ export const resetPasswordSchema = baseSchema.pick({
     password: true,
 })
     .extend({
-        confirmPassword: z.string().min(8, { error: "Confirm Password must be at least 8 characters long." }),
+        confirmPassword: z.string().min(8, { error: "La contraseña de confirmación debe tener al menos 8 caracteres." }),
     }).refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords do not match.",
+        message: "Las contraseñas no coinciden.",
         path: ["confirmPassword"]
     })
 
