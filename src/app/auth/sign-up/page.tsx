@@ -9,17 +9,17 @@ import Link from "next/link";
 export default function SignInPage() {
     return (
         <div>
-            <Heading>Sign Up</Heading>
+            <Heading>Registrate</Heading>
 
             <Separator className="my-8" />
 
             <Card className="max-w-lg mx-auto">
                 <CardHeader>
                     <CardTitle className="text-center">
-                        Enter your credentials to create your account.
+                        Ingresa tus datos para crear una cuenta
                     </CardTitle>
                     <CardDescription className="text-center">
-                        Only authorized users can access the admin dashboard. Please sign up to continue.
+                        Solo usuarios autorizados pueden registrarse. Si no tienes una cuenta, por favor contacta al administrador.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -28,7 +28,7 @@ export default function SignInPage() {
                 <CardFooter className="flex flex-col items-center gap-4">
                     <Separator />
                     <p className="text-center text-sm text-muted-foreground">
-                        Or sign in with
+                        O
                     </p>
                     <GoogleAuthButton
                         mode="signup"
@@ -42,7 +42,7 @@ export default function SignInPage() {
                     <Link
                         href="/auth/sign-in"
                     >
-                        Sign In
+                        Iniciar sesión
                     </Link>
                 </Button>
                 <Button
@@ -51,7 +51,7 @@ export default function SignInPage() {
                     <Link
                         href="/auth/forgot-password"
                     >
-                        Forgot Password?
+                        ¿Olvidaste tu contraseña?
                     </Link>
                 </Button>
             </div>
