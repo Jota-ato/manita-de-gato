@@ -15,111 +15,115 @@ import { AppError } from "@/shared/lib/errors";
  * const services = await servicesService.getServices();
  */
 class ServicesService {
-    /**
-     * @param serviceRepository - Data access layer for service catalog records.
-     */
-    constructor(
-        private serviceRepository: IServicesRepository
-    ) { }
+  /**
+   * @param serviceRepository - Data access layer for service catalog records.
+   */
+  constructor(private serviceRepository: IServicesRepository) {}
 
-    /**
-     * Retrieves all available services from the catalog.
-     *
-     * @returns A promise that resolves to an array of `Service` records.
-     *          Returns an empty array if no services exist.
-     */
-    async getActiveServices(): Promise<ServiceWithExtras[]> {
-        const rawServices = await this.serviceRepository.getAll();
+  /**
+   * Retrieves all available services from the catalog.
+   *
+   * @returns A promise that resolves to an array of `Service` records.
+   *          Returns an empty array if no services exist.
+   */
+  async getActiveServices(): Promise<ServiceWithExtras[]> {
+    const rawServices = await this.serviceRepository.getAll();
 
-        const activeServices = rawServices.filter(
-            service => service.isActive && service.name !== "Manual Block"
-        );
+    const activeServices = rawServices.filter(
+      (service) => service.isActive && service.name !== "Manual Block",
+    );
 
-        return activeServices.map(service => {
-            return {
-                data: service,
-                serviceExtras: service.serviceExtras.map(pivot => pivot),
-                extras: service.serviceExtras.map(pivot => pivot.extra)
-            };
-        });
+    return activeServices.map((service) => {
+      return {
+        data: service,
+        serviceExtras: service.serviceExtras.map((pivot) => pivot),
+        extras: service.serviceExtras.map((pivot) => pivot.extra),
+      };
+    });
+  }
+
+  async getAllServices(): Promise<ServiceWithExtras[]> {
+    const rawServices = await this.serviceRepository.getAll();
+
+    const activeServices = rawServices.filter(
+      (service) => service.name !== "Manual Block",
+    );
+
+    return activeServices.map((service) => {
+      return {
+        data: service,
+        serviceExtras: service.serviceExtras.map((pivot) => pivot),
+        extras: service.serviceExtras.map((pivot) => pivot.extra),
+      };
+    });
+  }
+
+  async getServiceById(id: string): Promise<Service | undefined> {
+    return await this.serviceRepository.getById(id);
+  }
+
+  async createService(input: ServiceInput): Promise<Service> {
+    const payload = {
+      name: input.name,
+      price: input.price.toString(),
+      description: input.description,
+      image: input.image,
+    };
+
+    const service = await this.serviceRepository.create(payload);
+    await this.createExtras(input, service.id);
+    return service;
+  }
+
+  async updateService(input: ServiceInput, id: string): Promise<Service> {
+    const dbService = await this.getServiceById(id);
+
+    if (!dbService) {
+      throw new AppError("Service not found");
     }
 
-    async getAllServices(): Promise<ServiceWithExtras[]> {
-        const rawServices = await this.serviceRepository.getAll();
+    const payload = {
+      name: input.name,
+      price: input.price.toString(),
+      description: input.description,
+      image: input.image,
+    };
 
-        const activeServices = rawServices.filter(
-            service => service.name !== "Manual Block"
-        );
+    const newService = await this.serviceRepository.update(
+      payload,
+      dbService.id,
+    );
+    await this.deleteExtras(newService.id);
+    await this.createExtras(input, newService.id);
+    return newService;
+  }
 
-        return activeServices.map(service => {
-            return {
-                data: service,
-                serviceExtras: service.serviceExtras.map(pivot => pivot),
-                extras: service.serviceExtras.map(pivot => pivot.extra)
-            };
-        });
-    }
+  async deteleService(id: string): Promise<void> {
+    const service = await this.getServiceById(id);
+    if (!service) throw new AppError("Service not found");
+    await this.deleteExtras(service.id);
+    await this.serviceRepository.delete(service.id);
+  }
 
-    async getServiceById(id: string): Promise<Service | undefined> {
-        return await this.serviceRepository.getById(id);
-    }
+  async reactiveService(id: string): Promise<void> {
+    const service = await this.getServiceById(id);
+    if (!service) throw new AppError("Service not found");
+    await this.serviceRepository.reactive(service.id);
+  }
 
-    async createService(input: ServiceInput): Promise<Service> {
-        const payload = {
-            name: input.name,
-            price: input.price.toString(),
-            description: input.description,
-            image: input.image
-        }
+  async createExtras(
+    { includedExtras, availableExtras }: ServiceInput,
+    serviceId: string,
+  ): Promise<void> {
+    if (includedExtras.length)
+      await extrasService.createServiceExtras(includedExtras, serviceId, true);
+    if (availableExtras.length)
+      await extrasService.createServiceExtras(availableExtras, serviceId, false);
+  }
 
-        const service = await this.serviceRepository.create(payload);
-        await this.createExtras(input, service.id);
-        return service
-    }
-
-    async updateService(input: ServiceInput, id: string): Promise<Service> {
-        const dbService = await this.getServiceById(id);
-
-        if (!dbService) {
-            throw new AppError("Service not found");
-        }
-
-        const payload = {
-            name: input.name,
-            price: input.price.toString(),
-            description: input.description,
-            image: input.image
-        }
-
-        const newService = await this.serviceRepository.update(payload, dbService.id);
-        await this.deleteExtras(newService.id);
-        await this.createExtras(input, newService.id);
-        return newService
-    }
-
-    async deteleService(id: string): Promise<void> {
-        const service = await this.getServiceById(id);
-        if (!service) throw new AppError("Service not found");
-        await this.deleteExtras(service.id);
-        await this.serviceRepository.delete(service.id);
-    }
-
-    async reactiveService(id: string): Promise<void> {
-        const service = await this.getServiceById(id);
-        if (!service) throw new AppError("Service not found");
-        await this.serviceRepository.reactive(service.id);
-    }
-
-    async createExtras({ includedExtras, availableExtras }: ServiceInput, serviceId: string): Promise<void> {
-        await extrasService.createServiceExtras(includedExtras, serviceId, true);
-        await extrasService.createServiceExtras(availableExtras, serviceId, false);
-    }
-
-    async deleteExtras(serviceId: string): Promise<void> {
-        await extrasService.deleteServiceExtras(serviceId);
-    }
+  async deleteExtras(serviceId: string): Promise<void> {
+    await extrasService.deleteServiceExtras(serviceId);
+  }
 }
 
-export const servicesService = new ServicesService(
-    servicesRepository
-)
+export const servicesService = new ServicesService(servicesRepository);
