@@ -35,7 +35,6 @@ export const baseMoldSchema = z.object({
 export const MoldSchema = z.discriminatedUnion("isRegisterClient", [
   baseMoldSchema.extend({
     isRegisterClient: z.literal(true),
-    customerId: z.string({ error: "El ID del cliente es requerido" }),
   }),
   baseMoldSchema
     .extend({

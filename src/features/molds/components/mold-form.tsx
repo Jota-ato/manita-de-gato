@@ -18,6 +18,10 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { HandMeasuresField } from "./hand-measures-field";
 import { FormSubmit } from "@/shared/components/form/form-submit";
 import { FullMold } from "../types/molds.types";
+import { CustomSelect } from "@/features/appointments/core/components/services-select";
+import { orderStatusEnum } from "@/db/schema/molds";
+import { MOLD_STATUS_LABEL_MAP } from "../helpers/utils";
+import { DatePickerTime } from "@/shared/components/form/date-picker";
 
 export function MoldForm({ mold }: { mold?: FullMold }) {
   const isEditting = !!mold;
@@ -43,7 +47,9 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
     Extract<MoldInput, { isRegisterClient: false }>
   >;
 
-  const onSubmit = async (data: MoldInput) => {};
+  const onSubmit = async (data: MoldInput) => {
+    console.log(data);
+  };
 
   const submitLabel = isEditting ? "Actualizar molde" : "Crear molde";
   const isSubmittingLabel = isEditting ? "Actualizando..." : "Creando...";
@@ -150,6 +156,23 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
             label="Medidas de la mano derecha"
             register={register}
             errors={errors}
+          />
+
+          <CustomSelect 
+            control={control}
+            name="status"
+            groupLabel="Status"
+            options={orderStatusEnum.enumValues.map(value => ({
+              label: MOLD_STATUS_LABEL_MAP[value],
+              value
+            }))}
+          />
+
+          <DatePickerTime 
+            control={control}
+            startTimeName="deliveryDate"
+            endTimeName="deliveryDate"
+            setValue={setValue}
           />
         </FieldGroup>
 
