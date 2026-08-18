@@ -195,6 +195,10 @@
         cursor: pointer;
     }
 
+    p {
+        max-width: 65ch;
+    }
+
     html {
         @apply font-sans;
     }

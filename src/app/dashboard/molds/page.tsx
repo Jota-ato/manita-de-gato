@@ -1,7 +1,10 @@
 import { MoldCard } from "@/features/molds/components/mold-card";
+import { MoldsPageHeader } from "@/features/molds/components/molds-page-header";
 import { FullMold } from "@/features/molds/types/molds.types";
-import { Heading } from "@/shared/components/typography/heading";
+import { requireAuth } from "@/lib/auth-server";
+
 import { Container } from "@/shared/components/ui/container";
+import { redirect } from "next/navigation";
 
 const molds: FullMold[] = [
   {
@@ -82,23 +85,16 @@ const molds: FullMold[] = [
 ];
 
 export default async function MoldsPage() {
+  const { isAdmin } = await requireAuth();
+  if (!isAdmin) redirect("/not-autorized");
+
   return (
     <section className="min-h-screen py-8 md:py-12 flex items-center justify-center">
       <Container>
-        <header>
-            <Heading className="text-left">
-                Pedidos
-            </Heading>
-            <p>
-                3 en curso - te deben $655
-            </p>
-        </header>
+        <MoldsPageHeader />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          {molds.map(mold => (
-            <MoldCard 
-                key={mold.id}
-                mold={mold}
-            />
+          {molds.map((mold) => (
+            <MoldCard key={mold.id} mold={mold} />
           ))}
         </div>
       </Container>
