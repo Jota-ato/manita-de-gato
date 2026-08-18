@@ -13,6 +13,7 @@ const title = "Book online"
 
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
+import { servicesService } from "@/features/services/services/services-service"
 export const metadata: Metadata = {
     title: generateMetadataTitle(title),
     description: "Contact us for any inquiries, questions, or feedback. We are here to assist you and provide the information you need.",
@@ -21,9 +22,10 @@ export const metadata: Metadata = {
 export default async function PublicAgendaPage() {
 
     const today = new TZDate(startOfDay(new Date()), TIMEZONE)
-    const services = await getSharedPublicServices()
+    const services = await servicesService.getActiveServices()
     const appointments = await publicAppointmentsService.getPublicAppointmentsFromDay(today)
     const businessControls = await getSharedBusinessControls()
+    console.log(services)
 
     if (!businessControls) return null
 
