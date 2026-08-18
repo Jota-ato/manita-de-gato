@@ -21,7 +21,7 @@ import { FullMold } from "../types/molds.types";
 import { CustomSelect } from "@/features/appointments/core/components/services-select";
 import { orderStatusEnum } from "@/db/schema/molds";
 import { MOLD_STATUS_LABEL_MAP } from "../helpers/utils";
-import { DatePickerTime } from "@/shared/components/form/date-picker";
+import { DatePickerTime } from "@/shared/components/form/date-picker-time";
 
 export function MoldForm({ mold }: { mold?: FullMold }) {
   const isEditting = !!mold;
