@@ -204,6 +204,13 @@
       "when": 1783444837582,
       "tag": "0028_white_polaris",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1787070658454,
+      "tag": "0029_sloppy_spyke",
+      "breakpoints": true
     }
   ]
 }
