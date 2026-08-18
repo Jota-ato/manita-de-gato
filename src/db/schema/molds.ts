@@ -17,7 +17,7 @@ export const orderStatusEnum = pgEnum("order_status", [
   "in_production",
   "sent",
   "delivered",
-  "cancelled"
+  "cancelled",
 ]);
 
 export const molds = pgTable(
@@ -31,7 +31,6 @@ export const molds = pgTable(
     design: varchar("design", { length: 150 }).notNull(),
     shape: varchar("shape", { length: 100 }).notNull(),
     referenceImageUrl: text("reference_image_url"),
-
     deliveryDate: timestamp("delivery_date", { withTimezone: true }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
