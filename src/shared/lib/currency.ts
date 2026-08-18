@@ -1,9 +1,10 @@
+export const formatMXN = (value: number): string => {
+  const formatter = new Intl.NumberFormat("es-MX", {
+    style: "currency",
+    currency: "MXN",
+  });
 
-export const formatMXN = (value: number) => {
-    const formatter = new Intl.NumberFormat('es-MX', {
-        style: 'currency',
-        currency: 'MXN'
-    });
-
-    return formatter.format(value)
-}
+  return parseInt(value.toString()) === value
+    ? `$${value}`
+    : formatter.format(value);
+};

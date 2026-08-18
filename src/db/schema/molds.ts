@@ -17,6 +17,7 @@ export const orderStatusEnum = pgEnum("order_status", [
   "in_production",
   "sent",
   "delivered",
+  "cancelled"
 ]);
 
 export const molds = pgTable(
@@ -57,6 +58,3 @@ export const molds = pgTable(
     index("idx_molds_status").on(table.status),
   ],
 );
-
-export type Mold = typeof molds.$inferSelect;
-export type NewMold = typeof molds.$inferInsert;
