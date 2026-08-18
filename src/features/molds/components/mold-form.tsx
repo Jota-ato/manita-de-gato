@@ -15,17 +15,26 @@ import { FieldSwitch } from "@/shared/components/form/field-switch";
 import { Input } from "@/shared/components/ui/input";
 import ImageUploader from "@/shared/components/upload/image-uploader";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { HandMeasuresField } from "./hand-measures-field";
+import { FormSubmit } from "@/shared/components/form/form-submit";
+import { FullMold } from "../types/molds.types";
 
-export function MoldForm() {
+export function MoldForm({ mold }: { mold?: FullMold }) {
+  const isEditting = !!mold;
+
   const {
     handleSubmit,
     control,
     register,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<MoldInput>({
     resolver: zodResolver(MoldSchema),
+    defaultValues: {
+      leftHandMeasures: [],
+      rightHandMeasures: [],
+    },
   });
 
   const isRegisterCLient = watch("isRegisterClient");
@@ -34,8 +43,13 @@ export function MoldForm() {
     Extract<MoldInput, { isRegisterClient: false }>
   >;
 
+  const onSubmit = async (data: MoldInput) => {};
+
+  const submitLabel = isEditting ? "Actualizar molde" : "Crear molde";
+  const isSubmittingLabel = isEditting ? "Actualizando..." : "Creando...";
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <FieldSet>
         <FieldGroup>
           <FieldSwitch
@@ -124,6 +138,26 @@ export function MoldForm() {
             {errors.note && <FieldError>{errors.note.message}</FieldError>}
           </Field>
         </FieldGroup>
+        <FieldGroup>
+          <HandMeasuresField
+            name="leftHandMeasures"
+            label="Medidas de la mano izquierda"
+            register={register}
+            errors={errors}
+          />
+          <HandMeasuresField
+            name="rightHandMeasures"
+            label="Medidas de la mano derecha"
+            register={register}
+            errors={errors}
+          />
+        </FieldGroup>
+
+        <FormSubmit
+          label={submitLabel}
+          submittingLabel={isSubmittingLabel}
+          isSubmitting={isSubmitting}
+        />
       </FieldSet>
     </form>
   );

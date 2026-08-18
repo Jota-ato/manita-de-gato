@@ -1,7 +1,16 @@
 import { orderStatusEnum } from "@/db/schema/molds";
 import { customerSchema } from "@/features/customers/schemas/customer-schemas";
-import { is } from "drizzle-orm";
 import z from "zod";
+
+const handMeasuresSchema = z
+  .array(
+    z
+      .number({ error: "Ingresa la medida en mm" })
+      .int({ error: "Usa números enteros (mm)" })
+      .min(5, { error: "Mínimo 5 mm" })
+      .max(25, { error: "Máximo 25 mm" }),
+  )
+  .length(5, { error: "Debes capturar las 5 medidas" });
 
 export const baseMoldSchema = z.object({
   design: z.string().min(1, { error: "El diseño es requerido" }),
@@ -13,14 +22,8 @@ export const baseMoldSchema = z.object({
   deliveryDate: z.date({ error: "La fecha de entrega es requerida" }),
   totalPrice: z.number({ error: "El precio total es requerido" }),
   amountPaid: z.number().optional(),
-  leftHandMeasures: z.array(z.number().int().nonnegative(), {
-    error:
-      "Las medidas de la mano izquierda deben ser números enteros no negativos",
-  }),
-  rightHandMeasures: z.array(z.number().int().nonnegative(), {
-    error:
-      "Las medidas de la mano derecha deben ser números enteros no negativos",
-  }),
+  leftHandMeasures: handMeasuresSchema,
+  rightHandMeasures: handMeasuresSchema,
   note: z.string().optional().nullable(),
   status: z.enum(orderStatusEnum.enumValues),
   clientCountryCode: z.string(),
