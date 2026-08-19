@@ -7,7 +7,7 @@ import { requireAuth } from "@/lib/auth-server";
 import { Container } from "@/shared/components/ui/container";
 import { redirect } from "next/navigation";
 
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 10;
 
 export default async function MoldsPage({
   searchParams,

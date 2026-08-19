@@ -12,11 +12,11 @@ export const MOLD_STATUS_VARIANT_MAP: Record<
 };
 
 export const MOLD_STATUS_COLOR_MAP: Record<MoldStatus, string> = {
-  in_production: "info",
-  reserved: "warning",
-  delivered: "success",
-  sent: "primary",
-  cancelled: "destructive",
+  in_production: "border-info!",
+  reserved: "border-warning!",
+  delivered: "border-success!",
+  sent: "border-primary!",
+  cancelled: "border-destructive!",
 };
 
 export const MOLD_STATUS_LABEL_MAP: Record<MoldStatus, string> = {

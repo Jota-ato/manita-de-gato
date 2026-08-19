@@ -37,7 +37,7 @@ export function MoldCard({
       : `pagado ${formatMXN(+amountPaid)}`;
 
   return (
-    <Card className={`border-l-4 border-${MOLD_STATUS_COLOR_MAP[status]}!`}>
+    <Card className={`border-l-4 ${MOLD_STATUS_COLOR_MAP[status]}`}>
       <CardHeader className="flex flex-row gap-4 justify-between">
         <div>
           <CardTitle>
