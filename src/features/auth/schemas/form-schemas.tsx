@@ -1,44 +1,66 @@
-import { z } from "zod"
+import { z } from "zod";
 
 const baseSchema = z.object({
-    name: z.string().min(2, { error: "El nombre debe tener al menos 2 caracteres." }),
-    email: z.email({ error: "Por favor, introduce una dirección de correo electrónico válida." }),
-    password: z.string().min(8, { error: "La contraseña debe tener al menos 8 caracteres." }),
-})
+  name: z
+    .string()
+    .min(2, { error: "El nombre debe tener al menos 2 caracteres." }),
+  email: z.email({
+    error: "Por favor, introduce una dirección de correo electrónico válida.",
+  }),
+  password: z
+    .string()
+    .min(8, { error: "La contraseña debe tener al menos 8 caracteres." }),
+});
 
 export const signInSchema = baseSchema.pick({
-    email: true,
-    password: true,
-})
+  email: true,
+  password: true,
+});
 
-export type SignInInput = z.infer<typeof signInSchema>
+export type SignInInput = z.infer<typeof signInSchema>;
 
-export const signUpSchema = baseSchema.pick({
+export const signUpSchema = baseSchema
+  .pick({
     name: true,
     email: true,
     password: true,
-})
-    .extend({
-        confirmPassword: z.string().min(8, { error: "La contraseña de confirmación debe tener al menos 8 caracteres." }),
-    }).refine((data) => data.password === data.confirmPassword, {
-        message: "Las contraseñas no coinciden.",
-        path: ["confirmPassword"]
-    })
+  })
+  .extend({
+    confirmPassword: z
+      .string()
+      .min(8, {
+        error:
+          "La contraseña de confirmación debe tener al menos 8 caracteres.",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden.",
+    path: ["confirmPassword"],
+  });
 
 export const requestPasswordResetSchema = baseSchema.pick({
-    email: true
-})
+  email: true,
+});
 
-export const resetPasswordSchema = baseSchema.pick({
+export const resetPasswordSchema = baseSchema
+  .pick({
     password: true,
-})
-    .extend({
-        confirmPassword: z.string().min(8, { error: "La contraseña de confirmación debe tener al menos 8 caracteres." }),
-    }).refine((data) => data.password === data.confirmPassword, {
-        message: "Las contraseñas no coinciden.",
-        path: ["confirmPassword"]
-    })
+  })
+  .extend({
+    confirmPassword: z
+      .string()
+      .min(8, {
+        error:
+          "La contraseña de confirmación debe tener al menos 8 caracteres.",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden.",
+    path: ["confirmPassword"],
+  });
 
-export type SignUpInput = z.infer<typeof signUpSchema>
-export type RequestPasswordResetInput = z.infer<typeof requestPasswordResetSchema>
-export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
+export type SignUpInput = z.infer<typeof signUpSchema>;
+export type RequestPasswordResetInput = z.infer<
+  typeof requestPasswordResetSchema
+>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
