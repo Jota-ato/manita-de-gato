@@ -16,7 +16,7 @@ class MoldsService {
     private customersRepository: ICustomersRepository,
   ) {}
 
-  async createMold(data: MoldInput): Promise<void> {
+  private async resolveCustomer(data: MoldInput): Promise<Customer> {
     let customer: Customer;
 
     if (data.isRegisterClient) {
@@ -36,6 +36,12 @@ class MoldsService {
 
     if (!customer) throw new AppError("Cliente no encontrado", "404");
 
+    return customer;
+  }
+
+  async createMold(data: MoldInput): Promise<void> {
+    const customer = await this.resolveCustomer(data);
+
     const payload: NewMold = {
       ...data,
       customerId: customer.id,
@@ -44,6 +50,19 @@ class MoldsService {
     };
 
     await this.moldsRepository.insert(payload);
+  }
+
+  async updateMold(id: string, data: MoldInput): Promise<void> {
+    const customer = await this.resolveCustomer(data);
+
+    const payload: Partial<NewMold> = {
+      ...data,
+      customerId: customer.id,
+      totalPrice: data.totalPrice.toString(),
+      amountPaid: data.amountPaid ? data.amountPaid.toString() : "0",
+    };
+
+    await this.moldsRepository.update(id, payload);
   }
 
   async getAllMolds(
@@ -56,6 +75,10 @@ class MoldsService {
     ]);
 
     return { molds, totalCount };
+  }
+
+  async getMoldById(id: string): Promise<FullMold | null> {
+    return await this.moldsRepository.getById(id);
   }
 }
 

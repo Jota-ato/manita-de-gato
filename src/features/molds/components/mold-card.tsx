@@ -16,6 +16,7 @@ import {
   MOLD_STATUS_VARIANT_MAP,
 } from "../helpers/utils";
 import { formatMXN } from "@/shared/lib/currency";
+import Link from "next/link";
 
 export function MoldCard({
   mold: {
@@ -26,6 +27,7 @@ export function MoldCard({
     amountPaid,
     totalPrice,
     customer,
+    id,
   },
 }: {
   mold: FullMold;
@@ -37,35 +39,37 @@ export function MoldCard({
       : `pagado ${formatMXN(+amountPaid)}`;
 
   return (
-    <Card className={`border-l-4 ${MOLD_STATUS_COLOR_MAP[status]}`}>
-      <CardHeader className="flex flex-row gap-4 justify-between">
-        <div>
-          <CardTitle>
-            {customer.name} {customer.lastName}
-          </CardTitle>
-          <CardDescription>
-            {design} - {shape}
-          </CardDescription>
-        </div>
-        <Badge variant="outline">
-          {format(deliveryDate, "eee d MMM", {
-            locale: es,
-          })}
-        </Badge>
-      </CardHeader>
-      <CardContent className="flex flex-row justify-between gap-4 flex-1 items-end">
-        <Badge variant={MOLD_STATUS_VARIANT_MAP[status]}>
-          {MOLD_STATUS_LABEL_MAP[status]}
-        </Badge>
-        <span
-          className={cn("font-bold text-xs", {
-            "text-primary": remainingAmount > 0,
-            "text-success": remainingAmount === 0,
-          })}
-        >
-          {priceLabel}
-        </span>
-      </CardContent>
-    </Card>
+    <Link href={`/dashboard/molds/edit/${id}`} className="w-full">
+      <Card className={`border-l-4 ${MOLD_STATUS_COLOR_MAP[status]}`}>
+        <CardHeader className="flex flex-row gap-4 justify-between">
+          <div>
+            <CardTitle>
+              {customer.name} {customer.lastName}
+            </CardTitle>
+            <CardDescription>
+              {design} - {shape}
+            </CardDescription>
+          </div>
+          <Badge variant="outline">
+            {format(deliveryDate, "eee d MMM", {
+              locale: es,
+            })}
+          </Badge>
+        </CardHeader>
+        <CardContent className="flex flex-row justify-between gap-4 flex-1 items-end">
+          <Badge variant={MOLD_STATUS_VARIANT_MAP[status]}>
+            {MOLD_STATUS_LABEL_MAP[status]}
+          </Badge>
+          <span
+            className={cn("font-bold text-xs", {
+              "text-primary": remainingAmount > 0,
+              "text-success": remainingAmount === 0,
+            })}
+          >
+            {priceLabel}
+          </span>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

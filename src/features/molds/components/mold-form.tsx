@@ -23,7 +23,43 @@ import { orderStatusEnum } from "@/db/schema/molds";
 import { MOLD_STATUS_LABEL_MAP } from "../helpers/utils";
 import { DatePicker } from "@/shared/components/form/date-picker";
 import { showResponse } from "@/shared/lib/client-actions";
-import { createMoldAction } from "../actions/molds-actions";
+import { createMoldAction, updateMoldAction } from "../actions/molds-actions";
+function splitPhone(fullPhone?: string | null) {
+  if (!fullPhone) return { clientCountryCode: "", clientPhone: "" };
+
+  const match = fullPhone.match(/^(\+\d{1,3})(\d+)$/);
+  if (!match) return { clientCountryCode: "", clientPhone: fullPhone };
+
+  return { clientCountryCode: match[1], clientPhone: match[2] };
+}
+
+function buildDefaultValues(mold?: FullMold): Partial<MoldInput> {
+  if (!mold) {
+    return {
+      status: "reserved",
+      leftHandMeasures: [],
+      rightHandMeasures: [],
+    };
+  }
+
+  const { clientCountryCode, clientPhone } = splitPhone(mold.customer?.phone);
+
+  return {
+    isRegisterClient: true,
+    design: mold.design,
+    shape: mold.shape,
+    referenceImageUrl: mold.referenceImageUrl ?? null,
+    deliveryDate: new Date(mold.deliveryDate),
+    totalPrice: Number(mold.totalPrice),
+    amountPaid: mold.amountPaid ? Number(mold.amountPaid) : undefined,
+    leftHandMeasures: mold.leftHandMeasures,
+    rightHandMeasures: mold.rightHandMeasures,
+    note: mold.note ?? "",
+    status: mold.status,
+    clientCountryCode,
+    clientPhone,
+  };
+}
 
 export function MoldForm({ mold }: { mold?: FullMold }) {
   const isEditting = !!mold;
@@ -37,21 +73,22 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
     formState: { errors, isSubmitting },
   } = useForm<MoldInput>({
     resolver: zodResolver(MoldSchema),
-    defaultValues: {
-      status: "reserved",
-      leftHandMeasures: [],
-      rightHandMeasures: [],
-    },
+    defaultValues: buildDefaultValues(mold),
   });
 
   const isRegisterCLient = watch("isRegisterClient");
+  const image = watch("referenceImageUrl");
 
   const clientErrors = errors as FieldErrors<
     Extract<MoldInput, { isRegisterClient: false }>
   >;
 
   const onSubmit = async (data: MoldInput) => {
-    showResponse(await createMoldAction(data));
+    if (isEditting) {
+      showResponse(await updateMoldAction({ id: mold.id, data }));
+    } else {
+      showResponse(await createMoldAction(data));
+    }
   };
 
   const submitLabel = isEditting ? "Actualizar molde" : "Crear molde";
@@ -69,7 +106,7 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
           />
 
           <Field>
-            <FieldLabel htmlFor="phone">Teléfono del cliente</FieldLabel>
+            <FieldLabel htmlFor="clientPhone">Teléfono del cliente</FieldLabel>
             <FieldDescription>
               Con código de país (ej. +52 para México)
             </FieldDescription>
@@ -80,7 +117,7 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
                 type="text"
                 {...register("clientCountryCode")}
               />
-              <Input id="phone" type="tel" {...register("phone")} />
+              <Input id="clientPhone" type="tel" {...register("clientPhone")} />
             </div>
             {errors.clientPhone && (
               <FieldError>{errors.clientPhone.message}</FieldError>
@@ -111,6 +148,7 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
 
         <FieldGroup>
           <ImageUploader
+          image={image}
             label="Imagen de referencia"
             onChange={(url) =>
               setValue("referenceImageUrl", url ? url : "", {
@@ -195,7 +233,7 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
           />
         </FieldGroup>
 
-        {Object.keys(errors).map(key => (
+        {Object.keys(errors).map((key) => (
           <span key={key} className="text-red-500">
             {errors[key as keyof typeof errors]?.message}
             {key}

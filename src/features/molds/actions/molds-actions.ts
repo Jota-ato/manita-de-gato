@@ -16,3 +16,17 @@ export const createMoldAction = adminAction(async (data: MoldInput) => {
 
   return `Molde creado correctamente`;
 });
+
+export const updateMoldAction = adminAction(
+  async ({ id, data }: { id: string; data: MoldInput }) => {
+    const zodResponse = MoldSchema.safeParse(data);
+
+    if (!zodResponse.success) {
+      throw new AppError("Invalid data");
+    }
+
+    await moldsService.updateMold(id, data);
+
+    return `Molde actualizado correctamente`;
+  },
+);

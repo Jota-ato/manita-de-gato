@@ -1,17 +1,34 @@
 import { db } from "@/db";
 import { FullMold, NewMold } from "../types/molds.types";
 import { molds } from "@/db/schema/molds";
-import { count } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 
 export interface IMoldsRepository {
+  getById(id: string): Promise<FullMold | null>;
   insert(data: NewMold): Promise<void>;
+  update(id: string, data: Partial<NewMold>): Promise<void>;
   getAll(limit: number, page: number): Promise<FullMold[]>;
   getCount(): Promise<number>;
 }
 
 class MoldsRepository implements IMoldsRepository {
+  async getById(id: string): Promise<FullMold | null> {
+    return (
+      (await db.query.molds.findFirst({
+        where: eq(molds.id, id),
+        with: {
+          customer: true,
+        },
+      })) || null
+    );
+  }
+
   async insert(data: NewMold): Promise<void> {
     await db.insert(molds).values(data);
+  }
+
+  async update(id: string, data: Partial<NewMold>): Promise<void> {
+    await db.update(molds).set(data).where(eq(molds.id, id));
   }
 
   async getAll(limit: number, page: number): Promise<FullMold[]> {

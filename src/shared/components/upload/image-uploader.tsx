@@ -11,7 +11,7 @@ import { UploadDropzone, uploadFiles } from "@/shared/utils/uploadthing"
 interface ImageUploaderProps {
     label: string
     onChange: (url: string | null) => void
-    image?: string
+    image?: string | null
 }
 
 export default function ImageUploader({
