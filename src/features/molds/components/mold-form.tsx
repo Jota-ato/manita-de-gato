@@ -27,7 +27,7 @@ import { createMoldAction, updateMoldAction } from "../actions/molds-actions";
 function splitPhone(fullPhone?: string | null) {
   if (!fullPhone) return { clientCountryCode: "", clientPhone: "" };
 
-  const match = fullPhone.match(/^(\+\d{1,3})(\d+)$/);
+  const match = fullPhone.match(/^(\+\d{1,2})(\d+)$/);
   if (!match) return { clientCountryCode: "", clientPhone: fullPhone };
 
   return { clientCountryCode: match[1], clientPhone: match[2] };
