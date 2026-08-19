@@ -1,10 +1,10 @@
 import { z } from "zod"
 
 export const contactSchema = z.object({
-    name: z.string().min(1, { message: "Name is required" }),
-    lastName: z.string().min(1, { message: "Last name is required" }),
-    email: z.email({ message: "Invalid email address" }),
-    message: z.string().min(1, { message: "Message is required" }),
+    name: z.string().min(1, { message: "El nombre es necesario" }),
+    lastName: z.string().min(1, { message: "El apellido es necesario" }),
+    email: z.email({ message: "Dirección de correo electrónico inválida" }),
+    message: z.string().min(1, { message: "El mensaje es necesario" }),
 })
 
 export type ContactInput = z.infer<typeof contactSchema>

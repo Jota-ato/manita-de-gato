@@ -15,17 +15,15 @@ const timeRangeError = {
 };
 
 const baseAppointmentSchema = z.object({
-  serviceId: z.uuid({ error: "Service is necessary" }),
+  serviceId: z.uuid({ error: "El servicio es necesario" }),
   extrasId: z.array(z.uuid().nullable().optional()),
   startTime: z.date(),
   endTime: z.date(),
   adittionalPrice: z.number(),
   clientCountryCode: z.string(),
-  clientPhone: z
-    .string()
-    .min(10, {
-      message: "El número de teléfono debe tener al menos 10 dígitos",
-    }),
+  clientPhone: z.string().min(10, {
+    message: "El número de teléfono debe tener al menos 10 dígitos",
+  }),
 });
 
 export const updateAppointmentSchema = baseAppointmentSchema

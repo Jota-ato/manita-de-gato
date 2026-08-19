@@ -22,6 +22,8 @@ import { CustomSelect } from "@/features/appointments/core/components/services-s
 import { orderStatusEnum } from "@/db/schema/molds";
 import { MOLD_STATUS_LABEL_MAP } from "../helpers/utils";
 import { DatePicker } from "@/shared/components/form/date-picker";
+import { showResponse } from "@/shared/lib/client-actions";
+import { createMoldAction } from "../actions/molds-actions";
 
 export function MoldForm({ mold }: { mold?: FullMold }) {
   const isEditting = !!mold;
@@ -36,6 +38,7 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
   } = useForm<MoldInput>({
     resolver: zodResolver(MoldSchema),
     defaultValues: {
+      status: "reserved",
       leftHandMeasures: [],
       rightHandMeasures: [],
     },
@@ -48,7 +51,7 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
   >;
 
   const onSubmit = async (data: MoldInput) => {
-    console.log(data);
+    showResponse(await createMoldAction(data));
   };
 
   const submitLabel = isEditting ? "Actualizar molde" : "Crear molde";
@@ -66,18 +69,18 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
           />
 
           <Field>
-            <FieldLabel htmlFor="clientPhone">Teléfono del cliente</FieldLabel>
+            <FieldLabel htmlFor="phone">Teléfono del cliente</FieldLabel>
             <FieldDescription>
               Con código de país (ej. +52 para México)
             </FieldDescription>
             <div className="flex gap-2">
               <Input
                 className="w-20"
-                id="countryCode"
+                id="clientCountryCode"
                 type="text"
                 {...register("clientCountryCode")}
               />
-              <Input id="clientPhone" type="tel" {...register("clientPhone")} />
+              <Input id="phone" type="tel" {...register("phone")} />
             </div>
             {errors.clientPhone && (
               <FieldError>{errors.clientPhone.message}</FieldError>
@@ -125,19 +128,34 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
             <Input id="shape" type="text" {...register("shape")} />
             {errors.shape && <FieldError>{errors.shape.message}</FieldError>}
           </Field>
-          <Field>
-            <FieldLabel htmlFor="totalPrice">Precio</FieldLabel>
-            <Input
-              id="totalPrice"
-              type="number"
-              step="1"
-              min="0"
-              {...register("totalPrice", { valueAsNumber: true })}
-            />
-            {errors.totalPrice && (
-              <FieldError>{errors.totalPrice.message}</FieldError>
-            )}
-          </Field>
+          <div className="flex gap-4">
+            <Field>
+              <FieldLabel htmlFor="totalPrice">Precio</FieldLabel>
+              <Input
+                id="totalPrice"
+                type="number"
+                step="1"
+                min="0"
+                {...register("totalPrice", { valueAsNumber: true })}
+              />
+              {errors.totalPrice && (
+                <FieldError>{errors.totalPrice.message}</FieldError>
+              )}
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="amountPaid">Precio pagado</FieldLabel>
+              <Input
+                id="amountPaid"
+                type="number"
+                step="1"
+                min="0"
+                {...register("amountPaid", { valueAsNumber: true })}
+              />
+              {errors.amountPaid && (
+                <FieldError>{errors.amountPaid.message}</FieldError>
+              )}
+            </Field>
+          </div>
           <Field>
             <FieldLabel htmlFor="note">Notas</FieldLabel>
             <Textarea id="note" {...register("note")} />
@@ -158,13 +176,13 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
             errors={errors}
           />
 
-          <CustomSelect 
+          <CustomSelect
             control={control}
             name="status"
             groupLabel="Status"
-            options={orderStatusEnum.enumValues.map(value => ({
+            options={orderStatusEnum.enumValues.map((value) => ({
               label: MOLD_STATUS_LABEL_MAP[value],
-              value
+              value,
             }))}
           />
 
@@ -176,6 +194,13 @@ export function MoldForm({ mold }: { mold?: FullMold }) {
             setValue={setValue}
           />
         </FieldGroup>
+
+        {Object.keys(errors).map(key => (
+          <span key={key} className="text-red-500">
+            {errors[key as keyof typeof errors]?.message}
+            {key}
+          </span>
+        ))}
 
         <FormSubmit
           label={submitLabel}
