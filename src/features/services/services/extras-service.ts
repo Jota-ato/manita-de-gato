@@ -32,7 +32,7 @@ class ExtrasService {
         const dbExtra = await this.getExtraById(id)
 
         if (!dbExtra) {
-            throw new AppError("Extra not found")
+            throw new AppError("Extra no encontrado")
         }
 
         const payLoad = {
@@ -49,7 +49,7 @@ class ExtrasService {
         const dbExtra = await this.getExtraById(id)
 
         if (!dbExtra) {
-            throw new AppError("Extra not found")
+            throw new AppError("Extra no encontrado")
         }
 
         await this.extraRepository.deleteExtra(id)
@@ -59,7 +59,7 @@ class ExtrasService {
         const dbExtra = await this.getExtraById(id)
 
         if (!dbExtra) {
-            throw new AppError("Extra not found")
+            throw new AppError("Extra no encontrado")
         }
 
         return await this.extraRepository.reactivateExtra(dbExtra.id)

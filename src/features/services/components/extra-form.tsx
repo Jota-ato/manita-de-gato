@@ -73,8 +73,8 @@ export function ExtraForm({
         toggleOpen()
     }
 
-    const label = isEditing ? "Edit extra" : "Create extra"
-    const submittingLabel = isEditing ? "Editing..." : "Creating..."
+    const label = isEditing ? "Editar extra" : "Crear extra"
+    const submittingLabel = isEditing ? "Editando..." : "Creando..."
 
     return (
         <form
@@ -83,7 +83,7 @@ export function ExtraForm({
             <FieldSet>
                 <FieldGroup>
                     <Field>
-                        <FieldLabel htmlFor="name">Extra Name</FieldLabel>
+                        <FieldLabel htmlFor="name">Nombre del extra</FieldLabel>
                         <Input
                             type="text"
                             id="name"
@@ -92,7 +92,7 @@ export function ExtraForm({
                         {errors.name && <FieldError>{errors.name.message}</FieldError>}
                     </Field>
                     <Field>
-                        <FieldLabel htmlFor="description">Extra description</FieldLabel>
+                        <FieldLabel htmlFor="description">Descripción del extra</FieldLabel>
                         <Textarea
                             id="description"
                             {...register("description")}
@@ -100,7 +100,7 @@ export function ExtraForm({
                         {errors.description && <FieldError>{errors.description.message}</FieldError>}
                     </Field>
                     <Field>
-                        <FieldLabel htmlFor="price">Extra price</FieldLabel>
+                        <FieldLabel htmlFor="price">Precio del extra</FieldLabel>
                         <Input
                             type="number"
                             id="price"
@@ -117,20 +117,20 @@ export function ExtraForm({
                 />
                 {(isEditing && extra.isActive) &&
                     <AlertDialogCustom
-                        actionLabel="Delete"
-                        triggerLabel="Delete Extra"
-                        dialogDescription="This action cannot be undone"
-                        dialogTitle={`Delete ${extra.name}'s extra?`}
+                        actionLabel="Eliminar"
+                        triggerLabel="Eliminar extra"
+                        dialogDescription="Esta acción no se puede deshacer"
+                        dialogTitle={`¿Eliminar el extra "${extra.name}"?`}
                         action={deleteExtra}
                     />
                 }
 
                 {(isEditing && !extra.isActive) &&
                     <AlertDialogCustom
-                        actionLabel="Reactivate"
-                        triggerLabel="Reactivate Extra"
-                        dialogDescription="This action cannot be undone"
-                        dialogTitle={`Reactivate ${extra.name}'s extra?`}
+                        actionLabel="Reactivar"
+                        triggerLabel="Reactivar extra"
+                        dialogDescription="Esta acción no se puede deshacer"
+                        dialogTitle={`¿Reactivar el extra "${extra.name}"?`}
                         buttonVariant="outline"
                         action={reactivateExtra}
                     />

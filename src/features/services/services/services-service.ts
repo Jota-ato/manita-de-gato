@@ -32,7 +32,7 @@ class ServicesService {
         const rawServices = await this.serviceRepository.getAll();
 
         const activeServices = rawServices.filter(
-            service => service.isActive && service.name !== "Manual Block"
+            service => service.isActive && service.name !== "Bloqueo manual"
         );
 
         return activeServices.map(service => {
@@ -48,7 +48,7 @@ class ServicesService {
         const rawServices = await this.serviceRepository.getAll();
 
         const activeServices = rawServices.filter(
-            service => service.name !== "Manual Block"
+            service => service.name !== "Bloqueo manual"
         );
 
         return activeServices.map(service => {
@@ -81,7 +81,7 @@ class ServicesService {
         const dbService = await this.getServiceById(id);
 
         if (!dbService) {
-            throw new AppError("Service not found");
+            throw new AppError("Servicio no encontrado");
         }
 
         const payload = {
@@ -99,14 +99,14 @@ class ServicesService {
 
     async deteleService(id: string): Promise<void> {
         const service = await this.getServiceById(id);
-        if (!service) throw new AppError("Service not found");
+        if (!service) throw new AppError("Servicio no encontrado");
         await this.deleteExtras(service.id);
         await this.serviceRepository.delete(service.id);
     }
 
     async reactiveService(id: string): Promise<void> {
         const service = await this.getServiceById(id);
-        if (!service) throw new AppError("Service not found");
+        if (!service) throw new AppError("Servicio no encontrado");
         await this.serviceRepository.reactive(service.id);
     }
 
