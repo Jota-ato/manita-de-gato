@@ -3,7 +3,7 @@ import {
   ICustomersRepository,
 } from "@/features/customers/services/customers-repository";
 import { MoldInput } from "../schemas/molds-schemas";
-import { NewMold } from "../types/molds.types";
+import { FullMold, NewMold } from "../types/molds.types";
 import { IMoldsRepository, moldsRepository } from "./molds-repository";
 import { createPhone } from "@/shared/utils/phone";
 import { AppError } from "@/shared/lib/errors";
@@ -44,6 +44,18 @@ class MoldsService {
     };
 
     await this.moldsRepository.insert(payload);
+  }
+
+  async getAllMolds(
+    limit: number,
+    page: number,
+  ): Promise<{ molds: FullMold[]; totalCount: number }> {
+    const [molds, totalCount] = await Promise.all([
+      this.moldsRepository.getAll(limit, page),
+      this.moldsRepository.getCount(),
+    ]);
+
+    return { molds, totalCount };
   }
 }
 

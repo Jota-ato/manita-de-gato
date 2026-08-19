@@ -6,3 +6,4 @@ export * from "./auth-schema";
 export * from "./extras";
 export * from "./business-controls";
 export * from "./relations";
+export * from "./molds";
