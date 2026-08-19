@@ -92,23 +92,23 @@ export function ServiceForm({
         showResponse(await reactiveServiceAction(service.data.id));
     }
 
-    const buttonLabel = isEditing ? "Update service" : "Create service"
-    const submittingLabel = isEditing ? "Updating service..." : "Creating service..."
+    const buttonLabel = isEditing ? "Actualizar servicio" : "Crear servicio"
+    const submittingLabel = isEditing ? "Actualizando servicio..." : "Creando servicio..."
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Tabs defaultValue="general">
                 <TabsList>
                     <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="includedExtras">Included Extras</TabsTrigger>
-                    <TabsTrigger value="availableExtras">Available Extras</TabsTrigger>
+                    <TabsTrigger value="includedExtras">Extras incluidos</TabsTrigger>
+                    <TabsTrigger value="availableExtras">Extras disponibles</TabsTrigger>
                 </TabsList>
                 <TabsContent value="general">
                     <FieldSet>
                         <FieldGroup>
                             <Field>
                                 <FieldLabel htmlFor="name">
-                                    Service name
+                                    Nombre del servicio
                                 </FieldLabel>
                                 <Input
                                     type="text"
@@ -124,7 +124,7 @@ export function ServiceForm({
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor="description">
-                                    Service description
+                                    Descripción del servicio
                                 </FieldLabel>
                                 <Textarea
                                     id="description"
@@ -138,7 +138,7 @@ export function ServiceForm({
                             </Field>
                             <Field>
                                 <FieldLabel htmlFor="price">
-                                    Service price
+                                    Precio del servicio
                                 </FieldLabel>
                                 <Input
                                     type="number"
@@ -153,9 +153,9 @@ export function ServiceForm({
                                 )}
                             </Field>
                             <Field>
-                                <FieldLabel htmlFor="image">Service image</FieldLabel>
+                                <FieldLabel htmlFor="image">Imagen del servicio</FieldLabel>
                                 <ImageUploader
-                                    label="Image service"
+                                    label="Imagen del servicio"
                                     image={image}
                                     onChange={(url) => setValue("image", url ? url : "", { shouldValidate: true })}
                                 />
@@ -205,16 +205,16 @@ export function ServiceForm({
                     service.data.isActive ?
                         <AlertDialogCustom
                             action={deleteService}
-                            actionLabel="Deactivate"
-                            triggerLabel="Deactivate Service"
-                            dialogTitle="Are you sure you want to deactivate this service?"
+                           actionLabel="Desactivar"
+                           triggerLabel="Desactivar servicio"
+                           dialogTitle="¿Estás seguro de que quieres desactivar este servicio?"
                             showText
                         />
                         : <AlertDialogCustom
                             action={reactiveService}
-                            actionLabel="Reactivate"
-                            triggerLabel="Reactivate Service"
-                            dialogTitle="Are you sure you want to activate this service?"
+                           actionLabel="Reactivar"
+                           triggerLabel="Reactivar servicio"
+                           dialogTitle="¿Estás seguro de que quieres activar este servicio?"
                             showText
                             buttonVariant="outline"
                         />

@@ -11,7 +11,7 @@ export const updateBusinessControlsAction = adminAction(async (
 ) => {
     const zodResponse = businessControlsSchema.safeParse(data)
 
-    if (!zodResponse.success) throw new AppError("Invalid data")
+    if (!zodResponse.success) throw new AppError("Datos inválidos")
     const startHour = new Date()
     const [hours, minutes] = zodResponse.data.startHour.split(":").map(Number)
     startHour.setHours(hours, minutes, 0, 0)

@@ -11,7 +11,7 @@ export const createCustomer = adminAction(async (data: CustomerInput) => {
     const zodReponse = customerSchema.safeParse(data)
 
     if (!zodReponse.success) {
-        throw new AppError("Invalid customer data")
+        throw new AppError("Datos del cliente inválidos")
     }
 
     const payload: NewCustomer = {
@@ -22,14 +22,14 @@ export const createCustomer = adminAction(async (data: CustomerInput) => {
     }
 
     const customer = await customersService.createCustomer(payload)
-    return `${customer.name} ${customer.lastName} created successfully`
+    return `${customer.name} ${customer.lastName} creado correctamente`
 })
 
 export const updateCustomer = adminAction(async (data: CustomerInput, id: string) => {
     const zodReponse = customerSchema.safeParse(data)
 
     if (!zodReponse.success) {
-        throw new AppError("Invalid customer data")
+        throw new AppError("Datos del cliente inválidos")
     }
 
     const payload: NewCustomer = {
@@ -41,6 +41,6 @@ export const updateCustomer = adminAction(async (data: CustomerInput, id: string
 
     const customer = await customersService.updateCustomer(payload, id)
 
-    return `${customer.name} ${customer.lastName} updated successfully`
+    return `${customer.name} ${customer.lastName} actualizado correctamente`
 })
 

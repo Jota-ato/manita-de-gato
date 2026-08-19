@@ -9,7 +9,7 @@ export const createMoldAction = adminAction(async (data: MoldInput) => {
   const zodResponse = MoldSchema.safeParse(data);
 
   if (!zodResponse.success) {
-    throw new AppError("Invalid data");
+    throw new AppError("Datos inválidos");
   }
 
   await moldsService.createMold(data);
@@ -22,7 +22,7 @@ export const updateMoldAction = adminAction(
     const zodResponse = MoldSchema.safeParse(data);
 
     if (!zodResponse.success) {
-      throw new AppError("Invalid data");
+      throw new AppError("Datos inválidos");
     }
 
     await moldsService.updateMold(id, data);

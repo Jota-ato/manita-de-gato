@@ -9,14 +9,14 @@ export const signUpAction = customerAction(async (data: SignUpInput) => {
     if (!zodResponse.success) {
         return {
             success: false,
-            message: "Invalid input data",
+            message: "Datos de entrada inválidos",
         }
     }
 
     await authService.signUp(data)
     return {
         success: true,
-        message: "Sign-up successful. Please check your email to verify your account.",
+        message: "Registro exitoso. Revisa tu correo electrónico para verificar tu cuenta.",
     }
 })
 
@@ -26,14 +26,14 @@ export const signInAction = customerAction(async (data: SignInInput) => {
     if (!zodResponse.success) {
         return {
             success: false,
-            message: "Invalid input data",
+            message: "Datos de entrada inválidos",
         }
     }
 
     const response = await authService.signIn(data)
     return {
         success: true,
-        message: "Sign-in successful.",
+        message: "Inicio de sesión correcto.",
         data: response,
     }
 })
@@ -44,14 +44,14 @@ export const requestPasswordResetAction = customerAction(async (data: RequestPas
     if (!zodResponse.success) {
         return {
             success: false,
-            message: "Invalid input data",
+            message: "Datos de entrada inválidos",
         }
     }
 
     await authService.requestPasswordReset(data)
     return {
         success: true,
-        message: "Password reset request successful. Please check your email for further instructions.",
+        message: "Solicitud de restablecimiento de contraseña enviada correctamente. Revisa tu correo electrónico para obtener más instrucciones.",
     }
 })
 
@@ -61,13 +61,13 @@ export const resetPasswordAction = customerAction(async (data: ResetPasswordInpu
     if (!zodResponse.success) {
         return {
             success: false,
-            message: "Invalid input data",
+            message: "Datos de entrada inválidos",
         }
     }
 
     await authService.resetPassword(data, token)
     return {
         success: true,
-        message: "Password reset successful. You can now sign in with your new password.",
+        message: "Contraseña restablecida correctamente. Ya puedes iniciar sesión con tu nueva contraseña.",
     }
 })

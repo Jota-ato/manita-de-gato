@@ -27,7 +27,7 @@ class AdminAppointmentsService {
     async updateAppointment(data: UpdateApointmentInput, id: string) {
         const appointment = await this.adminAppointmentsRepository.getById(id)
 
-        if (!appointment) throw new AppError('Appointment not found')
+        if (!appointment) throw new AppError('Cita no encontrada')
 
         await appointmentsService.avoidCollision(data.startTime, data.endTime, appointment.id)
 
@@ -44,7 +44,7 @@ class AdminAppointmentsService {
     async deleteAppointment(id: string) {
         const appointment = await this.adminAppointmentsRepository.getById(id)
 
-        if (!appointment) throw new AppError('Appointment not found')
+        if (!appointment) throw new AppError('Cita no encontrada')
 
         await this.adminAppointmentsRepository.delete(id)
     }
@@ -73,7 +73,7 @@ class AdminAppointmentsService {
         let customer: Customer;
         if (isRegisterClient) {
             const dbCustomer = await this.customersService.getClientByPhone(clientPhone)
-            if (!dbCustomer) throw new AppError('Client not found')
+            if (!dbCustomer) throw new AppError('Cliente no encontrado')
             customer = dbCustomer
         } else {
             customer = await this.customersService.createCustomer({
