@@ -14,7 +14,7 @@ import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: generateMetadataTitle("No autorizado"),
-  description: "No estas autorizado para ver esta página.",
+  description: "No estás autorizado para ver esta página.",
 };
 
 export default function NotAuthorized() {

@@ -9,13 +9,13 @@ import {
     AnimatePresence
 } from "motion/react"
 
-const title = "Book online"
+const title = "Reserva en línea"
 
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
     title: generateMetadataTitle(title),
-    description: "Contact us for any inquiries, questions, or feedback. We are here to assist you and provide the information you need.",
+    description: "Reserva tu cita en línea en Manita de gato. Elige tu servicio, fecha y horario de manera rápida y sencilla.",
 }
 
 export default async function PublicAgendaPage() {

@@ -5,11 +5,17 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Crear cuenta | Manita de gato",
+    description: "Crea tu cuenta para gestionar tus citas en Manita de gato.",
+};
 
 export default function SignInPage() {
     return (
         <div>
-            <Heading>Registrate</Heading>
+            <Heading>Regístrate</Heading>
 
             <Separator className="my-8" />
 

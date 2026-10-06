@@ -6,6 +6,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Container } from "@/shared/components/ui/container";
 import { Separator } from "@/shared/components/ui/separator";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Restablecer contraseña | Manita de gato",
+  description: "Define una nueva contraseña para recuperar el acceso a tu cuenta.",
+};
 
 export default async function ResetPasswordPage({
   searchParams
@@ -17,17 +23,17 @@ export default async function ResetPasswordPage({
 
   return (
     <>
-      <Heading>Reset Password</Heading>
+      <Heading>Restablecer contraseña</Heading>
 
       <Separator className="my-8" />
 
       <Card className="max-w-lg mx-auto">
         <CardHeader>
           <CardTitle className="text-center">
-            Reset Password
+            Restablecer contraseña
           </CardTitle>
           <CardDescription className="text-center">
-            Enter your email to reset your password.
+            Ingresa tu correo electrónico para restablecer tu contraseña.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -36,7 +42,7 @@ export default async function ResetPasswordPage({
         <CardFooter className="flex flex-col items-center gap-4">
           <Separator />
           <p className="text-center text-sm text-muted-foreground">
-            Or sign in with
+            O inicia sesión con
           </p>
           <GoogleAuthButton />
         </CardFooter>
@@ -48,7 +54,7 @@ export default async function ResetPasswordPage({
           <Link
             href="/auth/sign-in"
           >
-            Sign In
+            Iniciar sesión
           </Link>
         </Button>
         <Button
@@ -57,7 +63,7 @@ export default async function ResetPasswordPage({
           <Link
             href="/auth/sign-up"
           >
-            Sign Up
+            Registrarse
           </Link>
         </Button>
       </div>

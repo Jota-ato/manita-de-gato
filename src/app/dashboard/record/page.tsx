@@ -7,8 +7,8 @@ import { Container } from "@/shared/components/ui/container";
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-    title: generateMetadataTitle("Appointments record"),
-    description: "View the history of appointments, including details such as date, time, service, and customer information. This page provides a comprehensive record of all past appointments for reference and analysis.",
+    title: generateMetadataTitle("Registro de citas"),
+    description: "Consulta el historial de citas, incluyendo fecha, hora, servicio e información de cada cliente. Lleva un registro completo de tus citas anteriores.",
 }
 
 interface RecordPageProps {

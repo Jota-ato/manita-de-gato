@@ -19,7 +19,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: generateMetadataTitle("Finanzas"),
   description:
-    "Ver y gestionar sus registros financieros, incluyendo ingresos, gastos y reportes. Esta página proporciona una visión general completa de su estado y desempeño financiero.",
+    "Consulta y administra tus registros financieros, incluyendo ingresos, gastos y reportes. Obtén una visión general de tu estado y desempeño financiero.",
 };
 
 function getDateRange(range: TimeRange, timezone: string) {

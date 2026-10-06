@@ -13,6 +13,12 @@ import {
 } from "@/shared/components/ui/card";
 import { Container } from "@/shared/components/ui/container";
 import { Separator } from "@/shared/components/ui/separator";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Controles del negocio | Manita de gato",
+  description: "Administra los horarios, reglas y controles operativos del negocio.",
+};
 
 export default async function BusinessControlsPage() {
   const businessControls = await businessControlsService.getBusinessControls();

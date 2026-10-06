@@ -6,6 +6,12 @@ import { requireAuth } from "@/lib/auth-server";
 
 import { Container } from "@/shared/components/ui/container";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Moldes | Manita de gato",
+  description: "Administra los moldes y diseños asociados a tus clientes.",
+};
 
 const PAGE_SIZE = 10;
 

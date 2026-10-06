@@ -5,6 +5,12 @@ import { Heading } from "@/shared/components/typography/heading";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Container } from "@/shared/components/ui/container";
 import { notFound, redirect } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Editar molde | Manita de gato",
+  description: "Actualiza la información de un molde existente.",
+};
 
 export default async function EditMoldPage({
   params,

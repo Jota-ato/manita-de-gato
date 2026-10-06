@@ -15,7 +15,7 @@ import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: generateMetadataTitle(title),
-  description: "Mira tu agenda de citas.",
+  description: "Consulta y administra tu agenda de citas.",
 };
 
 export default async function AgendaPage() {

@@ -7,6 +7,12 @@ import { EditAppointmentDialog } from "@/features/appointments/admin/components/
 import { appointmentsService } from "@/features/appointments/core/services/appointments-service";
 import { financeService } from "@/features/finance/services/finance-service";
 import { endOfDay, startOfDay } from "date-fns";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Panel | Manita de gato",
+  description: "Resumen de las citas, acciones y movimientos del día.",
+};
 
 export default async function AdminPage() {
   const today = new Date();

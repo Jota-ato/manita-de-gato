@@ -12,6 +12,12 @@ import {
 } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Recuperar contraseña | Manita de gato",
+  description: "Solicita un enlace para restablecer la contraseña de tu cuenta.",
+};
 
 export default function ForgotPasswordPage() {
   return (
@@ -40,10 +46,10 @@ export default function ForgotPasswordPage() {
       </Card>
       <div className="max-w-lg w-full mx-auto flex mt-4 items-center justify-between">
         <Button variant={"link"}>
-          <Link href="/auth/sign-up">Registrate</Link>
+          <Link href="/auth/sign-up">Regístrate</Link>
         </Button>
         <Button variant={"link"}>
-          <Link href="/auth/forgot-password">Inicia sesión</Link>
+          <Link href="/auth/sign-in">Inicia sesión</Link>
         </Button>
       </div>
     </>

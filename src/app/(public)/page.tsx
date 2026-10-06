@@ -8,7 +8,7 @@ import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
     title: generateMetadataTitle(),
-    description: "Manita de gato is a web application that allows customers from the physical salon to book appointments online, providing a convenient and efficient way to schedule their visits.",
+    description: "Reserva tu cita en Manita de gato de forma práctica y sencilla. Consulta nuestros servicios y encuentra el horario que mejor se adapte a ti.",
 }
 
 export default async function Home() {

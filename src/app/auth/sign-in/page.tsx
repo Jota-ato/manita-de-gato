@@ -5,6 +5,12 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Separator } from "@/shared/components/ui/separator";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Iniciar sesión | Manita de gato",
+    description: "Inicia sesión para acceder a tu cuenta de Manita de gato.",
+};
 
 export default function SignInPage() {
     return (
@@ -40,7 +46,7 @@ export default function SignInPage() {
                     <Link
                         href="/auth/sign-up"
                     >
-                        Registrate
+                        Regístrate
                     </Link>
                 </Button>
                 <Button

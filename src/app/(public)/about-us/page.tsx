@@ -3,13 +3,13 @@ import { Values } from "@/shared/components/public/about-us/values"
 import { Heading } from "@/shared/components/typography/heading"
 
 
-const title = "About Us"
+const title = "Sobre nosotras"
 
 import { generateMetadataTitle } from "@/shared/utils/generateMetadata";
 import { Metadata } from "next";
 export const metadata: Metadata = {
     title: generateMetadataTitle(title),
-    description: "Contact us for any inquiries, questions, or feedback. We are here to assist you and provide the information you need.",
+    description: "Conoce más sobre Manita de gato, nuestros valores y la experiencia que ofrecemos en cada servicio.",
 }
 
 export default function AboutUsPage() {
