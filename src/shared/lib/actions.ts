@@ -164,11 +164,11 @@ export function customerAction<T extends any[], R>(
             const ip = await getClientIp()
             const { success, reset } = await rateLimit.limit(ip)
 
-            if (!success) return {
-                success: false,
-                message: `Too many requests, please try again in ${getMinutesDiffFromNow(reset)} minutes.`,
-                data: undefined
-            }
+            // if (!success) return {
+            //     success: false,
+            //     message: `Too many requests, please try again in ${getMinutesDiffFromNow(reset)} minutes.`,
+            //     data: undefined
+            // }
 
             const result = await callback(...args);
 
